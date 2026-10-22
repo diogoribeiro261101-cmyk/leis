@@ -1,5 +1,5 @@
 {
-  "checked_at_utc": "2026-10-22T17:16:09+00:00",
+  "checked_at_utc": "2026-10-22T22:30:56+00:00",
   "hashes_oficiais": {
     "CLT_1943": "7cf5c96ee2ad0ce0cd205beaea89aec6778da363b46de80d5196935ed05767e4",
     "Codigo_Civil_2002": "412516f40fc038b93e1c8d076adee85b97678372fac376dec42e06e8e3ec4fae",
@@ -17,10 +17,6 @@
     "avisos": [],
     "bloqueios": [],
     "notas": [
-      "Referência textual oficial inicial registrada: Constituicao_Federal_1988",
-      "Referência textual oficial inicial registrada: Lei_14133_2021",
-      "Referência textual oficial inicial registrada: Codigo_Civil_2002",
-      "Referência textual oficial inicial registrada: CLT_1943",
       "Origem sem commits novos desde a última sincronização."
     ]
   },
