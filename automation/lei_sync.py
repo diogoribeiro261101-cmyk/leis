@@ -7,6 +7,8 @@ A validação é heurística e NÃO certifica integralidade ou vigência normati
 import base64
 import datetime as dt
 import hashlib
+import html
+from html.parser import HTMLParser
 import json
 import os
 import re
@@ -130,6 +132,41 @@ def fork_ancestor(repo, token):
     raise ValueError('ancestral comum não encontrado nos últimos 30 commits')
 
 
+class VisibleLegalText(HTMLParser):
+    """Extrai texto legível; scripts, estilos e metadados não fazem parte da lei."""
+    OMIT = frozenset(('head', 'script', 'style', 'noscript', 'svg', 'iframe'))
+    def __init__(self):
+        super().__init__(convert_charrefs=True)
+        self.skipped = []
+        self.parts = []
+
+    def handle_starttag(self, tag, attrs):
+        if tag in self.OMIT:
+            self.skipped.append(tag)
+
+    def handle_endtag(self, tag):
+        if tag in self.skipped:
+            while self.skipped:
+                if self.skipped.pop() == tag:
+                    break
+
+    def handle_data(self, data):
+        if not self.skipped:
+            self.parts.append(data)
+
+
+def legal_text_digest(page):
+    parser = VisibleLegalText()
+    parser.feed(page)
+    body = html.unescape(' '.join(parser.parts))
+    normalized = re.sub(r'\s+', ' ', body.replace('\xa0', ' ')).strip()
+    # Evita armazenar como válido um desafio HTML, erro 200, página vazia ou texto truncado.
+    articles = re.findall(r'\bArt\.?\s*(\d{1,4})\s*[º°o.]', normalized, re.I)
+    if len(normalized) < 7000 or len(articles) < 10 or '1' not in articles:
+        raise ValueError('conteúdo oficial não parece conter a legislação integral')
+    return hashlib.sha256(normalized.encode('utf-8')).hexdigest()
+
+
 def official_hash(url):
     u = urllib.parse.urlsplit(url)
     allowed = ('www.planalto.gov.br', 'planalto.gov.br')
@@ -141,9 +178,16 @@ def official_hash(url):
         if new.scheme != 'https' or new.hostname not in allowed:
             raise ValueError('redirecionamento não confiável')
         content = response.read(12_000_001)
+        declared = response.headers.get_content_charset()
     if len(content) < 900 or len(content) > 12_000_000:
         raise ValueError('tamanho anormal da página')
-    return hashlib.sha256(content).hexdigest()
+    detected = re.search(rb'charset\s*=\s*["\x27]?\s*([-\w]+)', content[:8000], re.I)
+    charset = declared or (detected.group(1).decode('ascii') if detected else 'windows-1252')
+    try:
+        page = content.decode(charset)
+    except (LookupError, UnicodeError):
+        page = content.decode('windows-1252', errors='replace')
+    return legal_text_digest(page)
 
 
 def load_state(repo, token):
@@ -181,15 +225,28 @@ def main():
     warnings, blocks, notes = [], [], []
     with open(os.path.join(os.path.dirname(__file__), 'fontes_oficiais.json'), encoding='utf-8') as handle:
         sources = json.load(handle)['fontes']
-    hashes = state.setdefault('hashes_oficiais', {})
+    # Novo espaço de hashes para não confundir HTML bruto da versão antiga com texto.
+    hashes = state.setdefault('hashes_textuais_oficiais', {})
+    pending = state.setdefault('mudancas_oficiais_pendentes', {})
     for source in sources:
+        sid = source['id']
         try:
             checksum = official_hash(source['url'])
-            if source['id'] in hashes and hashes[source['id']] != checksum:
-                warnings.append(f"Fonte oficial possivelmente alterada: {source['id']} — {source['url']}")
-            hashes[source['id']] = checksum
+            if sid not in hashes:
+                hashes[sid] = checksum
+                pending.pop(sid, None)
+                notes.append(f"Referência textual oficial inicial registrada: {sid}")
+            elif hashes[sid] == checksum:
+                pending.pop(sid, None)
+            else:
+                old_pending = pending.get(sid)
+                pending[sid] = checksum
+                if old_pending == checksum:
+                    warnings.append(f"Alteração textual oficial confirmada em duas verificações: {sid} — {source['url']}. Revisão jurídica necessária.")
+                else:
+                    notes.append(f"Variação na página de {sid}; aguardando confirmação na próxima verificação.")
         except Exception as exc:
-            warnings.append(f"Falha ao conferir {source['id']}: {exc}")
+            warnings.append(f"Não foi possível validar a fonte oficial {sid}: {exc}")
     head = api(f'/repos/{SOURCE}/commits/main', token)['sha']
     last = state.get('upstream_confirmado')
     if last:
@@ -224,7 +281,9 @@ def main():
     if summary:
         with open(summary, 'a', encoding='utf-8') as handle:
             handle.write('## Monitor de legislação\n\n' + '\n\n'.join('- ' + t for t in notes + blocks + warnings) + '\n')
-    if blocks or warnings:
+    # Bloqueios impedem sincronização e sinalizam falha; avisos das fontes oficiais
+    # são registrados e não invalidam a verificação de atualizações do fork.
+    if blocks:
         sys.exit(2)
 
 
