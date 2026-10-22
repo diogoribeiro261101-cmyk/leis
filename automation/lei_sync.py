@@ -192,6 +192,14 @@ def main():
             warnings.append(f"Falha ao conferir {source['id']}: {exc}")
     head = api(f'/repos/{SOURCE}/commits/main', token)['sha']
     last = state.get('upstream_confirmado')
+    if last:
+        try:
+            api(f'/repos/{SOURCE}/commits/{last}', token)
+        except RuntimeError as exc:
+            if 'HTTP 404' not in str(exc):
+                raise
+            last = None
+            notes.append('Referência anterior era um commit exclusivo do fork; recalculando ancestral.')
     if not last:
         last = fork_ancestor(repo, token)
         state['upstream_confirmado'] = last
