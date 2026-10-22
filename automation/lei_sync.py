@@ -201,6 +201,20 @@ def official_hash(url):
     return legal_text_digest(page)
 
 
+def classify_official_update(hashes, pending, source_id, checksum):
+    """Confirma alteração textual apenas depois de duas leituras consecutivas iguais."""
+    if source_id not in hashes:
+        hashes[source_id] = checksum
+        pending.pop(source_id, None)
+        return 'baseline'
+    if hashes[source_id] == checksum:
+        pending.pop(source_id, None)
+        return 'unchanged'
+    was_pending = pending.get(source_id) == checksum
+    pending[source_id] = checksum
+    return 'confirmed' if was_pending else 'possible'
+
+
 def load_state(repo, token):
     try:
         raw, sha = read_file(repo, STATE_PATH, 'main', token, max_bytes=100_000)
@@ -243,19 +257,13 @@ def main():
         sid = source['id']
         try:
             checksum = official_hash(source['url'])
-            if sid not in hashes:
-                hashes[sid] = checksum
-                pending.pop(sid, None)
+            classification = classify_official_update(hashes, pending, sid, checksum)
+            if classification == 'baseline':
                 notes.append(f"Referência textual oficial inicial registrada: {sid}")
-            elif hashes[sid] == checksum:
-                pending.pop(sid, None)
-            else:
-                old_pending = pending.get(sid)
-                pending[sid] = checksum
-                if old_pending == checksum:
-                    warnings.append(f"Alteração textual oficial confirmada em duas verificações: {sid} — {source['url']}. Revisão jurídica necessária.")
-                else:
-                    notes.append(f"Variação na página de {sid}; aguardando confirmação na próxima verificação.")
+            elif classification == 'possible':
+                notes.append(f"Variação na página de {sid}; aguardando confirmação na próxima verificação.")
+            elif classification == 'confirmed':
+                warnings.append(f"Alteração textual oficial confirmada em duas verificações: {sid} — {source['url']}. Revisão jurídica necessária.")
         except Exception as exc:
             warnings.append(f"Não foi possível validar a fonte oficial {sid}: {exc}")
     head = api(f'/repos/{SOURCE}/commits/main', token)['sha']
