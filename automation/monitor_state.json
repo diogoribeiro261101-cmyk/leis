@@ -1,20 +1,26 @@
 {
-  "checked_at_utc": "2026-10-22T16:57:49+00:00",
+  "checked_at_utc": "2026-10-22T17:16:09+00:00",
   "hashes_oficiais": {
     "CLT_1943": "7cf5c96ee2ad0ce0cd205beaea89aec6778da363b46de80d5196935ed05767e4",
     "Codigo_Civil_2002": "412516f40fc038b93e1c8d076adee85b97678372fac376dec42e06e8e3ec4fae",
     "Constituicao_Federal_1988": "a157f3f8904a99cd33ebb26d47fb1216d14fab3839415263e30a11e499379726",
     "Lei_14133_2021": "5a75c1cb19622c75b2ce49d344efd71585fe58d0b125db19f79bb836c069190b"
   },
+  "hashes_textuais_oficiais": {
+    "CLT_1943": "4a15602225f715e5eb969293cc6f77d705958705058c16a0e8d18f03a1b03d25",
+    "Codigo_Civil_2002": "f8ef00bf17d874ebe49ee172db9431ea5c6935103b7e7f6923329f26ee193f66",
+    "Constituicao_Federal_1988": "ab39b813b2b4fc7dc483599762a754b2c10bc8bd7add2522fd3e498bc8717de2",
+    "Lei_14133_2021": "31a010f80f8007673a6e3dd9b2e5c70ed37b6ee4936a5d18826fef02b93c5b26"
+  },
+  "mudancas_oficiais_pendentes": {},
   "ultimo_resultado": {
-    "avisos": [
-      "Fonte oficial possivelmente alterada: Constituicao_Federal_1988 — https://www.planalto.gov.br/ccivil_03/constituicao/constituicao.htm",
-      "Fonte oficial possivelmente alterada: Lei_14133_2021 — https://www.planalto.gov.br/ccivil_03/_ato2019-2022/2021/lei/l14133.htm",
-      "Fonte oficial possivelmente alterada: Codigo_Civil_2002 — https://www.planalto.gov.br/ccivil_03/leis/2002/l10406compilada.htm",
-      "Fonte oficial possivelmente alterada: CLT_1943 — https://www.planalto.gov.br/ccivil_03/decreto-lei/del5452.htm"
-    ],
+    "avisos": [],
     "bloqueios": [],
     "notas": [
+      "Referência textual oficial inicial registrada: Constituicao_Federal_1988",
+      "Referência textual oficial inicial registrada: Lei_14133_2021",
+      "Referência textual oficial inicial registrada: Codigo_Civil_2002",
+      "Referência textual oficial inicial registrada: CLT_1943",
       "Origem sem commits novos desde a última sincronização."
     ]
   },
