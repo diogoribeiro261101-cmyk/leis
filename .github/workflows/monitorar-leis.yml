@@ -14,15 +14,19 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
-      - name: Obter arquivos locais do monitor por API (sem checkout do acervo)
+      - name: Obter somente monitor e testes via API, sem checkout do acervo
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          mkdir -p automation
+          mkdir -p automation/tests
           gh api -H 'Accept: application/vnd.github.raw+json' \
             "/repos/${GITHUB_REPOSITORY}/contents/automation/lei_sync.py?ref=${GITHUB_SHA}" > automation/lei_sync.py
           gh api -H 'Accept: application/vnd.github.raw+json' \
             "/repos/${GITHUB_REPOSITORY}/contents/automation/fontes_oficiais.json?ref=${GITHUB_SHA}" > automation/fontes_oficiais.json
+          gh api -H 'Accept: application/vnd.github.raw+json' \
+            "/repos/${GITHUB_REPOSITORY}/contents/automation/tests/test_lei_sync.py?ref=${GITHUB_SHA}" > automation/tests/test_lei_sync.py
+      - name: Testes de integridade e segurança
+        run: python3 -m unittest discover -s automation/tests -p 'test*.py' -v
       - name: Conferir origem, monitorar fontes oficiais e sincronizar alterações seguras
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
