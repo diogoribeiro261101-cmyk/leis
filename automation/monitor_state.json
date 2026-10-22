@@ -1,0 +1,20 @@
+{
+  "checked_at_utc": "2026-10-22T16:52:47+00:00",
+  "hashes_oficiais": {
+    "CLT_1943": "d66842bf4d74fc594e7e911abaa045b97ca853331e80773b79e316f8e710bf73",
+    "Codigo_Civil_2002": "5a56e3a63b8993ca46d52e408a1435f74ff045f014e0ee9cdc464060d305d1a9",
+    "Constituicao_Federal_1988": "ccf3001d3997c8f6042eeac4e8c7f1329ce9e3deda8b6959bade84eaeabbf0ea",
+    "Lei_14133_2021": "3e021285f6b51d2f86abb2bbd83b6506e01bcdad0154bedb6457796c5a81eb43"
+  },
+  "ultimo_resultado": {
+    "avisos": [],
+    "bloqueios": [
+      "histórico do projeto de origem divergiu"
+    ],
+    "notas": [
+      "Linha-base inicial encontrada: b77a433060f6",
+      "0 arquivos verificados/listados; integração bloqueada para revisão."
+    ]
+  },
+  "upstream_confirmado": "b77a433060f617dfcb7c70433a8e0044246c578d"
+}
