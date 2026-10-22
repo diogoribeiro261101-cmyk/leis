@@ -288,6 +288,10 @@ def main():
     save_state(repo, token, state, sha)
     result = '\n'.join(notes + ['BLOQUEIO: ' + s for s in blocks] + ['AVISO: ' + s for s in warnings])
     print(result or 'Nenhuma mudança detectada')
+    for warning in warnings:
+        # Anotação visível no GitHub Actions, sem classificar a rotina inteira como falha.
+        safe = warning.replace('%', '%25').replace('\r', '%0D').replace('\n', '%0A')
+        print('::warning title=Monitor da legislação::' + safe)
     summary = os.environ.get('GITHUB_STEP_SUMMARY')
     if summary:
         with open(summary, 'a', encoding='utf-8') as handle:
