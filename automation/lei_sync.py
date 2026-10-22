@@ -139,16 +139,27 @@ class VisibleLegalText(HTMLParser):
         super().__init__(convert_charrefs=True)
         self.skipped = []
         self.parts = []
+        self.struck = []
 
     def handle_starttag(self, tag, attrs):
         if tag in self.OMIT:
             self.skipped.append(tag)
+        elif not self.skipped and (tag in ('s', 'strike', 'del') or
+                any(name == 'style' and 'line-through' in (value or '').lower()
+                    for name, value in attrs)):
+            self.struck.append(tag)
+            self.parts.append(' [INICIO_TACHADO] ')
 
     def handle_endtag(self, tag):
         if tag in self.skipped:
             while self.skipped:
                 if self.skipped.pop() == tag:
                     break
+        elif tag in self.struck:
+            while self.struck:
+                if self.struck.pop() == tag:
+                    break
+            self.parts.append(' [FIM_TACHADO] ')
 
     def handle_data(self, data):
         if not self.skipped:
