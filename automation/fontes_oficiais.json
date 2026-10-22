@@ -1,1 +1,8 @@
-{"fontes":[{"id":"Constituicao","url":"https://www.planalto.gov.br/ccivil_03/constituicao/constituicao.htm"}]}
+{
+  "fontes": [
+    {"id": "Constituicao_Federal_1988", "url": "https://www.planalto.gov.br/ccivil_03/constituicao/constituicao.htm"},
+    {"id": "Lei_14133_2021", "url": "https://www.planalto.gov.br/ccivil_03/_ato2019-2022/2021/lei/l14133.htm"},
+    {"id": "Codigo_Civil_2002", "url": "https://www.planalto.gov.br/ccivil_03/leis/2002/l10406compilada.htm"},
+    {"id": "CLT_1943", "url": "https://www.planalto.gov.br/ccivil_03/decreto-lei/del5452.htm"}
+  ]
+}
