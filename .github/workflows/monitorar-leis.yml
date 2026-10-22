@@ -1,0 +1,29 @@
+name: Monitorar e sincronizar leis
+on:
+  workflow_dispatch:
+  schedule:
+    # UTC: 04:23 e 16:23 no Pará (UTC-3)
+    - cron: '23 7,19 * * *'
+permissions:
+  contents: write
+concurrency:
+  group: monitorar-leis
+  cancel-in-progress: false
+jobs:
+  auditar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Obter arquivos locais do monitor por API (sem checkout do acervo)
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          mkdir -p automation
+          gh api -H 'Accept: application/vnd.github.raw+json' \
+            "/repos/${GITHUB_REPOSITORY}/contents/automation/lei_sync.py?ref=${GITHUB_SHA}" > automation/lei_sync.py
+          gh api -H 'Accept: application/vnd.github.raw+json' \
+            "/repos/${GITHUB_REPOSITORY}/contents/automation/fontes_oficiais.json?ref=${GITHUB_SHA}" > automation/fontes_oficiais.json
+      - name: Conferir origem, monitorar fontes oficiais e sincronizar alterações seguras
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 automation/lei_sync.py
