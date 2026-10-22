@@ -4,7 +4,7 @@ import unittest
 from unittest.mock import patch
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1]))
-from lei_sync import inspect_text, inspect_changes, fork_ancestor, official_hash, legal_text_digest
+from lei_sync import inspect_text, inspect_changes, fork_ancestor, official_hash, legal_text_digest, classify_official_update
 
 SAMPLE = '''---
 titulo: "Lei n. 10"
@@ -52,6 +52,26 @@ class ValidationTests(unittest.TestCase):
     def test_html_error_page_not_legislation(self):
         with self.assertRaises(ValueError):
             legal_text_digest('<html><body>Access denied. Retry later.</body></html>')
+
+    def test_official_change_double_confirmation(self):
+        hashes, pending = {}, {}
+        self.assertEqual('baseline', classify_official_update(hashes, pending, 'lei', 'a'))
+        self.assertEqual('unchanged', classify_official_update(hashes, pending, 'lei', 'a'))
+        self.assertEqual('possible', classify_official_update(hashes, pending, 'lei', 'b'))
+        self.assertEqual('confirmed', classify_official_update(hashes, pending, 'lei', 'b'))
+        self.assertEqual('a', hashes['lei'])
+
+    def test_official_change_transient(self):
+        hashes, pending = {'lei': 'a'}, {}
+        self.assertEqual('possible', classify_official_update(hashes, pending, 'lei', 'b'))
+        self.assertEqual('unchanged', classify_official_update(hashes, pending, 'lei', 'a'))
+        self.assertEqual({}, pending)
+
+    def test_official_change_oscillation(self):
+        hashes, pending = {'lei': 'a'}, {}
+        self.assertEqual('possible', classify_official_update(hashes, pending, 'lei', 'b'))
+        self.assertEqual('possible', classify_official_update(hashes, pending, 'lei', 'c'))
+        self.assertEqual('possible', classify_official_update(hashes, pending, 'lei', 'b'))
 
     @patch('lei_sync.api')
     def test_block_code(self, gh):
