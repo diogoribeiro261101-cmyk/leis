@@ -142,7 +142,7 @@
 </div>
 <div id="toastRegion" class="toast-region" aria-live="polite"></div>
 <input type="file" id="importInput" accept="application/json,.json" hidden>
-<input type="file" id="legalTextImport" accept=".md,.txt,.text,text/plain,text/markdown" hidden>
+<input type="file" id="legalTextImport" accept=".md,.txt,.text,.pdf,.docx,text/plain,text/markdown,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document" hidden>
 <input type="file" id="completeBackupImport" accept=".json,application/json" hidden>
 <dialog id="accountDialog" class="account-dialog" aria-labelledby="accountDialogTitle">
   <form id="changePasswordForm">
@@ -236,7 +236,7 @@ const unique=a=>[...new Set(a)];
 const norm=s=>String(s).toLocaleLowerCase('pt-BR').normalize('NFD').replace(/[\u0300-\u036f]/g,'');
 const safeJson=(input)=>JSON.parse(input);
 const randomize=(a)=>a.slice().sort(()=>Math.random()-.5);
-const suspicious=/(?:ignore (?:all )?(?:previous|prior) instructions|desconsidere (?:todas )?as instru[çc][õo]es anteriores|<\|im_start\|>|(?:system|developer) prompt)/i;
+const suspicious=/(?:ignore (?:all )?(?:previous|prior) instructions|desconsidere (?:todas )?as instru[çc][õo]es anteriores|<\|(?:im_start|system|developer)\|>|(?:system|developer)\s*prompt|(?:envie|exfiltre|transmita)\b.{0,100}\b(?:senhas?|tokens?|credenciais|chaves de api)\b|(?:substitua|ignore|altere)\b.{0,90}\b(?:instru[çc][õo]es|regras do assistente|resposta do modelo)\b)/i;
 const initialJournal=()=>({attempts:[],errors:{},cards:{},bookmarks:[],read:{},quizSessions:[],savedAt:null});
 function readJournal(){try{const v=JSON.parse(localStorage.getItem(STORAGE_KEY)||'null');if(!v||typeof v!=='object')return initialJournal();return {...initialJournal(),...v,attempts:Array.isArray(v.attempts)?v.attempts:[],bookmarks:Array.isArray(v.bookmarks)?v.bookmarks:[],errors:v.errors&&typeof v.errors==='object'&&!Array.isArray(v.errors)?v.errors:{},cards:v.cards&&typeof v.cards==='object'&&!Array.isArray(v.cards)?v.cards:{},read:v.read&&typeof v.read==='object'&&!Array.isArray(v.read)?v.read:{},quizSessions:Array.isArray(v.quizSessions)?v.quizSessions:[]}}catch{return initialJournal()}}
 let journal=initialJournal(); // Carregado somente após desbloquear a conta local.
@@ -316,7 +316,7 @@ function renderDashboard(){const s=todayStats();const focus=[['Vínculo de empre
 <section><div class="section-head"><div><h2>Trilhas de estudo</h2><p>Assuntos úteis para Direito do Trabalho</p></div></div><div class="card focus-panel">${focus.map((f,i)=>`<div class="focus-row"><div class="focus-index">${String(i+1).padStart(2,'0')}</div><div class="focus-details"><strong>${f[0]}</strong><small>${f[1]}</small></div><button class="focus-link" data-action="open-reader" data-topic="${f[2]}">Ver →</button></div>`).join('')}<div class="divider"></div><div class="source-box">Biblioteca conectada ao seu fork público no GitHub. A cópia inicial pode ter lacunas e não substitui publicação oficial.</div></div></section></div>`}
 function articleTopic(a){if(readerTopic==='vinculo')return /^([2-6])$/.test(a.num);if(readerTopic==='jornada')return /^\d+/.test(a.num)&&Number(a.num.match(/^\d+/)[0])>=58&&Number(a.num.match(/^\d+/)[0])<=75;if(readerTopic==='fundamentos')return selectedLaw==='cf'&&[1,2,3,4].includes(Number(a.num));return true}
 function matchesQuery(a){if(!readerQuery)return true;const v=norm(readerQuery).replace(/^art(?:igo)?\.?\s*/, '');return norm(a.num).includes(v)||norm(a.caput).includes(v)||norm(a.body).includes(v)||norm(a.topic||'').includes(v)}
-function eligibleArticle(a){return !a.suspicious&&!a.suspended&&!/^(revogad|vetad)/i.test(a.caput)}
+function eligibleArticle(a){return !a.suspicious&&!suspicious.test(a.body||a.caput||'')&&!a.suspended&&!/^(revogad|vetad)/i.test(a.caput)}
 function filteredArticles(){let list=lawData[selectedLaw]?.articles||[];return list.filter(a=>articleTopic(a)&&matchesQuery(a)&&(!readerSaved||hasBook(articleKey(selectedLaw,a))))}
 function formattedLawText(txt){return txt.split(/\n{2,}/).filter(Boolean).map(x=>{const line=esc(x.replace(/\*\*/g,'').replace(/^#{1,6}\s*/gm,''));return `<p class="${/^\s*(?:[IVXLC]+\s*[-–]|\S+\s*[-–])/.test(x)?'inciso':''}">${line.replace(/\n/g,'<br>')}</p>`}).join('')}
 function renderReader(){let inf=LEGAL[selectedLaw],data=lawData[selectedLaw],all=filteredArticles(),shown=all.slice(0,readerLimit),full=data.status==='loaded',blocked=inf.blocked;
@@ -368,7 +368,7 @@ $('importInput').addEventListener('change',async e=>{const f=e.target.files?.[0]
 const debounce=(fn,ms=250)=>{let timer;return (...args)=>{clearTimeout(timer);timer=setTimeout(()=>fn(...args),ms)}};
 const searchChanged=debounce(value=>{readerQuery=value;readerLimit=25;const cursor=$('readerSearch');let pos=cursor?.selectionStart;render();let r=$('readerSearch');if(r){r.focus();try{r.setSelectionRange(pos,pos)}catch{}}},220);
 document.addEventListener('input',e=>{if(e.target?.id==='readerSearch')searchChanged(e.target.value);else if(e.target?.id==='extractSearch')exSearchChanged(e.target.value);else if(e.target?.id==='catalogSearch')catalogSearchChanged(e.target.value)});
-document.addEventListener('change',e=>{const el=e.target;if(el.id==='extractLaw'){exLaw=el.value;exSelected.clear();exLimit=80;render();return;}else if(el.id==='extractKind'){exKind=el.value;exSelected.clear();exLimit=80;render();return;}else if(el.id==='extractSegment'){exSegment=el.value;exSelected.clear();exLimit=80;render();return;}else if(el.id==='catalogRoot'){catPath=el.value;catQuery='';awaitLoadCatalog();return;}else if(el.id==='readerLaw'){selectedLaw=el.value;readerQuery='';readerTopic='';readerLimit=25;render()}else if(el.id==='quizLaw'){quizSetup.law=el.value;render()}else if(el.id==='quizCount'){quizSetup.count=Number(el.value);render()}});
+document.addEventListener('change',e=>{const el=e.target;if(el.id==='extractLaw'){exLaw=el.value;exSelected.clear();exLimit=80;render();return;}else if(el.id==='extractKind'){exKind=el.value;exSelected.clear();exLimit=80;render();return;}else if(el.id==='extractSegment'){exSegment=el.value;exSelected.clear();exLimit=80;render();return;}else if(el.id==='batchLimit'){batchLimit=Number(el.value);return;}else if(el.id==='catalogRoot'){catPath=el.value;catQuery='';awaitLoadCatalog();return;}else if(el.id==='readerLaw'){selectedLaw=el.value;readerQuery='';readerTopic='';readerLimit=25;render()}else if(el.id==='quizLaw'){quizSetup.law=el.value;render()}else if(el.id==='quizCount'){quizSetup.count=Number(el.value);render()}});
 document.addEventListener('click',async event=>{
  const tgt=event.target.closest('button');if(!tgt)return;
  const d=tgt.dataset;if(d.view){go(d.view);return}if(d.action==='select-law'){selectedLaw=d.law;readerQuery='';readerTopic='';readerSaved=false;readerLimit=25;go('reader');return}
@@ -655,7 +655,7 @@ function buildExtracts(){
 }
 function extractStats(){const sources=Object.values(lawData).filter(x=>x.status==='loaded').length;return {sources,articles:Object.values(lawData).reduce((a,x)=>a+(x.articles?.length||0),0),review:Object.keys(journal.cards).length};}
 function renderExtractor(){
- const {facts,capReached}=buildExtracts(),s=extractStats(),chosen=facts.filter(f=>exSelected.has(f.id)),n=chosen.length||facts.length,types=Object.entries(RULES).map(([key,r])=>({key,count:facts.filter(f=>f.category.includes(key)).length,name:r.name}));
+ const {facts,capReached,unsafeExcluded,revokedCount}=buildExtracts(),s=extractStats(),chosen=facts.filter(f=>exSelected.has(f.id)),n=chosen.length||facts.length,types=Object.entries(RULES).map(([key,r])=>({key,count:facts.filter(f=>f.category.includes(key)).length,name:r.name}));
  const opts=[['all','Todas as leis'],...Object.entries(LEGAL).filter(([_,v])=>!v.blocked).map(([k,v])=>[k,v.name])];
  return `${topIntro('INTELIGÊNCIA DE LEI SECA','Laboratório de extração','Localize passagens literais, classifique regras e extraia o conteúdo para revisão, planilhas ou Anki. Não é análise por IA: cada resultado preserva seu texto e sua fonte.')}
  <section class="extract-hero"><div><span class="extract-eyebrow">LEX LAB · OFICINA</span><h2>Da lei para o estudo. Em escala.</h2><p>Extraia prazos, percentuais, exceções, deveres, proibições e remissões. Exporte trechos com rastreabilidade, sem resumos inventados.</p><button class="btn btn-light" data-action="ex-action" data-job="go-catalog">+ Buscar mais leis no GitHub →</button></div><div class="extract-hero-symbol">§</div></section>
@@ -669,6 +669,7 @@ function renderExtractor(){
  <div class="extract-actions"><button class="btn" data-action="ex-action" data-job="download" data-format="jsonl">JSONL</button><button class="btn" data-action="ex-action" data-job="download" data-format="xml">XML</button><button class="btn btn-primary" data-action="ex-action" data-job="download" data-format="csv">Baixar CSV</button><button class="btn" data-action="ex-action" data-job="download" data-format="json">JSON estruturado</button><button class="btn" data-action="ex-action" data-job="download" data-format="md">Markdown</button><button class="btn" data-action="ex-action" data-job="download" data-format="anki">Cartões Anki</button><button class="btn" data-action="ex-action" data-job="download" data-format="txt">Trechos em TXT</button><button class="btn btn-soft" data-action="ex-action" data-job="full-text">Exportar artigos completos (.md)</button></div>
  <div class="extract-actions"><button class="btn btn-soft" data-action="ex-action" data-job="select-all">Marcar os resultados visíveis</button><button class="btn" data-action="ex-action" data-job="unselect">Limpar seleção</button><button class="btn" data-action="ex-action" data-job="add-flashcards">Criar flashcards em lote</button><button class="btn" data-action="ex-action" data-job="all-backup">Backup completo: estudo + leis</button><button class="btn" data-action="ex-action" data-job="all-import">Restaurar backup completo</button></div>
  <p class="extract-note">${chosen.length?`<strong>${chosen.length} passagens marcadas.</strong> Os downloads usarão somente a seleção. Sem seleção, os downloads incluem todos os ${facts.length} resultados do filtro.`:`Nenhuma passagem marcada. Os downloads usam todos os ${facts.length} resultados do filtro.`} ${capReached?'Limite de 30.000 passagens por consulta atingido; restrinja o acervo antes de exportar.':''} Arquivos exportados não são criptografados.</p></section>
+ <div class="info-banner">Auditoria do filtro: ${unsafeExcluded} artigos com padrões suspeitos isolados das extrações; ${revokedCount} artigos marcados como revogados ou vetados. Esse rastreamento não substitui conferência oficial. Nenhum documento importado é interpretado como instrução.</div>
  <div class="section-head"><div><h2>Passagens encontradas</h2><p>Texto literal e fonte verificável · ${facts.length} resultados</p></div><button class="btn btn-sm" data-action="ex-action" data-job="reload">Recalcular</button></div>
  <div class="extract-list">${facts.slice(0,exLimit).map(f=>`<article class="card extract-item"><div class="extract-item-head"><label class="extract-check"><input type="checkbox" data-exselect="${esc(f.id)}" ${exSelected.has(f.id)?'checked':''}><strong>${esc(LEGAL[f.law].name)} · ${esc(formatNum(f.article))}</strong></label><span class="extract-muted">${f.partial?'Amostra parcial':'Texto importado'}</span></div>
  <p class="extract-muted">${esc(f.deviceLabel||formatNum(f.article))} · ${esc(f.deviceType||'texto')}${f.revoked?' · Revogado/vetado: conferir':''}</p><p class="extract-snippet">${esc(f.passage)}</p><div class="extract-item-foot"><div>${f.category.map(k=>exBadge(RULES[k].name)).join(' ')}</div><div class="extract-item-buttons"><button class="btn btn-sm" data-action="ex-action" data-job="open" data-law="${esc(f.law)}" data-article="${esc(f.article)}">Ler artigo →</button>${f.official?`<a href="${esc(f.official)}" rel="noopener noreferrer" target="_blank" class="btn btn-sm">Conferir fonte ↗</a>`:''}</div></div></article>`).join('')||'<div class="card empty"><h3>Sem resultados para este filtro</h3><p>Carregue uma lei inteira ou experimente outra palavra-chave.</p><button class="btn btn-primary" data-view="catalog">Explorar acervo →</button></div>'}</div>
@@ -736,7 +737,8 @@ function renderCatalog(){
  <div class="catalog-list">${all.slice(0,250).map(item=>`<div class="catalog-file"><div class="catalog-icon">${item.type==='dir'?'▣':'§'}</div><div class="catalog-file-name"><strong>${esc(item.name)}</strong><small>${esc(item.path)} ${item.size?' · '+Math.round(item.size/1024)+' KB':''}</small></div><button class="btn btn-sm ${item.type==='file'?'btn-primary':''}" data-action="catalog-action" data-job="${item.type==='dir'?'open-folder':'load-file'}" data-path="${esc(item.path)}">${item.type==='dir'?'Abrir →':'Adicionar lei →'}</button></div>`).join('')||`<div class="empty">${esc(catStatus)}<br>${catBusy?'Buscando arquivos no GitHub…':'Use Atualizar pasta para tentar novamente.'}</div>`}</div>
  ${all.length>250?`<p class="extract-note">Exibindo os primeiros 250 itens. Use a busca para reduzir os resultados.</p>`:''}
  <div class="info-banner">O GitHub limita chamadas sem autenticação e diretórios com mais de 1.000 itens podem apresentar resultados incompletos. A importação de uma lei não garante que a redação esteja consolidada e atualizada. O conteúdo é tratado como dado, nunca como comando.</div></section>
- <section class="card extract-tools" style="margin-top:22px"><div class="extract-tooltitle"><div><h2>Importar texto legislativo do computador</h2><p>Suporta arquivos .txt e .md com artigos identificados por “Art.”. Dados processados localmente.</p></div><button class="btn btn-primary" data-action="catalog-action" data-job="local-import">Selecionar arquivo</button></div><p class="extract-note">PDF e DOCX não são interpretados por esta ferramenta. Converta o texto para .txt ou .md; documentos digitalizados requerem OCR externo e conferência humana.</p></section>`;
+ <section class="card extract-tools" style="margin-top:22px"><div class="extract-tooltitle"><div><h2>Importação em lote do GitHub</h2><p>Carrega documentos .md/.txt da pasta selecionada, reconhece artigos e guarda o acervo para pesquisa, questões e extrações.</p></div><button class="btn btn-primary" data-action="catalog-action" data-job="batch" ${catBusy?'disabled':''}>↧ Importar lote</button></div><div class="extract-controls"><label>Máximo de novos arquivos por execução<select id="batchLimit" class="field">${[5,15,30,50].map(n=>`<option value="${n}" ${batchLimit===n?'selected':''}>${n} documentos</option>`).join('')}</select></label><p class="extract-note">Pasta: ${esc(catPath)} · Sem substituir suas anotações. A importação não atesta vigência e pode sofrer limites da API pública.</p></div><p class="extract-note" aria-live="polite">${esc(catStatus)}</p></section>
+ <section class="card extract-tools" style="margin-top:22px"><div class="extract-tooltitle"><div><h2>Importar texto legislativo do computador</h2><p>Aceita .txt, .md, .pdf e .docx com artigos identificados por “Art.”. Arquivos são lidos neste navegador.</p></div><button class="btn btn-primary" data-action="catalog-action" data-job="local-import">Selecionar arquivo</button></div><p class="extract-note">PDF e DOCX usam bibliotecas externas com versões fixadas, carregadas apenas após seu consentimento e executadas em iframe isolado, sem acesso ao login local. OCR não está incluído: documentos digitalizados exigem conversão e conferência humana. Nenhum documento é enviado pelo LexLab a um servidor de extração.</p></section>`;
 }
 async function awaitLoadCatalog(){if(catBusy)return;catBusy=true;catEntries=[];catStatus='Consultando diretório…';render();try{
  const url=CAT_URL+routeGitHubPath(catPath)+'?ref=main';const resp=await fetch(url,{headers:{Accept:'application/vnd.github+json'},cache:'no-store'});
@@ -768,10 +770,7 @@ async function catalogLoadFile(path,localText=null){
  journal.extraLaws.push({id,path,name:fileName.slice(0,75),local:localText!==null});journal.extraLaws=journal.extraLaws.slice(-60);save();
  selectedLaw=id;exLaw=id;exSelected.clear();toast(`${articles.length} artigos reconhecidos. Fonte deve ser conferida.`);go('reader');
  }catch(err){toast('Importação não concluída: '+String(err.message).slice(0,180))}finally{catBusy=false;}}
-$('legalTextImport').addEventListener('change',async e=>{const file=e.target.files?.[0];e.target.value='';if(!file)return;
- if(file.size>4_500_000){toast('Limite de 4,5 MB por documento.');return}
- const text=await file.text();await catalogLoadFile('local/'+file.name.replace(/[^\w\d.\-]/g,'_'),text);
-});
+$('legalTextImport').addEventListener('change',handleLocalDocumentImport);
 async function handleExtractionAction(d){
  switch(d.job){
  case 'go-catalog':go('catalog');if(!catEntries.length)await awaitLoadCatalog();break;
@@ -791,6 +790,7 @@ async function handleExtractionAction(d){
 async function handleCatalogAction(d){
  if(d.job==='local-import'){$('legalTextImport').click();return}
  if(d.job==='load-file'){await catalogLoadFile(d.path);return}
+ if(d.job==='batch'){await batchImport();return}
  if(d.job==='root'||d.job==='open-folder'||d.job==='up'){catPath=d.job==='up'?catPath.split('/').slice(0,-1).join('/')||'federal':d.path;catQuery='';await awaitLoadCatalog();return}
  if(d.job==='refresh'){await awaitLoadCatalog();return}
 }
@@ -885,6 +885,135 @@ function exportFullText(){
  }
  if(!total){toast("Não há fontes para exportar.");return}
  downloadBlob(new Blob([parts.join("\n")],{type:"text/markdown;charset=utf-8"}),`lexlab-artigos-${dateKey()}.md`);toast(`${total} artigos exportados, incluindo texto integral de cada fonte carregada.`);
+}
+
+
+/* LEXLAB_V3_BATCH: importação segura, lote GitHub e isolamento de PDF/DOCX. */
+let batchLimit=15;
+function sandboxDocumentReader(){
+ window.addEventListener("message",async event=>{
+  const msg=event.data;
+  if(!msg||msg.action!=="read-document"||!msg.id)return;
+  try{
+   let text="";
+   if(msg.kind==="pdf"){
+    if(!window.pdfjsLib)throw Error("Biblioteca PDF.js indisponível.");
+    pdfjsLib.GlobalWorkerOptions.workerSrc="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+    const doc=await pdfjsLib.getDocument({data:new Uint8Array(msg.bytes),isEvalSupported:false}).promise;
+    if(doc.numPages>300)throw Error("PDF acima de 300 páginas; divida o documento.");
+    for(let p=1;p<=doc.numPages;p++){
+     const page=await doc.getPage(p),content=await page.getTextContent();
+     text+="\n"+content.items.map(item=>item.str+(item.hasEOL?"\n":" ")).join("")+"\n";
+     if(text.length>4_500_000)throw Error("Texto extraído excede 4,5 milhões de caracteres.");
+    }
+    await doc.destroy();
+   }else if(msg.kind==="docx"){
+    if(!window.mammoth)throw Error("Biblioteca Mammoth indisponível.");
+    const result=await mammoth.extractRawText({arrayBuffer:msg.bytes});
+    text=result.value;
+   }else throw Error("Formato não suportado.");
+   if(!text||text.trim().length<35)throw Error("Não há texto selecionável. Documento escaneado requer OCR.");
+   window.parent.postMessage({id:msg.id,ok:true,text},"*");
+  }catch(err){window.parent.postMessage({id:msg.id,ok:false,error:String(err.message||err)},"*");}
+ });
+}
+
+function extractDocumentInSandbox(file,kind){
+ return new Promise(async(resolve,reject)=>{
+  const fileLimit=18_000_000;
+  if(file.size>fileLimit){reject(Error("Arquivo acima de 18 MB."));return}
+  const libs={pdf:"https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js",docx:"https://cdn.jsdelivr.net/npm/mammoth@1.13.0/mammoth.browser.min.js"};
+  if(!libs[kind]){reject(Error("Formato inválido."));return}
+  const token=crypto.randomUUID(),frame=document.createElement("iframe");
+  frame.sandbox="allow-scripts";frame.hidden=true;frame.title="Leitura isolada do documento";
+  let settled=false,timeout;
+  const cleanup=()=>{window.removeEventListener("message",receive);clearTimeout(timeout);frame.remove();};
+  const finish=(error,value)=>{if(settled)return;settled=true;cleanup();error?reject(error):resolve(value);};
+  const receive=event=>{
+   if(event.source!==frame.contentWindow||event.data?.id!==token)return;
+   event.data.ok?finish(null,event.data.text):finish(Error(event.data.error||"Falha na leitura"));
+  };
+  window.addEventListener("message",receive);
+  const closeScript="</"+"script>";
+  frame.srcdoc='<html><head><meta charset="utf-8"></head><body><script src="'+libs[kind]+'">'+closeScript+'<script>('+sandboxDocumentReader.toString()+')();'+closeScript+'</body></html>';
+  frame.onload=async()=>{
+   try{const bytes=await file.arrayBuffer();frame.contentWindow.postMessage({action:"read-document",id:token,kind,bytes},"*",[bytes]);}
+   catch(err){finish(err);}
+  };
+  timeout=setTimeout(()=>finish(Error("Tempo limite na leitura do arquivo. Tente um documento menor.")),120000);
+  document.body.appendChild(frame);
+ });
+}
+
+async function handleLocalDocumentImport(e){
+ const file=e.target.files?.[0];e.target.value="";
+ if(!file)return;
+ if(file.size>18_000_000){toast("Limite de 18 MB para PDF e DOCX.");return}
+ const ext=(file.name.split(".").pop()||"").toLowerCase();
+ if(!["pdf","docx","txt","text","md"].includes(ext)){toast("Formato de documento não suportado.");return}
+ try{
+  let text;
+  if(ext==="pdf"||ext==="docx"){
+   if(!confirm("O documento será interpretado em um ambiente isolado do navegador por PDF.js ou Mammoth, carregado de um CDN. O LexLab não envia o arquivo a um servidor, mas o código da biblioteca vem de um fornecedor externo. Prossiga apenas se aceitar essa dependência e o documento não for sigiloso."))return;
+   catStatus="Lendo documento "+file.name+" no ambiente isolado…";toast("Extraindo texto localmente. PDF digitalizado exige OCR externo.");
+   text=await extractDocumentInSandbox(file,ext);
+  }else text=await file.text();
+  if(text.length>4_500_000)throw Error("Texto extraído excedeu o limite de 4,5 milhões de caracteres.");
+  const alerts=documentSafetyCheck(text);
+  if(alerts.length)toast(`Aviso: ${alerts.length} padrão(ões) de possível instrução maliciosa. Dispositivos suspeitos são excluídos das atividades.`);
+  await catalogLoadFile("local/"+file.name.replace(/[^\w.\-]/g,"_"),text);
+ }catch(err){toast("Não foi possível importar: "+String(err.message||err).slice(0,180));}
+}
+
+function documentSafetyCheck(raw){
+ const patterns=[
+  /ignore (?:all )?(?:previous|prior) instructions/gi,
+  /desconsidere (?:todas )?as instru[çc][õo]es anteriores/gi,
+  /<\|(?:im_start|system|developer)\|>/gi,
+  /(?:system|developer)\s*prompt/gi,
+  /(?:envie|exfiltre|transmita)\b.{0,100}\b(?:senhas?|tokens?|credenciais|chaves de api)\b/gi,
+  /(?:substitua|ignore|altere)\b.{0,90}\b(?:instru[çc][õo]es|regras do assistente|resposta do modelo)\b/gi
+ ];
+ return patterns.map((p,i)=>({tipo:i,quantidade:[...String(raw).matchAll(p)].length})).filter(x=>x.quantidade);
+}
+
+function registerBatchLaw(path,body){
+ const articles=parseFlexible(body),id=digestPath(path),name=path.split("/").pop().replace(/\.(md|txt)$/i,"").slice(0,75);
+ LEGAL[id]={name,full:path,area:"Importação GitHub em lote",path,official:REPO+path,icon:"§",version:"GitHub"};
+ lawData[id]={articles,status:"loaded",loadedAt:new Date().toISOString(),message:"Importação em lote; verificar a versão oficial",source:path};
+ seedToDB(id,articles);
+ journal.extraLaws=(Array.isArray(journal.extraLaws)?journal.extraLaws:[]).filter(x=>x.id!==id);
+ journal.extraLaws.push({id,path,name,local:false});journal.extraLaws=journal.extraLaws.slice(-60);
+ return {articles:articles.length,flags:articles.filter(a=>a.suspicious||suspicious.test(a.body)).length};
+}
+
+async function batchImport(){
+ if(catBusy){toast("Outra operação com o acervo está em execução.");return}
+ catBusy=true;let ok=0,failed=0,articles=0,alerts=0;
+ try{
+  catStatus="Localizando documentos do acervo…";render();
+  const resp=await fetch("https://api.github.com/repos/diogoribeiro261101-cmyk/leis/git/trees/main?recursive=1",{cache:"no-store",headers:{Accept:"application/vnd.github+json"}});
+  if(!resp.ok)throw Error("GitHub HTTP "+resp.status+". Confira limites da API.");
+  const tree=await resp.json();if(!Array.isArray(tree.tree))throw Error("Catálogo GitHub inválido.");
+  const prefix=catPath+"/";
+  const files=tree.tree.filter(i=>i.type==="blob"&&i.path.startsWith(prefix)&&/\.(md|txt)$/i.test(i.path)&&i.size<=4500000&&!/(?:^|\/)(?:readme|license|changelog|contributing)\b/i.test(i.path)).sort((a,b)=>a.path.localeCompare(b.path));
+  if(!files.length)throw Error("Nenhum documento .md/.txt encontrado nesta pasta.");
+  const chosen=files.filter(i=>!Object.values(LEGAL).some(l=>l.path===i.path&&lawData[Object.keys(LEGAL).find(k=>LEGAL[k]===l)]?.status==="loaded")).slice(0,batchLimit);
+  if(!chosen.length){catStatus="Todos os documentos elegíveis desta seleção já estão carregados.";return}
+  for(const [idx,item] of chosen.entries()){
+   catStatus=`Importando ${idx+1}/${chosen.length}: ${item.path} — ${ok} concluído(s), ${failed} falha(s).`;render();
+   try{
+    const raw=await fetch(ORIGIN+routeGitHubPath(item.path),{cache:"no-store"});
+    if(!raw.ok)throw Error("HTTP "+raw.status);
+    const txt=await raw.text();if(txt.length>4500000)throw Error("Documento longo");
+    const result=registerBatchLaw(item.path,txt);articles+=result.articles;alerts+=result.flags;ok++;
+   }catch(err){failed++;}
+  }
+  if(ok)save();
+  catStatus=`Lote finalizado: ${ok} documentos, ${articles} artigos, ${alerts} artigos sob alerta e ${failed} falha(s).${tree.truncated?" Atenção: árvore do GitHub truncada.":""}`;
+  toast(catStatus);
+ }catch(err){catStatus="Falha no carregamento em lote: "+String(err.message||err);toast(catStatus)}
+ finally{catBusy=false;render();}
 }
 
 // Inicializar os módulos somente após autenticação local.
