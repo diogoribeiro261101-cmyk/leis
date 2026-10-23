@@ -708,7 +708,7 @@ function addExtractionCards(){const facts=selectedExtracts();if(facts.length>150
 }
 function allBackup(){const payload={app:'lexlab',schema:1,backupType:'complete',createdAt:new Date().toISOString(),journal,lawCache:Object.fromEntries(Object.entries(lawData).filter(([key,info])=>info.status==='loaded'&&!LEGAL[key].blocked).map(([key,info])=>[key,{articles:info.articles,loadedAt:info.loadedAt}]))};
  downloadBlob(new Blob([JSON.stringify(payload)],{type:'application/json'}),`lexlab-backup-integral-${dateKey()}.json`);toast('Backup de estudos e de leis carregadas exportado. Ele não é criptografado.');}
-function restoreCustomSources(){for(const item of Array.isArray(journal.extraLaws)?journal.extraLaws.slice(0,60):[]){if(!item||!/^repo-[a-f0-9]{8}$/.test(item.id)||!/^[\w\-./]+\.(md|txt)$/.test(item.path)||item.path.includes('..'))continue;
+function restoreCustomSources(){for(const item of Array.isArray(journal.extraLaws)?journal.extraLaws.slice(0,500):[]){if(!item||!/^repo-[a-f0-9]{8}$/.test(item.id)||!/^[\w\-./]+\.(md|txt)$/.test(item.path)||item.path.includes('..'))continue;
  LEGAL[item.id]={name:String(item.name||item.path.split('/').pop()).slice(0,75),full:String(item.path).slice(0,250),area:'Acervo público de legislação',path:item.path,official:'',local:!!item.local,version:'GitHub',icon:'§'};
  if(!lawData[item.id])lawData[item.id]={articles:[],status:'sample',loadedAt:null,message:'Recarregue pelo acervo para obter os artigos.',source:item.path};
  retrieveCache(item.id).then(cached=>{if(cached?.articles?.length){lawData[item.id]={...lawData[item.id],articles:cached.articles,status:'loaded',loadedAt:cached.date};if(view==='extractor'||view==='reader'||view==='catalog')render();}});
