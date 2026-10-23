@@ -1,0 +1,803 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f6f7fb">
+  <title>LexLab — Estudos jurídicos</title>
+  <meta name="description" content="Leitor de lei seca, questões de literalidade, caderno de erros e revisão espaçada, com origem legislativa rastreável.">
+  
+  <style>
+:root{--bg:#f7f8fc;--panel:#fff;--panel-soft:#f8faff;--text:#152238;--muted:#79859a;--soft:#e8edf4;--border:#e6eaf2;--primary:#304eaa;--primary-deep:#233b89;--primary-soft:#eff3ff;--accent:#f6ac52;--green:#20785b;--green-bg:#e8f7f0;--red:#b7404d;--red-bg:#fff0f1;--shadow:0 12px 36px rgba(23,36,76,.045);--sidebar:#fff;--radius:16px;--font:system-ui,-apple-system,sans-serif}
+[data-theme="dark"]{--bg:#101722;--panel:#1a2534;--panel-soft:#202d3e;--text:#edf4fc;--muted:#a3b1c4;--soft:#344151;--border:#344254;--primary:#9cb5ff;--primary-deep:#6e96fd;--primary-soft:#273a58;--accent:#edb868;--green:#72d8ab;--green-bg:#1b3a35;--red:#f5a4aa;--red-bg:#482831;--shadow:0 12px 32px rgba(0,0,0,.14);--sidebar:#172130}
+*{box-sizing:border-box}body{margin:0;font-family:var(--font);background:var(--bg);color:var(--text);font-size:13px;line-height:1.55}button,input,textarea,select{font:inherit}button{cursor:pointer}button:disabled{cursor:not-allowed;opacity:.5}a{color:var(--primary);text-decoration:none}a:hover{text-decoration:underline}:focus-visible{outline:3px solid #98b8ff;outline-offset:2px}.app-shell{display:flex;min-height:100vh}.sidebar{position:sticky;top:0;min-width:248px;width:248px;height:100vh;background:var(--sidebar);border-right:1px solid var(--border);display:flex;flex-direction:column;padding:25px 16px 18px;z-index:20}.brand{display:flex;align-items:center;gap:11px;margin:1px 8px 37px}.brand-icon{width:42px;height:42px;border-radius:12px;color:#fff;background:#344f9e;display:grid;place-items:center;box-shadow:0 6px 14px #304eaa35}.brand-name{font-size:22px;font-weight:800;letter-spacing:-1.2px;line-height:1.1}.brand-dot{color:#eca75e}.brand-caption{font-size:9px;letter-spacing:2px;color:var(--muted);font-weight:800;margin-top:3px}.sidebar-section{font-size:10px;letter-spacing:1.2px;color:#a2aaba;font-weight:800;padding:0 14px;margin-bottom:12px}.main-nav,.law-nav{display:flex;flex-direction:column;gap:4px}.nav-item{position:relative;display:flex;align-items:center;gap:12px;border:0;background:none;color:var(--muted);border-radius:9px;padding:11px 13px;text-align:left;font-weight:700;width:100%;font-size:12px}.nav-item:hover,.law-link:hover{background:var(--panel-soft);color:var(--primary)}.nav-item.active{background:var(--primary-soft);color:var(--primary)}.nav-item.active:before{content:"";position:absolute;left:-16px;height:25px;top:7px;width:3px;border-radius:0 3px 3px 0;background:var(--primary)}.nav-symbol{font-size:18px;width:20px;text-align:center;font-weight:400;line-height:1}.nav-extra{margin-left:auto;color:var(--primary);font-size:8px;letter-spacing:.6px;background:var(--panel);border:1px solid var(--border);border-radius:4px;padding:2px 5px}.source-heading{margin-top:28px}.law-nav{overflow-y:auto}.law-link{color:var(--muted);display:flex;align-items:center;gap:10px;border:0;background:none;padding:10px 13px;text-align:left;font-size:12px;border-radius:8px;font-weight:600;width:100%}.law-link .small-square{width:8px;height:8px;border-radius:2px;background:#a5b5d9;flex-shrink:0}.law-link.active{color:var(--primary);background:var(--panel-soft)}.sidebar-footer{margin-top:auto;padding:20px 10px 0}.sync-pill{font-size:10.5px;display:flex;gap:8px;align-items:center;font-weight:700;padding:10px;background:var(--panel-soft);border-radius:9px;color:var(--muted)}.status-dot,.contest-dot{width:7px;height:7px;background:#4bba84;border-radius:50%;display:inline-block;flex-shrink:0}.sidebar-meta{font-size:10px;color:var(--muted);padding:12px 4px}.main-shell{flex:1;min-width:0}.topbar{height:75px;background:var(--panel);border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;padding:0 36px;gap:14px}.breadcrumb{display:flex;align-items:center;gap:12px;font-size:12px;font-weight:700}.crumb-muted,.crumb-slash{color:var(--muted);font-weight:500}.top-actions{display:flex;gap:12px;align-items:center}.contest-label{background:var(--panel-soft);border:1px solid var(--border);padding:9px 12px;border-radius:9px;color:var(--text);font-size:11px;font-weight:800;white-space:nowrap}.contest-dot{background:#e2a74d;margin-right:7px}.muted-sep{color:var(--muted)}.icon-button,.menu-btn{border:1px solid var(--border);border-radius:9px;background:var(--panel);height:36px;min-width:37px;color:var(--muted);font-size:17px}.menu-btn{display:none;border:0}.backup-button{border:1px solid var(--border);background:var(--panel);border-radius:9px;color:var(--text);font-size:11px;padding:10px 15px;font-weight:800}.backup-button:hover,.icon-button:hover{border-color:var(--primary);color:var(--primary)}.page-container{max-width:1290px;margin:auto;padding:38px 44px 80px}.eyebrow{color:var(--primary);font-size:10px;letter-spacing:1.3px;font-weight:800;text-transform:uppercase;margin-bottom:8px}.page-title{font-size:28px;letter-spacing:-1.15px;line-height:1.2;font-weight:800;margin:0 0 10px}.page-subtitle{color:var(--muted);font-size:12.5px;margin:0;line-height:1.85}.section-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:30px 0 15px}.section-head h2{margin:0;font-size:15px;letter-spacing:-.45px}.section-head p{margin:4px 0 0;color:var(--muted);font-size:11px}.section-head a,.inline-link{font-size:11px;font-weight:800}.card{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow)}.hero{display:grid;grid-template-columns:minmax(0,1fr) 260px;min-height:210px;overflow:hidden;position:relative;border:1px solid #314d9b;border-radius:17px;background:linear-gradient(115deg,#233b86,#405aa3 75%,#4d6bb0);color:#fff;padding:26px 30px}.hero small{letter-spacing:1.6px;font-size:9px;font-weight:800;color:#e2dba2}.hero h2{font-size:25px;line-height:1.32;margin:12px 0;max-width:485px;letter-spacing:-.6px}.hero p{color:#d7e1fa;font-size:11.5px;max-width:450px;line-height:1.7;margin-bottom:20px}.hero-btn{border:0;background:#fff;color:#233b86;font-size:11px;font-weight:800;padding:10px 17px;border-radius:8px}.hero-art{position:relative;opacity:.88}.hero-art:before{content:"§";position:absolute;right:8px;top:-45px;font-family:Georgia,serif;font-size:245px;transform:rotate(-13deg);color:#d4e1ff24;line-height:1}.hero-art:after{content:"";position:absolute;right:-38px;bottom:-98px;width:240px;height:240px;border:1px solid #ffffff55;border-radius:50%;box-shadow:0 0 0 25px #ffffff0b,0 0 0 55px #ffffff0b}.stats-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:15px;margin-top:21px}.stat-card{padding:18px 20px}.stat-top{display:flex;justify-content:space-between;align-items:start;color:var(--muted);font-size:10px;font-weight:700}.stat-icon{width:30px;height:30px;border-radius:8px;background:var(--primary-soft);color:var(--primary);display:grid;place-items:center;font-size:17px}.stat-value{font-size:28px;letter-spacing:-1.4px;font-weight:800;margin-top:12px;line-height:1.3}.stat-foot{color:var(--muted);font-size:10px;margin-top:4px}.two-col{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(270px,1fr);gap:18px}.quick-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.quick-card{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:17px;display:flex;flex-direction:column;align-items:flex-start;text-align:left;gap:10px;min-height:132px;transition:transform .16s,border-color .16s}.quick-card:hover{transform:translateY(-2px);border-color:#a4b2d9}.quick-icon{background:var(--primary-soft);color:var(--primary);height:33px;width:33px;border-radius:9px;display:grid;place-items:center;font-size:19px}.quick-name{font-weight:800;font-size:11.5px}.quick-desc{font-size:10px;line-height:1.5;color:var(--muted)}.focus-panel{padding:20px}.focus-panel h3{margin:0 0 15px;font-size:13px}.focus-row{display:flex;gap:12px;align-items:center;margin-bottom:16px}.focus-index{width:30px;height:30px;background:var(--primary-soft);color:var(--primary);font-size:11px;border-radius:8px;display:grid;place-items:center;font-weight:800}.focus-details{flex:1}.focus-details strong{display:block;font-size:11px}.focus-details small{color:var(--muted);font-size:10px}.focus-link{background:none;border:0;color:var(--primary);font-weight:800;font-size:11px}.info-banner{background:var(--panel-soft);border:1px solid var(--border);border-radius:12px;padding:14px 16px;font-size:11px;color:var(--muted);line-height:1.75}.notice{display:flex;gap:10px;align-items:flex-start}.notice-symbol{color:var(--primary);font-weight:800;font-size:14px}.toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:25px 0 17px}.field{border:1px solid var(--border);border-radius:9px;background:var(--panel);color:var(--text);padding:10px 12px;min-height:39px;font-size:11.5px;outline:none}.field:focus{border-color:var(--primary)}.field-long{flex:1;min-width:180px}.toolbar-label{font-size:11px;color:var(--muted);font-weight:700}.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;border:1px solid var(--border);background:var(--panel);color:var(--text);border-radius:9px;padding:10px 14px;font-weight:800;font-size:11px;line-height:1.3}.btn:hover{border-color:var(--primary);color:var(--primary)}.btn-primary{background:#304eaa;color:#fff;border-color:#304eaa}.btn-primary:hover{background:#223e94;color:#fff;border-color:#223e94}.btn-soft{background:var(--primary-soft);color:var(--primary);border-color:transparent}.btn-soft:hover{color:var(--primary);border-color:var(--primary)}.btn-danger{background:var(--red-bg);color:var(--red);border-color:transparent}.btn-sm{padding:7px 11px;font-size:10px}.badge{display:inline-flex;align-items:center;gap:5px;border-radius:6px;border:1px solid var(--border);background:var(--panel-soft);padding:5px 7px;font-weight:800;color:var(--muted);font-size:9px;letter-spacing:.1px}.badge.online{border-color:#b6e2ce;background:var(--green-bg);color:var(--green)}.badge.attention{border-color:#f0d8af;background:#fff7e9;color:#8d6526}.reader-layout{display:grid;grid-template-columns:minmax(0,1fr) 285px;gap:18px}.article-list{display:flex;flex-direction:column;gap:13px}.article-card{padding:22px 24px;scroll-margin-top:40px}.article-card-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:12px}.article-number{font-size:15px;font-weight:800;color:var(--primary);letter-spacing:-.3px}.article-text{font-size:12.5px;line-height:1.95;white-space:normal;color:var(--text);font-family:Georgia,'Times New Roman',serif;overflow-wrap:anywhere}.article-text p{margin:8px 0}.article-text .inciso{padding-left:14px}.article-text .revogado{color:var(--red)}.article-actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:15px;padding-top:14px;border-top:1px solid var(--border)}.reader-side{display:flex;flex-direction:column;gap:14px}.side-card{padding:18px}.side-card h3{font-size:12px;margin:0 0 10px}.side-card p{font-size:10.5px;color:var(--muted);line-height:1.8;margin:0 0 12px}.source-url{overflow-wrap:anywhere;font-size:10px}.source-box{background:var(--panel-soft);padding:12px;border-radius:9px;font-size:10.5px;line-height:1.65;color:var(--muted)}.reader-count{color:var(--muted);font-size:11px}.empty{padding:45px 22px;text-align:center}.empty-icon{width:50px;height:50px;border-radius:14px;background:var(--primary-soft);color:var(--primary);display:grid;place-items:center;font-size:24px;margin:0 auto 15px}.empty h3{font-size:16px;letter-spacing:-.4px;margin:0 0 8px}.empty p{font-size:11.5px;line-height:1.8;color:var(--muted);max-width:460px;margin:0 auto 17px}.quiz-shell{max-width:900px}.quiz-header{display:flex;justify-content:space-between;gap:12px;align-items:center;margin:28px 0}.progress-track{width:100%;height:7px;background:var(--soft);border-radius:12px;overflow:hidden}.progress-fill{background:var(--primary);height:100%;border-radius:12px;transition:width .3s}.quiz-panel{padding:28px}.quiz-number{color:var(--primary);font-size:10px;font-weight:800;letter-spacing:1px}.quiz-prompt{font-size:19px;line-height:1.6;font-weight:800;letter-spacing:-.5px;margin:17px 0 23px}.quiz-options{display:flex;flex-direction:column;gap:10px}.option-row{border:1px solid var(--border);border-radius:10px;display:flex;align-items:stretch;overflow:hidden;background:var(--panel);transition:border-color .15s,background .15s}.option-row:hover{border-color:#a4b6de}.option-row.chosen{border-color:var(--primary);background:var(--primary-soft)}.option-row.correct{border-color:var(--green);background:var(--green-bg)}.option-row.wrong{border-color:var(--red);background:var(--red-bg)}.option-row.eliminated{opacity:.4}.option-select{display:flex;align-items:center;gap:12px;border:0;text-align:left;background:none;color:var(--text);padding:16px;flex:1;font-size:11.5px;line-height:1.7}.option-letter{flex-shrink:0;display:grid;place-items:center;border:1px solid var(--border);border-radius:7px;width:29px;height:29px;font-weight:800;font-size:11px;background:var(--panel)}.option-eliminate{width:45px;border:0;border-left:1px solid var(--border);background:none;color:var(--muted);font-size:15px;font-weight:800}.option-eliminate:hover{background:var(--red-bg);color:var(--red)}.quiz-footer{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:20px}.quiz-explain{margin-top:20px;padding:18px;background:var(--panel-soft);border-left:3px solid var(--primary);border-radius:6px;font-size:11.5px;line-height:1.85}.quiz-explain strong{display:block;margin-bottom:6px}.quiz-explain .ref{font-size:10px;color:var(--muted);margin-top:8px}.quiz-setup{padding:25px;max-width:750px}.setup-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:17px}.setup-field{display:flex;flex-direction:column;gap:7px}.setup-field label{font-size:11px;font-weight:800}.setup-help{font-size:10.5px;color:var(--muted)}.question-type{display:flex;gap:10px;flex-wrap:wrap}.type-toggle{border:1px solid var(--border);background:var(--panel);padding:10px 12px;border-radius:9px;font-size:11px;color:var(--text)}.type-toggle.selected{background:var(--primary-soft);color:var(--primary);border-color:var(--primary)}.result-score{font-size:54px;font-weight:800;color:var(--primary);letter-spacing:-2px}.error-row{padding:17px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px}.error-row:last-child{border:0}.error-item{flex:1;min-width:0}.error-item strong{display:block;font-size:12px}.error-item small{display:block;color:var(--muted);font-size:10px;margin-top:4px}.error-actions{display:flex;gap:7px;align-items:center}.note-input{width:100%;min-height:105px;resize:vertical}.flash-card{padding:35px;max-width:750px;min-height:280px;display:flex;flex-direction:column;justify-content:center;text-align:center;margin-top:18px}.flash-question{font-size:20px;font-weight:800;line-height:1.55;letter-spacing:-.5px}.flash-answer{font-size:14px;font-family:Georgia,serif;line-height:2;margin:18px 0}.flash-controls{display:flex;justify-content:center;flex-wrap:wrap;gap:10px;margin-top:18px}.chart-bars{display:flex;align-items:flex-end;gap:11px;height:180px;padding-top:25px}.chart-col{flex:1;text-align:center;min-width:0}.chart-bar{border-radius:6px 6px 1px 1px;background:#a9b9e6;min-height:3px}.chart-bar.accent{background:var(--primary)}.chart-label{font-size:10px;color:var(--muted);margin-top:7px}.pill-row{display:flex;gap:7px;flex-wrap:wrap}.pill{border:1px solid var(--border);border-radius:999px;padding:8px 11px;background:var(--panel);font-size:10px;font-weight:700;color:var(--muted)}.pill:hover,.pill.selected{border-color:var(--primary);background:var(--primary-soft);color:var(--primary)}.right{margin-left:auto}.muted{color:var(--muted)}.small{font-size:10px}.divider{height:1px;background:var(--border);margin:15px 0}.toast-region{position:fixed;bottom:22px;right:22px;display:flex;flex-direction:column;align-items:flex-end;gap:10px;z-index:100}.toast{background:var(--text);color:var(--panel);border-radius:10px;box-shadow:0 16px 45px #0002;padding:12px 15px;font-size:11px;max-width:350px;animation:slideUp .22s ease}.loading-dots{display:inline-flex;gap:4px;margin-left:6px}.loading-dots i{display:block;width:4px;height:4px;border-radius:50%;background:currentColor;animation:pulse 1.3s infinite}.loading-dots i:nth-child(2){animation-delay:.2s}.loading-dots i:nth-child(3){animation-delay:.4s}.offline-strip{margin-top:17px}.nowrap{white-space:nowrap}.visually-hidden{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}@keyframes pulse{0%,70%,100%{opacity:.3}40%{opacity:1}}@keyframes slideUp{from{transform:translateY(10px);opacity:0}to{transform:translateY(0);opacity:1}}
+@media(max-width:1160px){.page-container{padding:32px 28px}.stats-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.two-col{grid-template-columns:1fr}.reader-layout{grid-template-columns:minmax(0,1fr) 250px}}@media(max-width:840px){.sidebar{position:fixed;transform:translateX(-105%);transition:transform .22s;box-shadow:0 25px 60px #0002}.sidebar.open{transform:translateX(0)}.menu-btn{display:block}.topbar{padding:0 18px}.page-container{padding:28px 20px 70px}.reader-layout{grid-template-columns:1fr}.reader-side{grid-row:1;display:grid;grid-template-columns:repeat(2,1fr)}.contest-label{display:none}}@media(max-width:560px){.page-title{font-size:25px}.hero{grid-template-columns:1fr;padding:23px 22px}.hero h2{font-size:21px}.hero-art{display:none}.stats-grid{gap:10px}.stat-card{padding:15px}.stat-value{font-size:24px}.quick-grid{grid-template-columns:1fr}.quick-card{min-height:0}.reader-side{display:flex}.article-card{padding:17px}.article-actions .btn{flex:1}.setup-grid{grid-template-columns:1fr}.quiz-panel{padding:17px}.quiz-prompt{font-size:17px}.topbar{height:68px}.backup-button span{display:none}.error-row{align-items:flex-start;flex-direction:column}.error-actions{align-self:stretch}.option-select{padding:13px 10px}.option-letter{width:25px;height:25px}.quiz-footer{flex-wrap:wrap}}
+
+/* Login local e proteção do histórico, sem dependência de servidor. */
+[hidden]{display:none!important}
+.auth-screen{min-height:100vh;display:grid;grid-template-columns:minmax(300px,43%) 1fr;background:var(--bg)}
+.auth-side{position:relative;display:flex;flex-direction:column;background:linear-gradient(140deg,#132753,#233e83 55%,#3658a4);color:#fff;padding:48px clamp(28px,5vw,82px);overflow:hidden}
+.auth-side:after{content:'§';position:absolute;right:-56px;bottom:5%;color:#ffffff10;font:440px Georgia,serif;transform:rotate(-15deg);pointer-events:none}
+.auth-side-brand{font-size:28px;font-weight:850;letter-spacing:-1.3px;display:flex;gap:12px;align-items:center;position:relative;z-index:1}
+.auth-side-icon{display:grid;place-items:center;font-size:26px;width:46px;height:46px;background:#ffffff1e;border:1px solid #ffffff36;border-radius:13px;font-weight:normal;font-family:Georgia,serif}
+.auth-side-copy{margin:auto 0;max-width:540px;position:relative;z-index:1}
+.auth-kicker{font-size:11px;letter-spacing:2px;color:#b9c9f2;font-weight:800}
+.auth-side-copy h2{font-size:clamp(36px,4vw,64px);letter-spacing:-2.4px;line-height:1.16;margin:20px 0 27px;font-weight:850}
+.auth-side-copy h2 em{font-style:normal;color:#f3c079}
+.auth-side-copy p{max-width:370px;font-size:14px;color:#c5d4f3;line-height:1.85}
+.auth-side-footer{font-size:11px;line-height:1.6;color:#aec1ec;position:relative;z-index:1}
+.auth-main{display:grid;place-items:center;padding:35px 24px 55px}
+.auth-card{width:100%;max-width:428px}
+.auth-tag{font-size:10px;letter-spacing:1.3px;font-weight:800;color:var(--primary);display:flex;align-items:center;gap:9px;margin-bottom:22px}
+.auth-tag-dot{width:8px;height:8px;background:#47b87f;border-radius:50%}
+.auth-card h1{font-size:32px;letter-spacing:-1.2px;margin:0 0 9px;line-height:1.2}
+.auth-lead{font-size:13px;color:var(--muted);line-height:1.8;margin:0 0 26px}
+.auth-label{display:block;margin:15px 0 7px;font-size:12px;font-weight:800}
+.auth-input{width:100%;border:1px solid var(--border);border-radius:11px;background:var(--panel);color:var(--text);padding:12px 13px;font-size:13px;outline:none;min-height:44px}
+.auth-input:focus{border-color:var(--primary);box-shadow:0 0 0 3px var(--primary-soft)}
+.auth-input-wrap{position:relative}.auth-input-wrap input{padding-right:85px}
+.auth-peek{position:absolute;right:5px;top:5px;background:transparent;border:0;color:var(--primary);font-size:11px;font-weight:800;padding:9px}
+.auth-submit{margin-top:22px;padding:14px 17px;width:100%;border:0;border-radius:10px;background:#304eaa;color:white;font-size:13px;font-weight:850;display:flex;justify-content:space-between;align-items:center}
+.auth-submit:hover{background:#243e94}.auth-submit:disabled{opacity:.6}
+.auth-feedback{color:var(--red);font-size:12px;line-height:1.6;min-height:5px;margin-top:10px;font-weight:650}
+.auth-privacy{color:var(--muted);font-size:11px;line-height:1.8;border:1px solid var(--border);background:var(--panel-soft);padding:15px;border-radius:12px;margin-top:22px}
+.auth-privacy strong{color:var(--text)}
+.auth-bottom{display:flex;justify-content:space-between;gap:10px;color:var(--muted);font-size:10px;margin-top:28px}
+.account-button,.logout-button{border:1px solid var(--border);background:var(--panel);border-radius:9px;padding:9px 12px;color:var(--text);font-weight:750;font-size:11px;min-height:36px}
+.logout-button{color:var(--red)}.account-button:hover,.logout-button:hover{border-color:var(--primary)}
+.account-dialog{border:1px solid var(--border);border-radius:16px;background:var(--panel);color:var(--text);padding:30px;min-width:min(440px,calc(100vw - 30px));max-width:440px;box-shadow:0 28px 80px #0003}
+.account-dialog::backdrop{background:#0c1b35a8}.account-dialog h2{margin:0 0 6px;font-size:21px}.account-dialog h3{margin:15px 0 10px;font-size:14px}
+.account-dialog .auth-lead{margin-bottom:13px}.auth-divider{height:1px;background:var(--border);margin:15px 0}
+.account-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:16px}
+@media(max-width:950px){.auth-screen{grid-template-columns:1fr}.auth-side{padding:20px 25px;min-height:auto}.auth-side-copy,.auth-side-footer{display:none}.auth-main{padding:50px 22px}.auth-bottom{flex-wrap:wrap}.account-button span{display:none}}
+@media(max-width:520px){.auth-card h1{font-size:27px}.auth-screen{min-height:100dvh}.auth-side-brand{font-size:23px}.auth-side-icon{width:37px;height:37px;font-size:22px}.topbar{padding:0 14px}.account-button,.logout-button{padding:8px}.auth-main{padding:35px 22px 50px}}
+
+
+.auth-recovery{margin-top:14px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.auth-recovery button{border:0;background:none;color:var(--primary);font-size:12px;padding:7px 0;text-decoration:underline;font-weight:750;cursor:pointer}
+.auth-recovery small{color:var(--muted);font-size:10px}
+.auth-instructions{color:var(--muted);font-size:11px;line-height:1.65;margin:10px 0 0}
+
+/* Oficina 2.0 */
+.extract-home-cta{display:flex;align-items:center;justify-content:space-between;gap:15px;padding:18px 21px;background:var(--primary-soft);border:1px solid var(--border);border-radius:14px;margin:20px 0 0}
+.extract-home-cta div{display:flex;flex-direction:column;gap:5px}.extract-home-cta strong{color:var(--primary);font-size:13px}.extract-home-cta span{color:var(--muted);font-size:11px}
+.extract-hero{margin-top:24px;padding:27px 32px;border-radius:18px;background:linear-gradient(115deg,#152947,#274c78 70%,#377a83);color:#fff;display:flex;justify-content:space-between;overflow:hidden;position:relative}
+.extract-hero h2{font-size:24px;line-height:1.15;letter-spacing:-.7px;margin:10px 0}.extract-hero p{line-height:1.7;color:#dce7f6;max-width:600px;margin:0 0 17px;font-size:12px}
+.extract-eyebrow{font-size:10px;letter-spacing:2px;font-weight:800;color:#b7daec}.extract-hero-symbol{font-size:160px;line-height:1;font-family:Georgia,serif;opacity:.13;transform:rotate(-8deg);position:absolute;right:30px;top:10px;pointer-events:none}
+.btn-light{background:#fff;color:#183759;border-color:#fff}.extract-stats{margin:20px 0}.extract-tools{padding:23px;margin-top:22px}.extract-tooltitle{display:flex;align-items:center;justify-content:space-between;gap:15px;margin-bottom:20px}.extract-tooltitle h2{margin:0 0 3px;font-size:15px}.extract-tooltitle p{color:var(--muted);font-size:11px;margin:0}
+.extract-controls{display:grid;grid-template-columns:minmax(130px,1fr) minmax(180px,1.2fr) minmax(200px,1.6fr);gap:15px}.extract-controls label{color:var(--muted);font-size:11px;font-weight:700;display:flex;flex-direction:column;gap:7px}.extract-controls .field{width:100%}
+.extract-chips,.extract-actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:18px}.extract-chips .pill{font-size:10px}.extract-note{font-size:11px;line-height:1.65;color:var(--muted);margin:17px 0 0}
+.extract-list{display:grid;grid-template-columns:1fr;gap:12px}.extract-item{padding:18px 20px}.extract-item-head,.extract-item-foot{display:flex;align-items:center;justify-content:space-between;gap:12px}.extract-check{display:flex;align-items:center;gap:12px;color:var(--text);font-size:12px}.extract-check input{accent-color:#304eaa;width:16px;height:16px;cursor:pointer}
+.extract-muted{color:var(--muted);font-size:10px}.extract-snippet{margin:15px 0;font-size:13px;line-height:1.7;border-left:3px solid var(--primary);padding-left:15px;white-space:pre-wrap;overflow-wrap:anywhere}.extract-item-foot>div{display:flex;flex-wrap:wrap;gap:7px}.extract-item-buttons{justify-content:flex-end}.extract-item .badge{font-size:9px}.extract-more{width:100%;margin-top:15px}
+.catalog-panel{padding:24px;margin-top:23px}.catalog-roots{display:flex;gap:7px;flex-wrap:wrap;margin:0 0 19px}.catalog-address{display:flex;gap:12px;align-items:center;border-radius:10px;background:var(--panel-soft);padding:12px;margin-bottom:15px}.catalog-address code{flex:1;overflow:auto;font-size:11px;color:var(--text);white-space:nowrap}.catalog-filters{display:flex;justify-content:space-between;align-items:end}.catalog-filters label{flex:1}.catalog-count{font-size:11px;color:var(--muted)}.catalog-list{margin:18px 0 0;max-height:650px;overflow-y:auto;border:1px solid var(--border);border-radius:12px}.catalog-file{display:flex;gap:12px;align-items:center;padding:13px;border-bottom:1px solid var(--border)}.catalog-file:last-child{border-bottom:0}.catalog-icon{color:var(--primary);background:var(--primary-soft);font-weight:800;font-size:17px;width:33px;height:33px;border-radius:8px;display:grid;place-items:center}.catalog-file-name{flex:1;min-width:0}.catalog-file-name strong{display:block;font-size:11px;overflow:hidden;text-overflow:ellipsis}.catalog-file-name small{display:block;color:var(--muted);font-size:9px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.catalog-file .btn{flex-shrink:0}
+@media(max-width:1050px){.extract-controls{grid-template-columns:1fr 1fr}.extract-controls .wide-label{grid-column:1/-1}}@media(max-width:650px){.extract-controls{display:flex;flex-direction:column}.extract-hero{padding:25px}.extract-tooltitle,.extract-item-foot,.extract-home-cta{align-items:stretch;flex-direction:column}.catalog-address{flex-wrap:wrap}.catalog-address code{flex-basis:100%;order:-1}.catalog-file{flex-wrap:wrap}.catalog-file-name{min-width:60%}}
+</style>
+</head>
+<body>
+<section class="auth-screen" id="authScreen" aria-label="Acesso ao LexLab">
+  <div class="auth-side">
+    <div class="auth-side-brand"><span class="auth-side-icon" aria-hidden="true">§</span> LexLab<span style="color:#efb56a">.</span></div>
+    <div class="auth-side-copy">
+      <div class="auth-kicker">CENTRAL DE ESTUDOS JURÍDICOS</div>
+      <h2>Seu progresso.<br>Seus estudos.<br><em>Seu espaço.</em></h2>
+      <p>Leitura de lei seca, questões, caderno de erros e flashcards em uma única central para o TRT-8.</p>
+    </div>
+    <div class="auth-side-footer">Dados pessoais de estudo mantidos neste dispositivo · Fontes legislativas rastreáveis</div>
+  </div>
+  <div class="auth-main">
+    <div class="auth-card">
+      <div class="auth-tag"><span class="auth-tag-dot"></span> ESPAÇO PRIVADO DE ESTUDO</div>
+      <h1 id="authTitle">Criar seu acesso</h1>
+      <p class="auth-lead" id="authDescription">Defina uma senha para proteger suas anotações, questões e revisões neste navegador.</p>
+      <form id="authForm" autocomplete="on" novalidate>
+        <label class="auth-label" for="authUsername">Nome de usuário</label>
+        <input class="auth-input" id="authUsername" name="username" type="text" autocomplete="username" required minlength="3" maxlength="40" spellcheck="false" value="diogoribeiro261101-cmyk">
+        <label class="auth-label" for="authPassword">Senha</label>
+        <div class="auth-input-wrap"><input class="auth-input" id="authPassword" name="password" type="password" autocomplete="new-password" required minlength="10" maxlength="128" placeholder="Pelo menos 10 caracteres"><button class="auth-peek" type="button" id="authReveal" aria-label="Mostrar senha">Mostrar</button></div>
+        <div id="authConfirmWrap"><label class="auth-label" for="authConfirm">Confirme sua senha</label><input class="auth-input" id="authConfirm" type="password" autocomplete="new-password" required minlength="10" maxlength="128" placeholder="Repita a senha"></div>
+        <div class="auth-feedback" id="authFeedback" role="alert" aria-live="polite"></div>
+        <p class="auth-instructions" id="authInstructions">Primeiro acesso: digite o nome de usuário, crie uma senha e repita na confirmação.</p>
+        <div class="auth-recovery" id="authRecovery" hidden>
+          <button id="authRecoveryBtn" type="button">Não lembro a senha · recriar acesso</button>
+          <small>Os dados antigos precisam da senha anterior</small>
+        </div>
+        <button type="submit" id="authSubmit" class="auth-submit">Criar meu acesso <span aria-hidden="true">→</span></button>
+      </form>
+      <div class="auth-privacy"><strong>Como funciona:</strong> a senha é usada apenas neste dispositivo para criptografar seu histórico. Não é a senha do GitHub, não cria conta online e não sincroniza dispositivos. Se você esquecê-la, precisará de um backup exportado para recuperar seus dados.</div>
+      <div class="auth-bottom">LexLab · TRT-8 / FCC <span>Versão com acesso local</span></div>
+    </div>
+  </div>
+</section>
+<div class="app-shell" id="appShell" hidden>
+  <aside class="sidebar" id="sidebar">
+    <div class="brand">
+      <div class="brand-icon"><svg viewBox="0 0 24 24" width="25" height="25" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18M5 7h14M3 10l3-3 3 3m-3 0v5m-3 0h6m6-5 3-3 3 3m-3 0v5m-3 0h6M7 21h10"/></svg></div>
+      <div><div class="brand-name">LexLab<span class="brand-dot">.</span></div><div class="brand-caption">CENTRAL JURÍDICA</div></div>
+    </div>
+    <div class="sidebar-section">ESPAÇO DE ESTUDO</div>
+    <nav class="main-nav" id="mainNav" aria-label="Navegação principal">
+      <button class="nav-item active" data-view="dashboard"><span class="nav-symbol">▦</span> Visão geral</button>
+      <button class="nav-item" data-view="reader"><span class="nav-symbol">▤</span> Lei seca</button>
+      <button class="nav-item" data-view="quiz"><span class="nav-symbol">◎</span> Questões <span class="nav-extra">LITERAL</span></button>
+      <button class="nav-item" data-view="errors"><span class="nav-symbol">▣</span> Caderno de erros</button>
+      <button class="nav-item" data-view="cards"><span class="nav-symbol">▥</span> Flashcards</button>
+      <button class="nav-item" data-view="analytics"><span class="nav-symbol">▧</span> Desempenho</button>
+      <button class="nav-item" data-view="extractor"><span class="nav-symbol">⌁</span> Extrator de leis <span class="nav-extra">NOVO</span></button>
+      <button class="nav-item" data-view="catalog"><span class="nav-symbol">▦</span> Acervo GitHub</button>
+    </nav>
+    <div class="sidebar-section source-heading">SUA BIBLIOTECA</div>
+    <div class="law-nav" id="lawNav"></div>
+    <div class="sidebar-footer">
+      <div class="sync-pill" id="globalSync"><span class="status-dot"></span><span>Base local disponível</span></div>
+      <div class="sidebar-meta">Seus dados de estudo ficam neste navegador.</div>
+    </div>
+  </aside>
+  <div class="main-shell">
+    <header class="topbar">
+      <div class="breadcrumb"><button class="menu-btn" id="menuBtn" aria-label="Abrir menu">☰</button><span class="crumb-muted">Área de estudos</span><span class="crumb-slash">/</span><span id="crumbTitle">Visão geral</span></div>
+      <div class="top-actions"><div class="contest-label"><span class="contest-dot"></span>TRT-8 <span class="muted-sep">·</span> foco FCC</div><button id="themeBtn" class="icon-button" title="Alternar tema" aria-label="Alternar tema">◐</button><button id="backupBtn" class="backup-button">↥ <span>Exportar dados</span></button><button id="accountBtn" class="account-button" title="Minha conta local">♙ <span id="accountName">Minha conta</span></button><button id="logoutBtn" class="logout-button" title="Bloquear a sessão">Sair</button></div>
+    </header>
+    <main id="mainContent" class="page-container" tabindex="-1"></main>
+  </div>
+</div>
+<div id="toastRegion" class="toast-region" aria-live="polite"></div>
+<input type="file" id="importInput" accept="application/json,.json" hidden>
+<input type="file" id="legalTextImport" accept=".md,.txt,.text,text/plain,text/markdown" hidden>
+<input type="file" id="completeBackupImport" accept=".json,application/json" hidden>
+<dialog id="accountDialog" class="account-dialog" aria-labelledby="accountDialogTitle">
+  <form id="changePasswordForm">
+    <h2 id="accountDialogTitle">Minha conta local</h2>
+    <p id="accountSummary" class="auth-lead"></p>
+    <div class="auth-divider"></div>
+    <h3>Alterar senha</h3>
+    <label class="auth-label" for="oldPass">Senha atual</label><input class="auth-input" type="password" id="oldPass" autocomplete="current-password" required>
+    <label class="auth-label" for="newPass">Nova senha</label><input class="auth-input" type="password" id="newPass" autocomplete="new-password" minlength="10" maxlength="128" required>
+    <label class="auth-label" for="newPassConfirm">Confirmar nova senha</label><input class="auth-input" type="password" id="newPassConfirm" autocomplete="new-password" minlength="10" maxlength="128" required>
+    <p id="changeFeedback" class="auth-feedback" role="alert"></p>
+    <div class="account-actions"><button class="btn" type="button" id="accountCancel">Cancelar</button><button class="btn btn-primary" type="submit" id="changeSubmit">Atualizar senha</button></div>
+  </form>
+</dialog>
+<script>
+/* LexLab: aplicativo estático, sem dependências JS externas ou serviços de conta.
+   Os textos jurídicos são dados não confiáveis: exibidos como texto escapado,
+   nunca interpretados como HTML executável nem como instruções ao aplicativo.
+   Questões são construídas a partir de trechos literais, não provas oficiais FCC. */
+'use strict';
+
+const ORIGIN = 'https://raw.githubusercontent.com/diogoribeiro261101-cmyk/leis/main/';
+const REPO = 'https://github.com/diogoribeiro261101-cmyk/leis/blob/main/';
+const LEGAL = {
+  clt: {name:'CLT', full:'Consolidação das Leis do Trabalho', area:'Direito do Trabalho e Processo do Trabalho', path:'federal/decretos-lei/1943/del-5452-1943-05-01.md', official:'https://www.planalto.gov.br/ccivil_03/decreto-lei/del5452.htm', icon:'T', version:'13/10/2026'},
+  cf: {name:'Constituição Federal', full:'Constituição da República Federativa do Brasil', area:'Direito Constitucional', path:'constituicao.md', official:'https://www.planalto.gov.br/ccivil_03/constituicao/constituicaocompilado.htm', icon:'C', version:'20/10/2026'},
+  civil: {name:'Código Civil', full:'Lei nº 10.406/2002', area:'Direito Civil', path:'federal/leis-ordinarias/2002/lei-10406-2002-01-10.md', official:'https://www.planalto.gov.br/ccivil_03/leis/2002/l10406compilada.htm', icon:'V', version:'13/10/2026'},
+  servidores: {name:'Lei nº 8.112', full:'Regime Jurídico dos Servidores Públicos Federais', area:'Direito Administrativo', path:'federal/leis-ordinarias/1990/lei-8112-1990-12-11.md', official:'https://www.planalto.gov.br/ccivil_03/leis/l8112cons.htm', icon:'A', version:'13/10/2026'},
+  cpc: {name:'CPC', full:'Código de Processo Civil (Lei nº 13.105/2015)', area:'Direito Processual Civil', path:'federal/leis-ordinarias/2015/lei-13105-2015-03-16.md', official:'https://www.planalto.gov.br/ccivil_03/_ato2015-2018/2015/lei/l13105.htm', icon:'P', version:'sob consulta', seeds:[]},
+  licitacoes: {name:'Lei nº 14.133', full:'Lei de Licitações e Contratos Administrativos', area:'Direito Administrativo', path:'federal/leis-ordinarias/2021/lei-14133-2021-04-01.md', official:'https://www.planalto.gov.br/ccivil_03/_ato2019-2022/2021/lei/l14133.htm', icon:'L', blocked:true, reason:'O texto do arquivo desse fork contém somente partes vetadas promulgadas, não a lei integral. Consulte a fonte oficial.'}
+};
+
+// Amostra de caputs transcritos de arquivos do fork; não representam os artigos integrais.
+const SEED = {
+ clt:[
+  ['1','Esta Consolidação estatui as normas que regulam as relações individuais e coletivas de trabalho nela previstas.'],
+  ['2','Considera-se empregador a empresa individual ou coletiva, que, assumindo os riscos de atividade econômica, admite, assalaria e dirige a prestação pessoal de serviços.'],
+  ['3','Considera-se empregado toda pessoa física que prestar serviços de natureza não eventual a empregador, sob a dependência deste e mediante salário.'],
+  ['4','Considera-se como de serviço efetivo o período em que o empregado esteja à disposição do empregador, aguardando ou executando ordens, salvo disposição especial expressamente consignada.'],
+  ['5','A todo trabalho de igual valor corresponderá salário igual sem distinção de sexo.'],
+  ['6','Não se distingue entre o trabalho realizado no estabelecimento do empregador, o executado no domicílio do empregado e o realizado a distância, desde que estejam caracterizados os pressupostos da relação de emprego.'],
+  ['58','A duração normal do trabalho, para os empregados em qualquer atividade privada, não excederá de 8 (oito) horas diárias, desde que não seja fixado expressamente outro limite.'],
+  ['58-A','Considera-se trabalho em regime de tempo parcial aquele cuja duração não exceda a trinta horas semanais, sem a possibilidade de horas suplementares semanais, ou, ainda, aquele cuja duração não exceda a vinte e seis horas semanais, com a possibilidade de acréscimo de até seis horas suplementares semanais.'],
+  ['59','A duração diária do trabalho poderá ser acrescida de horas extras, em número não excedente de duas, por acordo individual, convenção coletiva ou acordo coletivo de trabalho.'],
+  ['59-A','Em exceção ao disposto no art. 59 desta Consolidação, é facultado às partes, mediante acordo individual escrito, convenção coletiva ou acordo coletivo de trabalho, estabelecer horário de trabalho de doze horas seguidas por trinta e seis horas ininterruptas de descanso, observados ou indenizados os intervalos para repouso e alimentação.'],
+  ['59-B','O não atendimento das exigências legais para compensação de jornada, inclusive quando estabelecida mediante acordo tácito, não implica a repetição do pagamento das horas excedentes à jornada normal diária se não ultrapassada a duração máxima semanal, sendo devido apenas o respectivo adicional.'],
+  ['60','Nas atividades insalubres, assim consideradas as constantes dos quadros mencionados no capítulo "Da Segurança e da Medicina do Trabalho", ou que neles venham a ser acrescidas por ato do Ministro do Trabalho, Indústria e Comércio, quaisquer prorrogações só poderão ser acordadas mediante licença prévia das autoridades competentes em matéria de higiene do trabalho, as quais, para esse efeito, procederão aos necessários exames locais e à verificação dos métodos e processos de trabalho, quer diretamente, quer por intermédio de autoridades sanitárias federais, estaduais e municipais, com quem entrarão em entendimento para tal fim.'],
+  ['66','Entre 2 (duas) jornadas de trabalho haverá um período mínimo de 11 (onze) horas consecutivas para descanso.'],
+  ['67','Será assegurado a todo empregado um descanso semanal de 24 (vinte e quatro) horas consecutivas, o qual, salvo motivo de conveniência pública ou necessidade imperiosa do serviço, deverá coincidir com o domingo, no todo ou em parte.'],
+  ['71','Em qualquer trabalho contínuo, cuja duração exceda de 6 (seis) horas, é obrigatória a concessão de um intervalo para repouso ou alimentação, o qual será, no mínimo, de 1 (uma) hora e, salvo acordo escrito ou contrato coletivo em contrário, não poderá exceder de 2 (duas) horas.']
+ ],
+ cf:[
+  ['1','A República Federativa do Brasil, formada pela união indissolúvel dos Estados e Municípios e do Distrito Federal, constitui-se em Estado Democrático de Direito e tem como fundamentos:'],
+  ['2','São Poderes da União, independentes e harmônicos entre si, o Legislativo, o Executivo e o Judiciário.'],
+  ['3','Constituem objetivos fundamentais da República Federativa do Brasil:'],
+  ['4','A República Federativa do Brasil rege-se nas suas relações internacionais pelos seguintes princípios:'],
+  ['5','Todos são iguais perante a lei, sem distinção de qualquer natureza, garantindo-se aos brasileiros e aos estrangeiros residentes no País a inviolabilidade do direito à vida, à liberdade, à igualdade, à segurança e à propriedade, nos termos seguintes:']
+ ],
+ civil:[
+  ['1','Toda pessoa é capaz de direitos e deveres na ordem civil.'],
+  ['2','A personalidade civil da pessoa começa do nascimento com vida; mas a lei põe a salvo, desde a concepção, os direitos do nascituro.'],
+  ['3','São absolutamente incapazes de exercer pessoalmente os atos da vida civil os menores de 16 (dezesseis) anos.'],
+  ['4','São incapazes, relativamente a certos atos ou à maneira de os exercer:'],
+  ['5','A menoridade cessa aos dezoito anos completos, quando a pessoa fica habilitada à prática de todos os atos da vida civil.'],
+  ['6','A existência da pessoa natural termina com a morte; presume-se esta, quanto aos ausentes, nos casos em que a lei autoriza a abertura de sucessão definitiva.'],
+  ['7','Pode ser declarada a morte presumida, sem decretação de ausência:'],
+  ['8','Se dois ou mais indivíduos falecerem na mesma ocasião, não se podendo averiguar se algum dos comorientes precedeu aos outros, presumir-se-ão simultaneamente mortos.']
+ ],
+ servidores:[
+  ['1','Esta Lei institui o Regime Jurídico dos Servidores Públicos Civis da União, das autarquias, inclusive as em regime especial, e das fundações públicas federais.'],
+  ['2','Para os efeitos desta Lei, servidor é a pessoa legalmente investida em cargo público.'],
+  ['3','Cargo público é o conjunto de atribuições e responsabilidades previstas na estrutura organizacional que devem ser cometidas a um servidor.'],
+  ['4','É proibida a prestação de serviços gratuitos, salvo os casos previstos em lei.'],
+  ['5','São requisitos básicos para investidura em cargo público:'],
+  ['6','O provimento dos cargos públicos far-se-á mediante ato da autoridade competente de cada Poder.'],
+  ['7','A investidura em cargo público ocorrerá com a posse.'],
+  ['8','São formas de provimento de cargo público:']
+ ]
+};
+const STORAGE_KEY='lexlab-study-journal-v1';
+const VIEWS={dashboard:'Visão geral',reader:'Lei seca',quiz:'Questões',errors:'Caderno de erros',cards:'Flashcards',analytics:'Desempenho',extractor:'Extrator de leis',catalog:'Acervo GitHub'};
+const $=id=>document.getElementById(id);
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const clean=s=>String(s??'').replace(/\*\*/g,'').replace(/\*\s*\([^)]{1,300}\)\s*\*/g,'').replace(/\s+/g,' ').trim();
+const dateKey=d=>{const x=d||new Date();return `${x.getFullYear()}-${String(x.getMonth()+1).padStart(2,'0')}-${String(x.getDate()).padStart(2,'0')}`};
+const addDays=(n)=>{const x=new Date();x.setHours(12,0,0,0);x.setDate(x.getDate()+n);return dateKey(x)};
+const daysAgo=n=>{let d=new Date();d.setDate(d.getDate()-n);return dateKey(d)};
+const short=s=>{let x=clean(s);return x.length>210?x.slice(0,209).replace(/\s+\S*$/,'')+'…':x};
+const sourceId=(law,num)=>law+':'+num;
+const unique=a=>[...new Set(a)];
+const norm=s=>String(s).toLocaleLowerCase('pt-BR').normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+const safeJson=(input)=>JSON.parse(input);
+const randomize=(a)=>a.slice().sort(()=>Math.random()-.5);
+const suspicious=/(?:ignore (?:all )?(?:previous|prior) instructions|desconsidere (?:todas )?as instru[çc][õo]es anteriores|<\|im_start\|>|(?:system|developer) prompt)/i;
+const initialJournal=()=>({attempts:[],errors:{},cards:{},bookmarks:[],read:{},quizSessions:[],savedAt:null});
+function readJournal(){try{const v=JSON.parse(localStorage.getItem(STORAGE_KEY)||'null');if(!v||typeof v!=='object')return initialJournal();return {...initialJournal(),...v,attempts:Array.isArray(v.attempts)?v.attempts:[],bookmarks:Array.isArray(v.bookmarks)?v.bookmarks:[],errors:v.errors&&typeof v.errors==='object'&&!Array.isArray(v.errors)?v.errors:{},cards:v.cards&&typeof v.cards==='object'&&!Array.isArray(v.cards)?v.cards:{},read:v.read&&typeof v.read==='object'&&!Array.isArray(v.read)?v.read:{},quizSessions:Array.isArray(v.quizSessions)?v.quizSessions:[]}}catch{return initialJournal()}}
+let journal=initialJournal(); // Carregado somente após desbloquear a conta local.
+let view='dashboard',selectedLaw='clt',readerQuery='',readerTopic='',readerSaved=false,readerLimit=25;
+let currentQuiz=null, cardReveal=false, currentCardKey=null, errorEditor=null, loadingLaw=null;
+let quizSetup={law:'clt',count:10,mode:'mixed'};
+let lawData={};
+for(const [law,info] of Object.entries(LEGAL)){
+ const articles=(SEED[law]||[]).map(([num,caput])=>({num,caput,body:caput,excerpt:true,topic:'Amostra inicial · somente caput',suspicious:false}));
+ lawData[law]={articles,status:info.blocked?'blocked':'sample',loadedAt:null,message:'',source:info.path};
+}
+function save(){journal.savedAt=new Date().toISOString();encryptAndSave();}
+function articleKey(law,article){return sourceId(law,article.num)}
+function nameOfKey(key){let i=key.indexOf(':');if(i<0)return key;let law=key.slice(0,i),num=key.slice(i+1);return `Art. ${num} · ${LEGAL[law]?.name||law}`}
+function getArticle(key){const idx=key.indexOf(':');if(idx<0)return null;const l=key.slice(0,idx),num=key.slice(idx+1);return lawData[l]?.articles.find(a=>a.num===num)||null}
+function formatNum(n){return /^\d+$/.test(n)?`Art. ${n}º`:`Art. ${n}`}
+function hasBook(key){return journal.bookmarks.includes(key)}
+function toast(msg){const el=document.createElement('div');el.className='toast';el.textContent=msg;$('toastRegion').appendChild(el);setTimeout(()=>el.remove(),4200)}
+function markRead(key){journal.read[key]=(journal.read[key]||0)+1;save();}
+function toggleBookmark(key){if(hasBook(key))journal.bookmarks=journal.bookmarks.filter(k=>k!==key);else journal.bookmarks.push(key);save();toast(hasBook(key)?'Artigo salvo para revisão.':'Marcador removido.');render()}
+function scheduleCard(key){if(!journal.cards[key]){journal.cards[key]={reps:0,due:dateKey(),last:null};save();toast('Flashcard incluído na fila de revisão.')}else toast('Esse artigo já está nos flashcards.');render()}
+function seedToDB(law,articles){/* IndexedDB opcional: conteúdo público sem credenciais */try{let request=indexedDB.open('lexlab-library-v1',1);request.onupgradeneeded=()=>request.result.createObjectStore('documents',{keyPath:'law'});request.onsuccess=()=>{let db=request.result;let tx=db.transaction('documents','readwrite');tx.objectStore('documents').put({law,articles,date:new Date().toISOString()});tx.oncomplete=()=>db.close()}}catch{}}
+function retrieveCache(law){return new Promise(res=>{try{let request=indexedDB.open('lexlab-library-v1',1);request.onupgradeneeded=()=>request.result.createObjectStore('documents',{keyPath:'law'});request.onerror=()=>res(null);request.onsuccess=()=>{let db=request.result;let tx=db.transaction('documents','readonly');let req=tx.objectStore('documents').get(law);req.onsuccess=()=>{res(req.result||null);db.close()};req.onerror=()=>{res(null);db.close()}}}catch{res(null)}})}
+function parseStatute(raw,law){
+ if(raw.length<1000||raw.length>4_500_000)throw Error('Arquivo fora do tamanho esperado.');
+ const m=raw.match(/^---\s*\n([\s\S]*?)\n---/);
+ if(law!=='cf'&&!m)throw Error('Metadados YAML não encontrados.');
+ if(m&&/versao_texto:\s*['"]?republica[çc][ãa]o\/retifica[çc][ãa]o/i.test(m[1]))throw Error('A fonte apresenta somente retificação/republicação.');
+ const trimmed=law==='clt'&&raw.includes('**CONSOLIDAÇÃO DAS LEIS DO TRABALHO**')?raw.slice(raw.indexOf('**CONSOLIDAÇÃO DAS LEIS DO TRABALHO**')+35):raw;
+ let current=null,chapter='',items=[];
+ function flush(){if(!current)return;const body=current.lines.join('\n').replace(/\n{3,}/g,'\n\n').trim();const caput=clean(current.first);const suspended=/^\s*\*?\(?\s*(?:Revogado|VETADO|Sem eficácia)/i.test(caput);if(caput.length>8&&body.length>8){items.push({num:current.num,caput,body,excerpt:false,topic:current.topic,suspicious:suspicious.test(body),suspended})}current=null}
+ const lines=trimmed.split(/\r?\n/);
+ for(const line of lines){
+  const heading=line.match(/^#{2,6}\s+(.+)$/);
+  if(heading){chapter=clean(heading[1]);continue}
+  const match=line.match(/^\s*(?:\*\*)?Art\.\s*(\d+(?:-[A-Z0-9]+)?)\s*(?:[º°.])?\s*(?:\*\*)?\s*(.*)$/i);
+  if(match){flush();const num=match[1].toUpperCase();current={num,topic:chapter,first:match[2],lines:[line]};continue}
+  if(current)current.lines.push(line);
+ }
+ flush();
+ // Na compilação da CLT podem existir números de artigos repetidos fora do texto principal.
+ const seen=new Set();items=items.filter(a=>{if(seen.has(a.num))return false;seen.add(a.num);return true});
+ if(items.length<15||!items.some(x=>x.num==='1'))throw Error('Quantidade insuficiente de artigos ou ausência do art. 1º.');
+ return items;
+}
+async function loadLaw(law,{force=false}={}){
+ if(LEGAL[law]?.local){toast('Documento local: reimporte o arquivo .txt ou .md para atualizá-lo.');return false}if(LEGAL[law]?.blocked){toast('Essa fonte está bloqueada por falta de integralidade. Consulte a versão oficial.');return false}
+ if(!LEGAL[law])return false;
+ if(loadingLaw)return false;
+ const previous=lawData[law];
+ if(previous.status==='loaded'&&!force){toast('Texto completo já carregado.');return true}
+ loadingLaw=law;lawData[law].status='loading';render();
+ try{
+  if(!force){const cached=await retrieveCache(law);if(cached?.articles?.length>=15){lawData[law]={...previous,articles:cached.articles,status:'loaded',loadedAt:cached.date,message:'cópia temporária do navegador'};loadingLaw=null;render();toast('Texto completo recuperado do cache.');return true}}
+  const ac=new AbortController();const timer=setTimeout(()=>ac.abort(),20000);
+  let resp;
+  try{resp=await fetch(ORIGIN+LEGAL[law].path,{signal:ac.signal,cache:'no-store'})}finally{clearTimeout(timer)}
+  if(!resp.ok)throw Error('O GitHub retornou HTTP '+resp.status);
+  let raw=await resp.text();let articles=parseStatute(raw,law);
+  lawData[law]={...previous,articles,status:'loaded',loadedAt:new Date().toISOString(),message:''};seedToDB(law,articles);
+  toast(`${articles.length} artigos carregados do GitHub. Confira a fonte oficial para citação jurídica.`);
+  readerLimit=25;render();return true;
+ }catch(e){lawData[law]={...previous,status:previous.articles.length?'sample':'error',message:e.message||'Erro de conexão'};toast('Não foi possível carregar a lei completa; a amostra inicial permanece disponível.');render();return false}
+ finally{loadingLaw=null}
+}
+function todayStats(){const done=journal.attempts.filter(x=>x.date?.slice(0,10)===dateKey());let correct=done.filter(x=>x.ok).length;let all=journal.attempts.length;let hits=journal.attempts.filter(x=>x.ok).length;let due=Object.entries(journal.cards).filter(([k,v])=>v.due<=dateKey()&&getArticle(k)).length;return {today:done.length,correct,all,hits,due,rate:all?Math.round(100*hits/all):0,errors:Object.keys(journal.errors).filter(k=>journal.errors[k]?.wrong>0).length}}
+function sidebar(){const info=lawData[selectedLaw];$('lawNav').innerHTML=Object.entries(LEGAL).map(([key,l])=>`<button class="law-link ${key===selectedLaw?'active':''}" data-law="${key}" data-action="select-law"><span class="small-square"></span>${esc(l.name)}${l.blocked?'<span style="margin-left:auto;font-size:10px;color:var(--red)">!</span>':''}</button>`).join('');document.querySelectorAll('.nav-item').forEach(el=>el.classList.toggle('active',el.dataset.view===view));$('crumbTitle').textContent=VIEWS[view];let pill=$('globalSync');pill.innerHTML=`<span class="status-dot" style="background:${info.status==='loaded'?'#4bba84':info.status==='blocked'?'#e6b163':'#91a8d8'}"></span><span>${info.status==='loaded'?'Texto GitHub carregado':info.status==='blocked'?'Fonte bloqueada':'Amostra local disponível'}</span>`}
+function render(){sidebar();const views={dashboard:renderDashboard,reader:renderReader,quiz:renderQuiz,errors:renderErrors,cards:renderCards,analytics:renderAnalytics,extractor:renderExtractor,catalog:renderCatalog};$('mainContent').innerHTML=views[view]();}
+function go(v){if(!VIEWS[v])return;view=v;errorEditor=null;cardReveal=false;currentCardKey=null;document.querySelector('.sidebar').classList.remove('open');render();window.scrollTo({top:0,behavior:'instant'});if(v==='catalog'&&!catEntries.length&&!catBusy)awaitLoadCatalog()}
+function topIntro(eyebrow,title,subtitle){return `<div class="eyebrow">${eyebrow}</div><h1 class="page-title">${title}</h1><p class="page-subtitle">${subtitle}</p>`}
+function statCard(icon,label,value,foot){return `<div class="stat-card card"><div class="stat-top"><span>${label}</span><span class="stat-icon">${icon}</span></div><div class="stat-value">${value}</div><div class="stat-foot">${foot}</div></div>`}
+function renderDashboard(){const s=todayStats();const focus=[['Vínculo de emprego','CLT · arts. 2º a 6º','vinculo'],['Jornada de trabalho','CLT · arts. 58 a 75','jornada'],['Direito Constitucional','CF · princípios fundamentais','fundamentos']];return `${topIntro('HOJE É UM BOM DIA PARA ESTUDAR','Seu estudo, com método.','Transforme os dispositivos legais em compreensão, memorização e questões. Seu desempenho aqui é real, sem estatísticas fictícias.')}
+<div class="extract-home-cta"><div><strong>NOVO · Extrator de legislação</strong><span>Encontre prazos, exceções, deveres e conceitos no texto das leis. Baixe tudo ou transforme em flashcards.</span></div><button class="btn btn-primary" data-view="extractor">Explorar extrações →</button></div><div class="hero" style="margin-top:26px"><div><small>SEU PRÓXIMO PASSO</small><h2>Domine a lei seca. Aprenda com cada erro.</h2><p>Leitura orientada, treino de literalidade e revisões espaçadas — com artigos e fontes rastreáveis.</p><button class="hero-btn" data-action="open-reader" data-topic="jornada">Começar pela CLT &nbsp; →</button></div><div class="hero-art" aria-hidden="true"></div></div>
+<div class="stats-grid">${statCard('◈','QUESTÕES HOJE',s.today,'Meta sugerida: 15 por dia')}${statCard('◉','TAXA DE ACERTO',s.rate+'%','Das '+s.all+' questões feitas')}${statCard('↗','PARA REVISAR',s.due,'Flashcards vencidos ou de hoje')}${statCard('▤','ARTIGOS SALVOS',journal.bookmarks.length,'Seus dispositivos favoritos')}</div>
+<div class="two-col"><section><div class="section-head"><div><h2>Comece por aqui</h2><p>Ferramentas práticas para sua rotina de estudos</p></div></div><div class="quick-grid"><button class="quick-card" data-view="reader"><span class="quick-icon">▤</span><span class="quick-name">Ler lei seca</span><span class="quick-desc">Busca por artigo, marcações e fonte original.</span></button><button class="quick-card" data-view="quiz"><span class="quick-icon">◎</span><span class="quick-name">Resolver questões</span><span class="quick-desc">Questões de literalidade com alternativas elimináveis.</span></button><button class="quick-card" data-view="cards"><span class="quick-icon">▥</span><span class="quick-name">Revisar cartões</span><span class="quick-desc">Recuperação ativa dos dispositivos estudados.</span></button></div>
+<div class="section-head"><div><h2>Como funciona</h2><p>Sequência sugerida de aprendizado</p></div></div><div class="info-banner"><div class="notice"><span class="notice-symbol">i</span><span>Leia o texto legal, responda sem consulta e revise os erros. As questões são <strong>geradas a partir da literalidade</strong>; não são questões oficiais da FCC nem substituem treino com provas anteriores.</span></div></div></section>
+<section><div class="section-head"><div><h2>Trilhas de estudo</h2><p>Assuntos úteis para Direito do Trabalho</p></div></div><div class="card focus-panel">${focus.map((f,i)=>`<div class="focus-row"><div class="focus-index">${String(i+1).padStart(2,'0')}</div><div class="focus-details"><strong>${f[0]}</strong><small>${f[1]}</small></div><button class="focus-link" data-action="open-reader" data-topic="${f[2]}">Ver →</button></div>`).join('')}<div class="divider"></div><div class="source-box">Biblioteca conectada ao seu fork público no GitHub. A cópia inicial pode ter lacunas e não substitui publicação oficial.</div></div></section></div>`}
+function articleTopic(a){if(readerTopic==='vinculo')return /^([2-6])$/.test(a.num);if(readerTopic==='jornada')return /^\d+/.test(a.num)&&Number(a.num.match(/^\d+/)[0])>=58&&Number(a.num.match(/^\d+/)[0])<=75;if(readerTopic==='fundamentos')return selectedLaw==='cf'&&[1,2,3,4].includes(Number(a.num));return true}
+function matchesQuery(a){if(!readerQuery)return true;const v=norm(readerQuery).replace(/^art(?:igo)?\.?\s*/, '');return norm(a.num).includes(v)||norm(a.caput).includes(v)||norm(a.body).includes(v)||norm(a.topic||'').includes(v)}
+function eligibleArticle(a){return !a.suspicious&&!a.suspended&&!/^(revogad|vetad)/i.test(a.caput)}
+function filteredArticles(){let list=lawData[selectedLaw]?.articles||[];return list.filter(a=>articleTopic(a)&&matchesQuery(a)&&(!readerSaved||hasBook(articleKey(selectedLaw,a))))}
+function formattedLawText(txt){return txt.split(/\n{2,}/).filter(Boolean).map(x=>{const line=esc(x.replace(/\*\*/g,'').replace(/^#{1,6}\s*/gm,''));return `<p class="${/^\s*(?:[IVXLC]+\s*[-–]|\S+\s*[-–])/.test(x)?'inciso':''}">${line.replace(/\n/g,'<br>')}</p>`}).join('')}
+function renderReader(){let inf=LEGAL[selectedLaw],data=lawData[selectedLaw],all=filteredArticles(),shown=all.slice(0,readerLimit),full=data.status==='loaded',blocked=inf.blocked;
+let left=blocked?`<div class="card empty"><div class="empty-icon">!</div><h3>Fonte bloqueada por integralidade</h3><p>${esc(inf.reason)}</p><a class="btn btn-primary" target="_blank" rel="noopener noreferrer" href="${inf.official}">Consultar texto no Planalto ↗</a></div>`:
+ all.length===0?`<div class="card empty"><div class="empty-icon">⌕</div><h3>Nenhum dispositivo localizado</h3><p>${full?'Altere a pesquisa ou o filtro.':'A amostra offline é pequena. Carregue o texto completo no GitHub para pesquisar todos os artigos.'}</p><button class="btn btn-primary" data-action="load-law" ${data.status==='loading'?'disabled':''}>Carregar texto integral ↗</button></div>`:
+ shown.map(a=>{const key=articleKey(selectedLaw,a),book=hasBook(key),hascard=!!journal.cards[key];return `<article class="article-card card" data-article="${esc(key)}"><div class="article-card-head"><span class="article-number">${esc(formatNum(a.num))}</span><span class="badge ${a.excerpt?'attention':'online'}">${a.excerpt?'Amostra parcial · caput':'Texto do arquivo'}</span></div><div class="article-text">${formattedLawText(a.body)}</div>${a.suspicious?'<div class="info-banner"><strong>Aviso:</strong> padrão de instrução suspeita detectado. Texto excluído das questões.</div>':''}<div class="article-actions"><button class="btn btn-sm ${book?'btn-soft':''}" data-action="bookmark" data-key="${esc(key)}">${book?'◆ Salvo':'◇ Salvar'}</button><button class="btn btn-sm ${hascard?'btn-soft':''}" data-action="flashcard-add" data-key="${esc(key)}">${hascard?'✓ No baralho':'+ Flashcard'}</button><button class="btn btn-sm" data-action="practice-article" data-key="${esc(key)}">◎ Praticar</button><button class="btn btn-sm" data-action="copy" data-key="${esc(key)}">↗ Copiar</button></div></article>`}).join('')+(all.length>shown.length?`<button class="btn" style="width:100%" data-action="more-articles">Ver mais ${Math.min(25,all.length-shown.length)} artigos ↓</button>`:'');
+return `${topIntro('SUA BIBLIOTECA','Lei seca com contexto','Consulte o texto legislativo, selecione os dispositivos relevantes e crie sua própria fila de revisão.')}
+<div class="toolbar"><select id="readerLaw" class="field" style="min-width:190px">${Object.entries(LEGAL).map(([id,l])=>`<option value="${id}" ${selectedLaw===id?'selected':''}>${esc(l.name)}</option>`).join('')}</select><input id="readerSearch" class="field field-long" type="search" value="${esc(readerQuery)}" placeholder="Pesquisar artigo, termo ou expressão…" aria-label="Pesquisar dispositivos"><button class="btn btn-primary" data-action="load-law" ${blocked||data.status==='loading'?'disabled':''}>${data.status==='loading'?'Carregando…':full?'↻ Atualizar do GitHub':'↓ Carregar lei completa'}</button></div>
+<div class="pill-row" style="margin-bottom:17px"><button class="pill ${readerTopic===''&&!readerSaved?'selected':''}" data-action="filter-reader" data-filter="all">Todos</button><button class="pill ${readerTopic==='vinculo'?'selected':''}" data-action="filter-reader" data-filter="vinculo">Vínculo de emprego</button><button class="pill ${readerTopic==='jornada'?'selected':''}" data-action="filter-reader" data-filter="jornada">Jornada</button><button class="pill ${readerTopic==='fundamentos'?'selected':''}" data-action="filter-reader" data-filter="fundamentos">Princípios fundamentais</button><button class="pill ${readerSaved?'selected':''}" data-action="filter-reader" data-filter="saved">◇ Salvos</button></div>
+<div class="reader-layout"><div class="article-list"><div class="reader-count">${all.length} artigos encontrados • ${data.status==='loaded'?'texto carregado do GitHub':'amostra inicial (caputs)'}</div>${left}</div><aside class="reader-side"><div class="card side-card"><h3>Sobre esta lei</h3><p><strong>${esc(inf.full)}</strong><br>${esc(inf.area)}</p><div class="pill-row" style="margin-bottom:13px"><span class="badge ${full?'online':'attention'}">${full?'Consulta ampliada':'Consulta parcial'}</span><span class="badge">${(data.articles||[]).length} artigos</span></div><div class="source-box">${full?'Texto obtido do seu fork do GitHub.':'Amostra inicial de caputs. Não apresenta parágrafos, incisos nem o documento completo.'}${data.message?'<br>'+esc(data.message):''}</div><div class="divider"></div><a class="source-url" target="_blank" rel="noopener noreferrer" href="${REPO+inf.path}">Ver documento no seu GitHub ↗</a><p style="margin:10px 0 0"><a class="source-url" target="_blank" rel="noopener noreferrer" href="${inf.official}">Conferir versão oficial ↗</a></p></div><div class="card side-card"><h3>Como memorizar</h3><p>Leia o caput e identifique quem tem a obrigação, em que condições e qual consequência jurídica. Em seguida, feche o texto e tente reproduzir a regra.</p><button class="btn btn-soft" data-view="quiz" style="width:100%">Ir para questões →</button></div></aside></div>`;
+}
+function pickPool(law){return lawData[law].articles.filter(a=>eligibleArticle(a)&&a.caput.length>=35&&a.caput.length<=950)}
+function genQuestions(law,count,mode,priority=null){let pool=pickPool(law);if(pool.length<4)return[];let targets=randomize(pool);if(priority){targets.sort((a,b)=>Number(a.num!==priority)-Number(b.num!==priority));}
+ let qs=[];for(let i=0;i<count;i++){let target=targets[i%targets.length];let wrong=randomize(pool.filter(x=>x.num!==target.num)).slice(0,3);if(wrong.length<3)break;let type=mode==='mixed'?(i%2===0?'find':'complete'):mode;let options=randomize([target,...wrong]).map(a=>({key:a.num,text:type==='find'?formatNum(a.num):short(a.caput)}));qs.push({law,article:target.num,mode:type,excerpt:target.excerpt,prompt:type==='find'?`De qual artigo é o trecho: “${short(target.caput)}”?`:`Qual alternativa reproduz literalmente o início do ${formatNum(target.num)}?`,options,correct:target.num,explanation:target.caput,selected:null,eliminated:[]})}return qs;}
+function startQuiz(prior=null){const law=quizSetup.law;if(LEGAL[law]?.blocked){toast('Essa fonte está bloqueada. Escolha outra lei.');return}let q=genQuestions(law,Number(quizSetup.count),quizSetup.mode,prior);if(!q.length){toast('São necessários quatro artigos íntegros e distintos. Carregue outra lei.');return}currentQuiz={questions:q,index:0,started:new Date().toISOString(),completed:false,score:0};go('quiz')}
+function quizStats(){const s=todayStats();return `${statCard('◎','REALIZADAS',s.all,'Histórico deste navegador')}${statCard('✓','CORRETAS',s.hits,'Respostas certas')}${statCard('↗','ACERTO',s.rate+'%','Geral, com todas as sessões')}${statCard('◇','ERROS REGISTRADOS',s.errors,'Artigos para reforçar')}`}
+function quizSelect(idx){if(!currentQuiz||currentQuiz.completed)return;const q=currentQuiz.questions[currentQuiz.index];if(q.selected!==null||q.eliminated.includes(idx))return;q.selected=idx;const option=q.options[idx];const ok=option.key===q.correct;const key=sourceId(q.law,q.article);const entry={key,date:new Date().toISOString(),ok,kind:q.mode};journal.attempts.push(entry);if(journal.attempts.length>10000)journal.attempts=journal.attempts.slice(-10000);if(!ok){const e=journal.errors[key]||{wrong:0,right:0,note:'',lastWrong:null};e.wrong+=1;e.lastWrong=entry.date;journal.errors[key]=e; if(!journal.cards[key])journal.cards[key]={reps:0,due:dateKey(),last:null}}else if(journal.errors[key]){journal.errors[key].right=(journal.errors[key].right||0)+1;}if(ok)currentQuiz.score++;save();render();}
+function quizNext(){if(!currentQuiz)return;const q=currentQuiz.questions[currentQuiz.index];if(q.selected===null){toast('Responda à questão antes de avançar.');return}if(currentQuiz.index===currentQuiz.questions.length-1){currentQuiz.completed=true;journal.quizSessions.push({date:new Date().toISOString(),total:currentQuiz.questions.length,correct:currentQuiz.score,law:q.law});save();}else currentQuiz.index++;render();}
+function renderQuiz(){const intro=topIntro('TREINO ATIVO','Questões de literalidade','Pratique sem consulta e confira a correspondência exata com o dispositivo de origem. Não são questões oficiais da FCC.');
+if(!currentQuiz)return `<div class="quiz-shell">${intro}<div class="card quiz-setup" style="margin-top:27px"><div class="section-head" style="margin-top:0"><h2>Preparar sessão</h2><span class="badge">Questões geradas do texto</span></div><div class="setup-grid"><div class="setup-field"><label for="quizLaw">Legislação</label><select id="quizLaw" class="field">${Object.entries(LEGAL).filter(([k,v])=>!v.blocked).map(([k,v])=>`<option value="${k}" ${quizSetup.law===k?'selected':''}>${esc(v.name)}</option>`).join('')}</select><small class="setup-help">Artigos disponíveis: ${pickPool(quizSetup.law).length}</small></div><div class="setup-field"><label for="quizCount">Quantidade de questões</label><select id="quizCount" class="field">${[5,10,15,20].map(v=>`<option value="${v}" ${quizSetup.count===v?'selected':''}>${v} questões</option>`).join('')}</select><small class="setup-help">Uma questão por vez, com gabarito.</small></div><div class="setup-field" style="grid-column:1/-1"><label>Tipo de questão</label><div class="question-type">${[['mixed','Misto'],['find','Identificar o artigo'],['complete','Identificar o texto correto']].map(([v,l])=>`<button class="type-toggle ${quizSetup.mode===v?'selected':''}" data-action="quiz-mode" data-mode="${v}">${l}</button>`).join('')}</div></div></div><div class="divider"></div><div class="info-banner">As alternativas incorretas são trechos reais de <strong>outros artigos</strong> da mesma lei. A finalidade é fixar a literalidade e reconhecer o dispositivo correto.</div><div class="toolbar" style="margin-bottom:0"><button class="btn btn-primary" data-action="start-quiz">Iniciar treinamento →</button><button class="btn" data-action="load-quiz-law">Carregar texto completo</button></div></div></div>`;
+if(currentQuiz.completed){let total=currentQuiz.questions.length,score=currentQuiz.score;return `<div class="quiz-shell">${intro}<div class="card empty" style="margin-top:25px"><div class="empty-icon">✓</div><div class="eyebrow">SESSÃO CONCLUÍDA</div><h2 class="result-score">${Math.round(score/total*100)}%</h2><h3>${score} acertos de ${total} questões</h3><p>Os erros foram registrados no caderno e incluídos para revisão. Continue treinando os dispositivos com menor domínio.</p><div class="toolbar" style="justify-content:center"><button class="btn btn-primary" data-action="new-quiz">Nova sessão</button><button class="btn" data-view="errors">Ver caderno de erros</button></div></div></div>`}
+const q=currentQuiz.questions[currentQuiz.index],hasAns=q.selected!==null,selected=q.options[q.selected],correct=selected?.key===q.correct,done=currentQuiz.index,progress=Math.round(100*(done+(hasAns?1:0))/currentQuiz.questions.length);
+return `<div class="quiz-shell">${intro}<div class="quiz-header"><div><strong>Questão ${done+1} de ${currentQuiz.questions.length}</strong><div class="muted small">${esc(LEGAL[q.law].name)} · ${q.mode==='find'?'identificação do artigo':'correspondência literal'}</div></div><button class="btn btn-sm" data-action="end-quiz">Encerrar</button></div><div class="progress-track"><div class="progress-fill" style="width:${progress}%"></div></div><div class="quiz-panel card" style="margin-top:18px"><div class="quiz-number">SELECIONE A ALTERNATIVA CORRETA</div><div class="quiz-prompt">${esc(q.prompt)}</div><div class="quiz-options">${q.options.map((op,i)=>{let eliminated=q.eliminated.includes(i),sel=q.selected===i,right=hasAns&&op.key===q.correct;return `<div class="option-row ${eliminated?'eliminated':''} ${right?'correct':''} ${hasAns&&sel&&!right?'wrong':''} ${!hasAns&&sel?'chosen':''}"><button class="option-select" data-action="choose-answer" data-index="${i}" ${hasAns||eliminated?'disabled':''}><span class="option-letter">${'ABCD'[i]}</span><span>${esc(op.text)}</span></button><button class="option-eliminate" title="Eliminar alternativa" aria-label="Eliminar alternativa ${'ABCD'[i]}" data-action="eliminate" data-index="${i}" ${hasAns?'disabled':''}>${eliminated?'↶':'×'}</button></div>`}).join('')}</div>${hasAns?`<div class="quiz-explain"><strong>${correct?'✓ Resposta correta':'✕ Resposta incorreta'} · ${esc(formatNum(q.article))}</strong>Redação inicial do dispositivo: “${esc(q.explanation)}”<div class="ref">${esc(LEGAL[q.law].name)} · ${q.excerpt?'Amostra parcial do caput':'Texto carregado do fork'} · <a href="${LEGAL[q.law].official}" rel="noopener noreferrer" target="_blank">Conferir fonte oficial ↗</a></div></div>`:''}<div class="quiz-footer"><span class="muted small">${hasAns?'Resposta registrada automaticamente':'Você pode eliminar alternativas antes de responder.'}</span><button class="btn btn-primary" data-action="next-question" ${!hasAns?'disabled':''}>${done+1===currentQuiz.questions.length?'Concluir':'Próxima questão'} →</button></div></div></div>`;
+}
+function renderErrors(){const keys=Object.keys(journal.errors).filter(k=>journal.errors[k]?.wrong>0).sort((a,b)=>String(journal.errors[b]?.lastWrong||'').localeCompare(String(journal.errors[a]?.lastWrong||'')));let s=todayStats();
+let intro=topIntro('REVISÃO GUIADA','Caderno de erros','Cada erro é associado ao artigo da legislação. Adicione uma observação e refaça o assunto após a leitura.');if(errorEditor){let e=journal.errors[errorEditor]||{wrong:0,note:''};return `<div class="quiz-shell">${intro}<div class="card quiz-setup" style="margin-top:25px"><div class="eyebrow">ANOTAÇÕES DO ARTIGO</div><h2>${esc(nameOfKey(errorEditor))}</h2><p class="muted" style="font-size:11px">${e.wrong||0} erro(s) registrado(s)</p><label class="setup-field" for="errorNote" style="margin-top:18px">O que causou meu erro?<textarea id="errorNote" class="field note-input" maxlength="10000" placeholder="Descreva a pegadinha, a regra aplicável e o que revisar…">${esc(e.note||'')}</textarea></label><div class="toolbar"><button class="btn btn-primary" data-action="save-error-note" data-key="${esc(errorEditor)}">Salvar anotação</button><button class="btn" data-action="close-error">Voltar</button></div></div></div>`}
+return `${intro}<div class="stats-grid">${statCard('▣','ARTIGOS COM ERROS',s.errors,'Dispositivos identificados')}${statCard('◎','QUESTÕES RESOLVIDAS',s.all,'Desde o começo')}${statCard('✓','ACERTOS TOTAIS',s.hits,'Do seu histórico')}${statCard('↗','REVISÕES PENDENTES',s.due,'Flashcards a vencer')}</div><div class="section-head"><div><h2>Erros por dispositivo</h2><p>Toque para editar uma anotação ou revisar o artigo</p></div></div><div class="card">${keys.length?keys.map(key=>{let e=journal.errors[key];return `<div class="error-row"><div class="focus-index">!</div><div class="error-item"><strong>${esc(nameOfKey(key))}</strong><small>${e.wrong} erro(s) · ${e.right||0} acerto(s) posterior(es) ${e.note?'· anotação salva':''}</small><small>${esc((e.note||'').slice(0,110))}</small></div><div class="error-actions"><button class="btn btn-sm" data-action="edit-error" data-key="${esc(key)}">Anotar</button><button class="btn btn-sm" data-action="read-key" data-key="${esc(key)}">Ler</button><button class="btn btn-sm btn-soft" data-action="review-key" data-key="${esc(key)}">Revisar</button></div></div>`}).join(''):`<div class="empty"><div class="empty-icon">▣</div><h3>Nenhum erro registrado</h3><p>Quando errar uma questão do aplicativo, o dispositivo aparecerá aqui automaticamente.</p><button class="btn btn-primary" data-view="quiz">Começar a resolver questões</button></div>`}</div>`;
+}
+function dueCardKeys(){return Object.keys(journal.cards).filter(k=>journal.cards[k]?.due<=dateKey()&&getArticle(k));}
+function gradeCard(key,grade){let c=journal.cards[key];if(!c)return;const stage=grade==='again'?0:grade==='hard'?Math.max(0,Number(c.reps||0)-1):grade==='good'?Number(c.reps||0)+1:Number(c.reps||0)+2;const intervals=[0,1,3,7,14,30,60,120];c.reps=Math.min(stage,intervals.length-1);c.due=addDays(intervals[c.reps]);c.last=new Date().toISOString();save();cardReveal=false;currentCardKey=null;render();}
+function renderCards(){let due=dueCardKeys(),s=todayStats();if(currentCardKey&&!due.includes(currentCardKey))currentCardKey=null;if(!currentCardKey)currentCardKey=due[0]||null;
+const article=currentCardKey?getArticle(currentCardKey):null;return `${topIntro('MEMORIZAÇÃO ATIVA','Flashcards e revisões','Revele a resposta de memória e escolha quando precisa rever cada dispositivo. Intervalos simples: hoje, 1, 3, 7, 14 dias e mais.')}
+<div class="stats-grid">${statCard('▥','NO BARALHO',Object.keys(journal.cards).length,'Artigos incluídos')}${statCard('◷','VENCIDOS OU HOJE',due.length,'Disponíveis para revisar')}${statCard('◇','SALVOS',journal.bookmarks.length,'Artigos favoritos')}${statCard('◎','QUESTÕES FEITAS',s.all,'Questões respondidas')}</div>
+${article?`<div class="flash-card card"><div class="eyebrow">${esc(LEGAL[currentCardKey.split(':')[0]].name)} · ${esc(formatNum(article.num))}</div><div class="flash-question">O que dispõe o ${esc(formatNum(article.num))}?</div>${cardReveal?`<div class="flash-answer">${esc(article.caput)}</div><div class="flash-controls"><button class="btn btn-danger" data-action="grade" data-grade="again" data-key="${esc(currentCardKey)}">Esqueci · hoje</button><button class="btn" data-action="grade" data-grade="hard" data-key="${esc(currentCardKey)}">Difícil</button><button class="btn btn-soft" data-action="grade" data-grade="good" data-key="${esc(currentCardKey)}">Bom</button><button class="btn btn-primary" data-action="grade" data-grade="easy" data-key="${esc(currentCardKey)}">Fácil</button></div>`:`<p class="muted" style="font-size:11px">Responda sem olhar o texto.</p><div class="flash-controls"><button class="btn btn-primary" data-action="reveal-card">Revelar resposta</button></div>`}</div>`:`<div class="card empty" style="margin-top:25px"><div class="empty-icon">✓</div><h3>Nenhuma revisão pendente</h3><p>Salve artigos e toque em "+ Flashcard" no leitor de lei seca. Os cartões entrarão na sua fila de revisão.</p><button class="btn btn-primary" data-view="reader">Abrir leitor</button></div>`}
+<div class="section-head"><div><h2>Seu baralho</h2><p>Próximas datas de revisão</p></div></div><div class="card">${Object.entries(journal.cards).length?Object.entries(journal.cards).slice(0,60).map(([k,v])=>`<div class="error-row"><div class="focus-index">▥</div><div class="error-item"><strong>${esc(nameOfKey(k))}</strong><small>Próxima revisão: ${esc(v.due||'hoje')} · etapa ${v.reps||0}</small></div><button class="btn btn-sm" data-action="read-key" data-key="${esc(k)}">Abrir artigo</button><button class="btn btn-sm btn-danger" data-action="remove-card" data-key="${esc(k)}" title="Remover do baralho">×</button></div>`).join(''):`<div class="empty"><p>Você ainda não adicionou cartões.</p></div>`}</div>`;
+}
+function renderAnalytics(){const st=todayStats(),series=Array.from({length:7},(_,i)=>{let date=daysAgo(6-i);let ats=journal.attempts.filter(x=>x.date?.slice(0,10)===date);return {date,attempted:ats.length,correct:ats.filter(x=>x.ok).length}});const max=Math.max(1,...series.map(x=>x.attempted));let byLaw=Object.entries(LEGAL).map(([id,info])=>({id,info,attempts:journal.attempts.filter(x=>x.key?.startsWith(id+':'))})).filter(x=>x.attempts.length);
+return `${topIntro('SEU PROGRESSO','Desempenho real','Veja seu volume de prática, taxa de acertos e evolução por matéria. Todos os indicadores vêm das suas respostas neste navegador.')}
+<div class="stats-grid">${quizStats()}</div><div class="two-col" style="margin-top:27px"><section class="card" style="padding:23px"><div class="section-head" style="margin-top:0"><div><h2>Atividade dos últimos 7 dias</h2><p>Quantidade de questões respondidas por dia</p></div></div><div class="chart-bars">${series.map((r,i)=>`<div class="chart-col"><div class="chart-bar ${i===6?'accent':''}" style="height:${Math.max(3,Math.round(r.attempted/max*140))}px" title="${r.attempted} questões · ${r.correct} acertos"></div><div class="chart-label">${r.date.slice(5).replace('-','/')}</div></div>`).join('')}</div></section><section class="card" style="padding:23px"><div class="section-head" style="margin-top:0"><div><h2>Por legislação</h2><p>Acertos por acervo utilizado</p></div></div>${byLaw.length?byLaw.map(x=>{let rate=Math.round(100*x.attempts.filter(v=>v.ok).length/x.attempts.length);return `<div style="margin:15px 0"><div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:7px"><strong>${esc(x.info.name)}</strong><span class="muted">${rate}% · ${x.attempts.length} questões</span></div><div class="progress-track"><div class="progress-fill" style="width:${rate}%"></div></div></div>`}).join(''):`<div class="empty"><p>Resolva suas primeiras questões para ver comparações por legislação.</p></div>`}</section></div>
+<div class="section-head"><div><h2>Privacidade e seus dados</h2><p>Conta local protegida por senha; sem sincronização com servidor</p></div></div><div class="info-banner">O aplicativo salva suas anotações criptografadas localmente neste navegador, após configurar a senha. O backup exportado em JSON <strong>não é criptografado</strong>. Use <strong>Exportar dados</strong> periodicamente para criar cópias de segurança. Também é possível importá-los em outro dispositivo. O carregamento dos textos das leis utiliza o GitHub público.</div><div class="toolbar"><button class="btn btn-primary" data-action="export-data">Exportar meu histórico (JSON)</button><button class="btn" data-action="import-data">Importar histórico</button><button class="btn" data-action="anki-export">Exportar flashcards (CSV Anki)</button><button class="btn btn-danger" data-action="reset-data">Apagar dados locais</button></div>`;
+}
+function startArticleQuiz(key){const law=key.split(':')[0],num=key.split(':')[1];quizSetup.law=law;let pool=pickPool(law);if(pool.length<4){toast('Abra a lei completa para ter mais alternativas disponíveis.');return;}let q=genQuestions(law,Math.min(10,pool.length),'mixed',num);if(q.length){const target=pool.find(a=>a.num===num);if(target){q[0].article=num;q[0].prompt=`De qual artigo é o trecho: “${short(target.caput)}”?`;q[0].mode='find';q[0].options=randomize([target,...randomize(pool.filter(a=>a.num!==num)).slice(0,3)]).map(a=>({key:a.num,text:formatNum(a.num)}));q[0].correct=num;q[0].explanation=target.caput;q[0].excerpt=target.excerpt;}}currentQuiz={questions:q,index:0,started:new Date().toISOString(),completed:false,score:0};go('quiz')}
+function articleOpen(key){const index=key.indexOf(':');if(index<0)return;selectedLaw=key.slice(0,index);readerQuery=key.slice(index+1);readerTopic='';readerSaved=false;readerLimit=25;markRead(key);go('reader')}
+function backup(){const blob=new Blob([JSON.stringify({app:'lexlab',schema:1,exportedAt:new Date().toISOString(),journal},null,2)],{type:'application/json'});downloadBlob(blob,'lexlab-estudos-'+dateKey()+'.json');toast('Cópia de segurança exportada.')}
+function downloadBlob(blob,filename){let u=URL.createObjectURL(blob),a=document.createElement('a');a.href=u;a.download=filename;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),1000)}
+function ankiExport(){const rows=[['Frente','Verso','Fonte']];for(const key of Object.keys(journal.cards)){let a=getArticle(key);if(!a)continue;const inf=LEGAL[key.split(':')[0]];rows.push([`O que dispõe o ${formatNum(a.num)} da ${inf.name}?`,a.caput,inf.official])}if(rows.length===1){toast('Adicione ao menos um flashcard para exportar.');return}const csv=rows.map(r=>r.map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(';')).join('\r\n');downloadBlob(new Blob(['\ufeff'+csv],{type:'text/csv;charset=utf-8'}),'lexlab-anki-'+dateKey()+'.csv')}
+function validateJournal(j){if(!j||typeof j!=='object'||Array.isArray(j))throw Error('Formato do histórico inválido');if(!Array.isArray(j.attempts)||!Array.isArray(j.bookmarks)||!j.cards||!j.errors)throw Error('Histórico incompleto');if(j.attempts.length>100000||j.bookmarks.length>20000||Object.keys(j.cards).length>20000)throw Error('Arquivo maior que o permitido');return {...initialJournal(),...j,attempts:j.attempts.filter(e=>e&&typeof e.key==='string'&&typeof e.ok==='boolean').slice(-10000),bookmarks:j.bookmarks.filter(k=>typeof k==='string').slice(0,20000),cards:j.cards,errors:j.errors}}
+$('importInput').addEventListener('change',async e=>{const f=e.target.files?.[0];e.target.value='';if(!f)return;if(f.size>10_000_000){toast('Arquivo grande demais.');return}try{let json=safeJson(await f.text());if(json.app!=='lexlab'||json.schema!==1)throw Error('Formato não reconhecido');if(!confirm('Substituir todo o histórico de estudos atual pelo arquivo selecionado?'))return;journal=validateJournal(json.journal);save();render();toast('Histórico importado.')}catch(err){toast('Importação não concluída: '+err.message)}});
+const debounce=(fn,ms=250)=>{let timer;return (...args)=>{clearTimeout(timer);timer=setTimeout(()=>fn(...args),ms)}};
+const searchChanged=debounce(value=>{readerQuery=value;readerLimit=25;const cursor=$('readerSearch');let pos=cursor?.selectionStart;render();let r=$('readerSearch');if(r){r.focus();try{r.setSelectionRange(pos,pos)}catch{}}},220);
+document.addEventListener('input',e=>{if(e.target?.id==='readerSearch')searchChanged(e.target.value);else if(e.target?.id==='extractSearch')exSearchChanged(e.target.value);else if(e.target?.id==='catalogSearch')catalogSearchChanged(e.target.value)});
+document.addEventListener('change',e=>{const el=e.target;if(el.id==='extractLaw'){exLaw=el.value;exSelected.clear();exLimit=80;render();return;}else if(el.id==='extractKind'){exKind=el.value;exSelected.clear();exLimit=80;render();return;}else if(el.id==='catalogRoot'){catPath=el.value;catQuery='';awaitLoadCatalog();return;}else if(el.id==='readerLaw'){selectedLaw=el.value;readerQuery='';readerTopic='';readerLimit=25;render()}else if(el.id==='quizLaw'){quizSetup.law=el.value;render()}else if(el.id==='quizCount'){quizSetup.count=Number(el.value);render()}});
+document.addEventListener('click',async event=>{
+ const tgt=event.target.closest('button');if(!tgt)return;
+ const d=tgt.dataset;if(d.view){go(d.view);return}if(d.action==='select-law'){selectedLaw=d.law;readerQuery='';readerTopic='';readerSaved=false;readerLimit=25;go('reader');return}
+ switch(d.action){
+ case 'open-reader':selectedLaw=d.topic==='fundamentos'?'cf':'clt';readerTopic=d.topic||'';readerSaved=false;readerQuery='';readerLimit=25;go('reader');break;
+ case 'load-law':await loadLaw(selectedLaw,{force:lawData[selectedLaw].status==='loaded'});break;
+ case 'load-quiz-law':await loadLaw(quizSetup.law,{force:lawData[quizSetup.law].status==='loaded'});break;
+ case 'filter-reader':if(d.filter==='saved'){readerSaved=!readerSaved;readerTopic=''}else{readerTopic=d.filter==='all'?'':d.filter;readerSaved=false;if(readerTopic==='fundamentos')selectedLaw='cf';else if(readerTopic==='vinculo'||readerTopic==='jornada')selectedLaw='clt';}readerLimit=25;render();break;
+ case 'more-articles':readerLimit+=25;render();break;
+ case 'bookmark':toggleBookmark(d.key);break;
+ case 'flashcard-add':scheduleCard(d.key);break;
+ case 'practice-article':startArticleQuiz(d.key);break;
+ case 'copy':{const article=getArticle(d.key);if(article){let txt=`${nameOfKey(d.key)}\n${article.body}\nFonte: ${LEGAL[selectedLaw].official}\n(Acervo não oficial; verificar fonte)`;try{await navigator.clipboard.writeText(txt);toast('Dispositivo copiado.')}catch{toast('Não foi possível copiar neste navegador.')}}break}
+ case 'quiz-mode':quizSetup.mode=d.mode;render();break;
+ case 'start-quiz':startQuiz();break;
+ case 'new-quiz':currentQuiz=null;render();break;
+ case 'end-quiz':currentQuiz=null;render();break;
+ case 'choose-answer':quizSelect(Number(d.index));break;
+ case 'eliminate':if(!currentQuiz)return;{const q=currentQuiz.questions[currentQuiz.index];if(q.selected!==null)return;const ix=Number(d.index);if(q.eliminated.includes(ix))q.eliminated=q.eliminated.filter(x=>x!==ix);else if(q.eliminated.length<3)q.eliminated.push(ix);render()}break;
+ case 'next-question':quizNext();break;
+ case 'edit-error':errorEditor=d.key;render();break;
+ case 'close-error':errorEditor=null;render();break;
+ case 'save-error-note':if(journal.errors[d.key]){journal.errors[d.key].note=$('errorNote')?.value.slice(0,10000)||'';save();errorEditor=null;render();toast('Anotação salva.')}break;
+ case 'read-key':articleOpen(d.key);break;
+ case 'review-key':startArticleQuiz(d.key);break;
+ case 'reveal-card':cardReveal=true;render();break;
+ case 'grade':gradeCard(d.key,d.grade);break;
+ case 'remove-card':if(confirm('Remover este cartão da fila de revisão?')){delete journal.cards[d.key];save();currentCardKey=null;render();}break;
+ case 'export-data':backup();break;
+ case 'ex-action':await handleExtractionAction(d,tgt);break;
+ case 'catalog-action':await handleCatalogAction(d,tgt);break;
+ case 'anki-export':ankiExport();break;
+ case 'import-data':$('importInput').click();break;
+ case 'reset-data':if(confirm('Tem certeza? Isso remove permanentemente notas, erros, cartões e estatísticas salvos neste navegador.')){journal=initialJournal();save();render();toast('Dados locais apagados.')}break;
+ }
+});
+$('menuBtn').addEventListener('click',()=>$('sidebar').classList.toggle('open'));
+$('backupBtn').addEventListener('click',backup);
+$('themeBtn').addEventListener('click',()=>{let dark=document.documentElement.dataset.theme==='dark';document.documentElement.dataset.theme=dark?'light':'dark';try{localStorage.setItem('lexlab-theme',dark?'light':'dark')}catch{}});
+try{if(localStorage.getItem('lexlab-theme')==='dark')document.documentElement.dataset.theme='dark'}catch{}
+// Identidade LOCAL (não é uma conta remota): dados de estudo cifrados com Web Crypto.
+const ACCOUNT_STORAGE_KEY='lexlab-local-account-v1';
+const ACCOUNT_SCHEMA=1;
+const PBKDF2_ROUNDS=260000;
+let sessionKey=null;
+let sessionUsername='';
+let loginEpoch=0;
+let saveQueue=Promise.resolve();
+
+function bytesB64(u8){
+ let str='';
+ for(let i=0;i<u8.length;i+=8192)str+=String.fromCharCode(...u8.subarray(i,i+8192));
+ return btoa(str);
+}
+function fromB64(s){return Uint8Array.from(atob(s),c=>c.charCodeAt(0))}
+function loadLocalAccount(){
+ const raw=localStorage.getItem(ACCOUNT_STORAGE_KEY);
+ if(!raw)return null;
+ const obj=JSON.parse(raw);
+ if(obj?.schema!==ACCOUNT_SCHEMA || !/^[a-z0-9_.-]{3,40}$/i.test(obj.username)||
+    !obj.salt||!obj.iv||!obj.cipher||!Number.isInteger(obj.iterations)||
+    obj.iterations<200000||obj.iterations>1500000)throw Error('Cadastro local inválido. Preserve os dados do navegador e use um backup para recuperar.');
+ return obj;
+}
+async function deriveLocalKey(password,salt,rounds){
+ const material=await crypto.subtle.importKey('raw',new TextEncoder().encode(password),{name:'PBKDF2'},false,['deriveKey']);
+ return crypto.subtle.deriveKey({name:'PBKDF2',hash:'SHA-256',salt,iterations:rounds},material,{name:'AES-GCM',length:256},false,['encrypt','decrypt']);
+}
+async function sealJournal(key,data,username){
+ const iv=crypto.getRandomValues(new Uint8Array(12));
+ const aad=new TextEncoder().encode('LexLab|'+username+'|1');
+ const cipher=await crypto.subtle.encrypt({name:'AES-GCM',iv,additionalData:aad},key,new TextEncoder().encode(JSON.stringify(data)));
+ return {iv:bytesB64(iv),cipher:bytesB64(new Uint8Array(cipher))};
+}
+async function unsealJournal(key,account){
+ const aad=new TextEncoder().encode('LexLab|'+account.username+'|1');
+ const raw=await crypto.subtle.decrypt({name:'AES-GCM',iv:fromB64(account.iv),additionalData:aad},key,fromB64(account.cipher));
+ return validateJournal(JSON.parse(new TextDecoder('utf-8',{fatal:true}).decode(raw)));
+}
+function encryptAndSave(){
+ if(!sessionKey)return Promise.resolve();
+ const currentKey=sessionKey,currentUser=sessionUsername,epoch=loginEpoch;
+ const snapshot=structuredClone(journal);
+ const task=saveQueue.catch(()=>{}).then(async()=>{
+  const sealed=await sealJournal(currentKey,snapshot,currentUser);
+  if(epoch!==loginEpoch||sessionKey!==currentKey)return;
+  const account=loadLocalAccount();
+  if(!account||account.username!==currentUser)throw Error('A conta local mudou.');
+  localStorage.setItem(ACCOUNT_STORAGE_KEY,JSON.stringify({...account,...sealed}));
+ });
+ saveQueue=task.catch(err=>{
+   if(epoch===loginEpoch){console.warn('Não foi possível persistir o histórico cifrado:',err);toast('Não foi possível salvar. Exporte seu histórico e confira o armazenamento do navegador.');}
+ });
+ return saveQueue;
+}
+function authMessage(value){$('authFeedback').textContent=value||''}
+function renderLoginScreen(){
+ let registered=false,broken=false;
+ try{registered=!!loadLocalAccount();}catch(err){registered=true;broken=true;authMessage(err.message)}
+ $('appShell').hidden=true;$('authScreen').hidden=false;
+ $('authTitle').textContent=registered?'Bem-vindo de volta':'Criar seu acesso';
+ $('authDescription').textContent=registered?'Entre para retomar suas questões, anotações e revisões.':'Defina uma senha para proteger suas anotações, questões e revisões neste navegador.';
+ $('authConfirmWrap').hidden=registered;
+ $('authRecovery').hidden=!registered;
+ $('authInstructions').textContent=registered?'Já existe um acesso local neste navegador. Digite a senha criada anteriormente. Não é a senha do GitHub.':'Primeiro acesso: mantenha o usuário sugerido, crie uma senha com pelo menos 10 caracteres e repita na confirmação.';
+ $('authConfirm').required=!registered;
+ $('authPassword').autocomplete=registered?'current-password':'new-password';
+ $('authPassword').placeholder=registered?'Digite sua senha':'Pelo menos 10 caracteres';
+ $('authSubmit').innerHTML=registered?'Entrar no LexLab <span aria-hidden="true">→</span>':'Criar meu acesso <span aria-hidden="true">→</span>';
+ const account=registered&&!broken?loadLocalAccount():null;
+ $('authUsername').readOnly=registered;
+ if(account)$('authUsername').value=account.username;
+ $('authPassword').value='';$('authConfirm').value='';
+ if(!broken)authMessage('');
+ $('authSubmit').disabled=broken;
+ setTimeout(()=>(registered?$('authPassword'):$('authUsername')).focus(),0);
+}
+function startAuthenticatedSession(key,username,data){
+ sessionKey=key;sessionUsername=username;loginEpoch++;
+ journal=data;
+ restoreCustomSources();
+ currentQuiz=null;cardReveal=false;errorEditor=null;view='dashboard';
+ $('accountName').textContent=username;
+ $('authScreen').hidden=true;$('appShell').hidden=false;
+ $('authPassword').value='';$('authConfirm').value='';authMessage('');
+ render();
+}
+async function handleLocalAuthentication(ev){
+ ev.preventDefault();
+ if(!(globalThis.crypto&&globalThis.crypto.subtle)){authMessage('Criptografia não disponível ao abrir este arquivo diretamente. Utilize o inicializador local do pacote ZIP ou hospede o site em HTTPS.');return}
+ const username=$('authUsername').value.trim().toLowerCase();
+ const password=$('authPassword').value;
+ if(!/^[a-z0-9_.-]{3,40}$/i.test(username)){authMessage('Use de 3 a 40 caracteres: letras, números, ponto, hífen ou _ .');return}
+ $('authSubmit').disabled=true;authMessage('');
+ try{
+   const account=loadLocalAccount();
+   if(account){
+     if(username!==account.username)throw Error('Usuário ou senha incorretos.');
+     const key=await deriveLocalKey(password,fromB64(account.salt),account.iterations);
+     let data;
+     try{data=await unsealJournal(key,account)}catch{throw Error('Usuário ou senha incorretos, ou dados locais danificados.');}
+     startAuthenticatedSession(key,username,data);
+   }else{
+     if(password.length<10||password.length>128)throw Error('A senha precisa conter de 10 a 128 caracteres.');
+     if(password!==$('authConfirm').value)throw Error('As senhas não coincidem.');
+     const salt=crypto.getRandomValues(new Uint8Array(16));
+     const key=await deriveLocalKey(password,salt,PBKDF2_ROUNDS);
+     // Migração sem apagar o histórico antigo até a escrita cifrada terminar.
+     const legacy=localStorage.getItem(STORAGE_KEY);
+     let existing=initialJournal();
+     if(legacy!==null){
+       try{existing=validateJournal(JSON.parse(legacy));}
+       catch{throw Error('O histórico da versão anterior parece danificado. Ele não foi apagado; recupere um backup antes de criar o acesso.');}
+     }
+     const sealed=await sealJournal(key,existing,username);
+     localStorage.setItem(ACCOUNT_STORAGE_KEY,JSON.stringify({schema:ACCOUNT_SCHEMA,username,iterations:PBKDF2_ROUNDS,salt:bytesB64(salt),...sealed,createdAt:new Date().toISOString()}));
+     if(legacy!==null)localStorage.removeItem(STORAGE_KEY);
+     startAuthenticatedSession(key,username,existing);
+     toast(legacy?'Conta criada: histórico anterior migrado com segurança.':'Conta local criada. Histórico protegido neste navegador.');
+   }
+ }catch(err){authMessage(err.message||'Não foi possível concluir o acesso.');}
+ finally{$('authSubmit').disabled=false}
+}
+async function lockLexLab(){
+ $('appShell').hidden=true;
+ await saveQueue;
+ loginEpoch++;sessionKey=null;sessionUsername='';journal=initialJournal();
+ renderLoginScreen();
+}
+async function changeLexLabPassword(ev){
+ ev.preventDefault();
+ const current=$('oldPass').value,next=$('newPass').value,confirmNew=$('newPassConfirm').value;
+ const feedback=$('changeFeedback');feedback.textContent='';
+ if(next.length<10||next.length>128){feedback.textContent='Use uma nova senha entre 10 e 128 caracteres.';return}
+ if(next!==confirmNew){feedback.textContent='A confirmação da nova senha está diferente.';return}
+ $('changeSubmit').disabled=true;
+ try{
+   await saveQueue;
+   const account=loadLocalAccount();
+   const oldKey=await deriveLocalKey(current,fromB64(account.salt),account.iterations);
+   try{await unsealJournal(oldKey,account)}catch{throw Error('Senha atual incorreta.');}
+   const salt=crypto.getRandomValues(new Uint8Array(16));
+   const newKey=await deriveLocalKey(next,salt,PBKDF2_ROUNDS);
+   const sealed=await sealJournal(newKey,journal,account.username);
+   localStorage.setItem(ACCOUNT_STORAGE_KEY,JSON.stringify({...account,...sealed,salt:bytesB64(salt),iterations:PBKDF2_ROUNDS}));
+   loginEpoch++;sessionKey=newKey;saveQueue=Promise.resolve();
+   $('changePasswordForm').reset();$('accountDialog').close();toast('Senha alterada. Seus dados continuam preservados.');
+ }catch(err){feedback.textContent=err.message||'Não foi possível alterar a senha.';}
+ finally{$('changeSubmit').disabled=false}
+}
+function downloadEncryptedLocalAccount(account){
+ const backup={type:'lexlab-encrypted-local-account-backup',version:1,exportedAt:new Date().toISOString(),account};
+ const blob=new Blob([JSON.stringify(backup,null,2)],{type:'application/json'});
+ const url=URL.createObjectURL(blob);
+ const link=document.createElement('a');
+ link.href=url;link.download='lexlab-conta-criptografada-backup.json';
+ document.body.appendChild(link);link.click();link.remove();
+ setTimeout(()=>URL.revokeObjectURL(url),2000);
+}
+function recoverLocalAccess(){
+ const account=loadLocalAccount();
+ if(!account){renderLoginScreen();return}
+ const message='Ao recriar o login, você NÃO recuperará as anotações e os exercícios antigos sem a senha anterior. Uma cópia CRIPTOGRAFADA será preservada neste navegador e será oferecida para download. Deseja realmente criar um novo acesso?';
+ if(!confirm(message))return;
+ try{
+  // Guarda a conta cifrada antes de remover o registro ativo; não armazena senhas.
+  const backupKey='lexlab-account-archive-'+Date.now();
+  localStorage.setItem(backupKey,JSON.stringify(account));
+  try{downloadEncryptedLocalAccount(account)}catch(err){console.warn('Exportação não disponível:',err)}
+  localStorage.removeItem(ACCOUNT_STORAGE_KEY);
+  sessionKey=null;sessionUsername='';loginEpoch++;
+  renderLoginScreen();
+  authMessage('Acesso reiniciado. Agora crie uma nova senha. O backup antigo foi mantido criptografado.');
+ }catch(err){authMessage('Não foi possível preservar o backup, portanto o acesso não foi removido: '+err.message)}
+}
+function initializeLocalLogin(){
+ // Não há nome de usuário ou senha embutidos que concedam acesso automático.
+ $('authForm').addEventListener('submit',handleLocalAuthentication);
+ $('authRecoveryBtn').addEventListener('click',recoverLocalAccess);
+ $('authReveal').addEventListener('click',()=>{
+  const input=$('authPassword');const show=input.type==='password';
+  input.type=show?'text':'password';$('authReveal').textContent=show?'Ocultar':'Mostrar';
+ });
+ $('logoutBtn').addEventListener('click',lockLexLab);
+ $('accountBtn').addEventListener('click',()=>{
+  $('accountSummary').textContent=`Usuário: ${sessionUsername}. Dados de estudo cifrados apenas neste navegador. Sem recuperação de senha por e-mail.`;
+  $('changeFeedback').textContent='';$('changePasswordForm').reset();$('accountDialog').showModal();
+ });
+ $('accountCancel').addEventListener('click',()=>$('accountDialog').close());
+ $('changePasswordForm').addEventListener('submit',changeLexLabPassword);
+ const isCryptoAvailable=!!(globalThis.crypto&&crypto.subtle&&crypto.getRandomValues);
+ let availableStorage=false;
+ try{localStorage.setItem('lexlab-storage-test','ok');localStorage.removeItem('lexlab-storage-test');availableStorage=true;}catch{}
+ renderLoginScreen();
+ if(!availableStorage){authMessage('Este navegador bloqueou o armazenamento local. Permita dados do site antes de criar seu acesso.');$('authSubmit').disabled=true;}
+ else if(!isCryptoAvailable){authMessage('Criptografia indisponível ao abrir o arquivo. Extraia o ZIP e use INICIAR-LEXLAB-WINDOWS.bat com Python 3 instalado, ou hospede em HTTPS.');$('authSubmit').disabled=true;}
+}
+
+
+
+/* LexLab Oficina de Extração 2.0: captura determinística, sem executar comandos
+   extraídos de fontes jurídicas não confiáveis. Nada é enviado para IA externa. */
+let exLaw='clt',exKind='all',exSearch='',exLimit=80,exSelected=new Set();
+let catPath='federal',catQuery='',catEntries=[],catStatus='Ainda não carregado.',catBusy=false;
+const CAT_ROOTS=['federal','estaduais','municipais','jurisprudencia','reguladores','tratados'];
+const CAT_URL='https://api.github.com/repos/diogoribeiro261101-cmyk/leis/contents/';
+const RULES={
+ deadline:{name:'Prazos e duração',test:/\b\d+[\d.,]*\s*(?:dias?|meses?|anos?|horas?|semanas?)\b|\b(?:prazo|prescri[çc][ãa]o|decad[êe]ncia)\b/i},
+ limits:{name:'Limites e percentuais',test:/\b\d+(?:[.,]\d+)?\s*%|\b(?:m[íi]nimo|m[áa]ximo|limite|superior a|inferior a|at[ée])\b/i},
+ exceptions:{name:'Exceções e condições',test:/\b(?:salvo|exceto|ressalvad[oa]s?|desde que|desde que n[ãa]o|excepcionalmente|n[ãa]o se aplica|sem preju[íi]zo)\b/i},
+ duties:{name:'Deveres e competências',test:/\b(?:dever[áa]|dever[ãa]o|obrigad[oa]s?|compete|compet[êe]ncia|caber[áa]|incumbe|responsabilidade|ser[áa] assegurad[oa])\b/i},
+ bans:{name:'Vedações e sanções',test:/\b(?:vedad[oa]s?|proibid[oa]s?|n[ãa]o poder[áa]|n[ãa]o ser[áa] permitido|nul[oa]s?|pena de|penalidade|san[çc][ãa]o)\b/i},
+ references:{name:'Remissões legislativas',test:/\b(?:art(?:igo)?\.?)\s*\d+[º°]?|§\s*\d+|\blei\s*(?:n[º°o]\.?\s*)?\d{1,6}[./]\d{2,4}/i}
+};
+const exBadge=(s,cls='')=>`<span class="badge ${cls}">${esc(s)}</span>`;
+function cleanSegments(body){
+ const lines=String(body||'').split(/\n+/).map(s=>s.replace(/\*\*/g,'').replace(/^#{1,6}\s*/,'').replace(/\s+/g,' ').trim()).filter(x=>x.length>16);
+ const out=[];
+ for(const line of lines){
+  const units=line.length>600?line.split(/(?<=[.;])\s+(?=[A-ZÀ-Ý§])/u):[line];
+  for(const unit of units){if(unit.length>15)out.push(unit.slice(0,1600));}
+ }
+ return out;
+}
+function buildExtracts(){
+ const scope=exLaw==='all'?Object.keys(lawData):[exLaw];let facts=[];let capReached=false;
+ for(const law of scope){const info=LEGAL[law],data=lawData[law];if(!info||!data||info.blocked)continue;
+  for(const a of data.articles){if(a.suspicious||a.suspended)continue;
+   let i=0;for(const snippet of cleanSegments(a.body||a.caput)){
+    const kinds=Object.keys(RULES).filter(key=>RULES[key].test(snippet));
+    if(!kinds.length)continue;
+    const uid=law+'|'+a.num+'|'+i++;
+    facts.push({id:uid,law,article:a.num,category:kinds,passage:snippet,partial:!!a.excerpt,source:info.path,official:info.official,loadedAt:data.loadedAt||null});
+    if(facts.length>=30000){capReached=true;break;}
+   }
+   if(capReached)break;
+  }
+  if(capReached)break;
+ }
+ let q=norm(exSearch).trim();
+ if(q)facts=facts.filter(f=>norm(f.passage+' '+f.article+' '+LEGAL[f.law].name+' '+f.category.map(k=>RULES[k].name).join(' ')).includes(q));
+ if(exKind!=='all')facts=facts.filter(f=>f.category.includes(exKind));
+ return {facts,capReached};
+}
+function extractStats(){const sources=Object.values(lawData).filter(x=>x.status==='loaded').length;return {sources,articles:Object.values(lawData).reduce((a,x)=>a+(x.articles?.length||0),0),review:Object.keys(journal.cards).length};}
+function renderExtractor(){
+ const {facts,capReached}=buildExtracts(),s=extractStats(),chosen=facts.filter(f=>exSelected.has(f.id)),n=chosen.length||facts.length,types=Object.entries(RULES).map(([key,r])=>({key,count:facts.filter(f=>f.category.includes(key)).length,name:r.name}));
+ const opts=[['all','Todas as leis'],...Object.entries(LEGAL).filter(([_,v])=>!v.blocked).map(([k,v])=>[k,v.name])];
+ return `${topIntro('INTELIGÊNCIA DE LEI SECA','Laboratório de extração','Localize passagens literais, classifique regras e extraia o conteúdo para revisão, planilhas ou Anki. Não é análise por IA: cada resultado preserva seu texto e sua fonte.')}
+ <section class="extract-hero"><div><span class="extract-eyebrow">LEX LAB · OFICINA</span><h2>Da lei para o estudo. Em escala.</h2><p>Extraia prazos, percentuais, exceções, deveres, proibições e remissões. Exporte trechos com rastreabilidade, sem resumos inventados.</p><button class="btn btn-light" data-action="ex-action" data-job="go-catalog">+ Buscar mais leis no GitHub →</button></div><div class="extract-hero-symbol">§</div></section>
+ <div class="stats-grid extract-stats">${statCard('▤','ARTIGOS NO ACERVO',s.articles,'Inclui amostras parciais')}${statCard('⌁','EXTRAÇÕES ENCONTRADAS',facts.length,'Para filtros atuais')}${statCard('↥','BASES COMPLETAS',s.sources,'Consultas previamente carregadas')}${statCard('▥','CARTÕES SALVOS',s.review,'Prontos para revisão')}</div>
+ <section class="card extract-tools"><div class="extract-tooltitle"><div><h2>Refinar extração</h2><p>A classificação é baseada em padrões de texto, não substitui interpretação jurídica.</p></div><span class="badge">${facts.length} passagens</span></div>
+ <div class="extract-controls"><label>Legislação<select id="extractLaw" class="field"><option value="all" ${exLaw==='all'?'selected':''}>Todas as leis</option>${opts.slice(1).map(([k,v])=>`<option value="${esc(k)}" ${exLaw===k?'selected':''}>${esc(v)}</option>`).join('')}</select></label>
+ <label>Tipo de regra<select id="extractKind" class="field"><option value="all">Todos os tipos</option>${Object.entries(RULES).map(([k,r])=>`<option value="${k}" ${exKind===k?'selected':''}>${esc(r.name)}</option>`).join('')}</select></label>
+ <label class="wide-label">Expressão ou artigo<input id="extractSearch" type="search" class="field" placeholder="Ex.: 5 dias, salvo, prescrição, 71" value="${esc(exSearch)}"></label></div>
+ <div class="extract-chips">${types.map(t=>`<button class="pill ${exKind===t.key?'selected':''}" data-action="ex-action" data-job="kind" data-kind="${t.key}">${esc(t.name)} · ${t.count}</button>`).join('')}</div>
+ <div class="extract-actions"><button class="btn btn-primary" data-action="ex-action" data-job="download" data-format="csv">Baixar CSV</button><button class="btn" data-action="ex-action" data-job="download" data-format="json">JSON estruturado</button><button class="btn" data-action="ex-action" data-job="download" data-format="md">Markdown</button><button class="btn" data-action="ex-action" data-job="download" data-format="anki">Cartões Anki</button><button class="btn" data-action="ex-action" data-job="download" data-format="txt">Trechos em TXT</button><button class="btn btn-soft" data-action="ex-action" data-job="full-text">Exportar artigos completos (.md)</button></div>
+ <div class="extract-actions"><button class="btn btn-soft" data-action="ex-action" data-job="select-all">Marcar os resultados visíveis</button><button class="btn" data-action="ex-action" data-job="unselect">Limpar seleção</button><button class="btn" data-action="ex-action" data-job="add-flashcards">Criar flashcards em lote</button><button class="btn" data-action="ex-action" data-job="all-backup">Backup completo: estudo + leis</button><button class="btn" data-action="ex-action" data-job="all-import">Restaurar backup completo</button></div>
+ <p class="extract-note">${chosen.length?`<strong>${chosen.length} passagens marcadas.</strong> Os downloads usarão somente a seleção. Sem seleção, os downloads incluem todos os ${facts.length} resultados do filtro.`:`Nenhuma passagem marcada. Os downloads usam todos os ${facts.length} resultados do filtro.`} ${capReached?'Limite de 30.000 passagens por consulta atingido; restrinja o acervo antes de exportar.':''} Arquivos exportados não são criptografados.</p></section>
+ <div class="section-head"><div><h2>Passagens encontradas</h2><p>Texto literal e fonte verificável · ${facts.length} resultados</p></div><button class="btn btn-sm" data-action="ex-action" data-job="reload">Recalcular</button></div>
+ <div class="extract-list">${facts.slice(0,exLimit).map(f=>`<article class="card extract-item"><div class="extract-item-head"><label class="extract-check"><input type="checkbox" data-exselect="${esc(f.id)}" ${exSelected.has(f.id)?'checked':''}><strong>${esc(LEGAL[f.law].name)} · ${esc(formatNum(f.article))}</strong></label><span class="extract-muted">${f.partial?'Amostra parcial':'Texto importado'}</span></div>
+ <p class="extract-snippet">${esc(f.passage)}</p><div class="extract-item-foot"><div>${f.category.map(k=>exBadge(RULES[k].name)).join(' ')}</div><div class="extract-item-buttons"><button class="btn btn-sm" data-action="ex-action" data-job="open" data-law="${esc(f.law)}" data-article="${esc(f.article)}">Ler artigo →</button>${f.official?`<a href="${esc(f.official)}" rel="noopener noreferrer" target="_blank" class="btn btn-sm">Conferir fonte ↗</a>`:''}</div></div></article>`).join('')||'<div class="card empty"><h3>Sem resultados para este filtro</h3><p>Carregue uma lei inteira ou experimente outra palavra-chave.</p><button class="btn btn-primary" data-view="catalog">Explorar acervo →</button></div>'}</div>
+ ${facts.length>exLimit?`<button class="btn extract-more" data-action="ex-action" data-job="more">Mostrar mais ${Math.min(80,facts.length-exLimit)} passagens</button>`:''}
+ <div class="info-banner" style="margin-top:24px">Amostras iniciais de caputs são incompletas. Antes de usar um resultado em prova, parecer ou petição, confira redação, vigência e alterações na fonte oficial. Padrões suspeitos de prompt injection encontrados nos textos são excluídos das extrações e dos exercícios.</div>`;
+}
+const exSearchChanged=debounce(value=>{exSearch=value;exSelected.clear();exLimit=80;const old=$('extractSearch'),pos=old?.selectionStart;render();const input=$('extractSearch');if(input){input.focus();try{input.setSelectionRange(pos,pos)}catch{}}},260);
+const catalogSearchChanged=debounce(value=>{catQuery=value;const pos=$('catalogSearch')?.selectionStart;render();const input=$('catalogSearch');if(input){input.focus();try{input.setSelectionRange(pos,pos)}catch{}}},250);
+function selectedExtracts(){const all=buildExtracts().facts;return exSelected.size?all.filter(f=>exSelected.has(f.id)):all;}
+function csvSanitize(v){let s=String(v??'');if(/^[\s\r\n]*[=+\-@]/.test(s))s="'"+s;return '"'+s.replace(/"/g,'""')+'"';}
+function makeCSV(rows){return '\ufeff'+rows.map(row=>row.map(csvSanitize).join(';')).join('\r\n');}
+function extractExport(format){const facts=selectedExtracts();if(!facts.length){toast('Não há passagens para exportar.');return}
+ const date=dateKey();let blob,name;
+ if(format==='json'){
+  blob=new Blob([JSON.stringify({app:'lexlab',kind:'extracts',version:2,exportedAt:new Date().toISOString(),count:facts.length,entries:facts},null,2)],{type:'application/json'});name=`lexlab-extracao-${date}.json`;
+ }else if(format==='csv'||format==='anki'){
+  const rows=format==='anki'?[['Frente','Verso','Fonte','Categorias'],...facts.map(f=>[`O que estabelece o ${formatNum(f.article)} (${LEGAL[f.law].name}) sobre ${f.category.map(k=>RULES[k].name).join(', ')}?`,f.passage,f.official,f.category.map(k=>RULES[k].name).join(', ')])]:[['Lei','Artigo','Tipo','Trecho literal','Amostra parcial','Fonte oficial','Arquivo no GitHub','Data da carga'],...facts.map(f=>[LEGAL[f.law].name,formatNum(f.article),f.category.map(k=>RULES[k].name).join(' | '),f.passage,f.partial?'SIM':'NÃO',f.official,REPO+f.source,f.loadedAt||'Não carregado'])];
+  blob=new Blob([makeCSV(rows)],{type:'text/csv;charset=utf-8'});name=`lexlab-${format}-${date}.csv`;
+ }else if(format==='md'||format==='txt'){
+  let content=facts.map(f=>`## ${LEGAL[f.law].name} — ${formatNum(f.article)}\n${f.passage}\n\nCategorias: ${f.category.map(k=>RULES[k].name).join(', ')}\nFonte: ${f.official}${f.partial?'\n[AMOSTRA PARCIAL]':''}`).join('\n\n---\n\n');
+  blob=new Blob([content],{type:'text/plain;charset=utf-8'});name=`lexlab-extracao-${date}.${format==='md'?'md':'txt'}`;
+ }
+ downloadBlob(blob,name);toast(`${facts.length} passagens exportadas em ${format.toUpperCase()}.`);
+}
+function exportFullText(){
+ const laws=exLaw==='all'?Object.keys(lawData):[exLaw];const docs=laws.filter(k=>LEGAL[k]&&!LEGAL[k].blocked&&lawData[k].articles?.length);
+ if(!docs.length){toast('Nenhuma lei carregada para exportação.');return}
+ const output=['# LexLab — transcrição das leis carregadas','',`Exportado em: ${new Date().toISOString()}`,'Atenção: acervo não oficial; verificar vigência e redação na fonte oficial.',''];
+ for(const key of docs){const src=LEGAL[key],doc=lawData[key];output.push(`# ${src.name}`,`Fonte: ${src.official||src.path}`,`Integridade: ${doc.status==='loaded'?'texto importado':'AMOSTRA INCOMPLETA de caputs'}`,'');
+ for(const a of doc.articles){output.push(`## ${formatNum(a.num)}`,String(a.body||a.caput).replace(/<\/?script\b[^>]*>/gi,'[marcação removida]'),'');}}
+ downloadBlob(new Blob([output.join('\n')],{type:'text/markdown;charset=utf-8'}),`lexlab-artigos-${dateKey()}.md`);toast(`${docs.length} fontes exportadas com marcação de integridade.`);
+}
+function addExtractionCards(){const facts=selectedExtracts();if(facts.length>1500&&!confirm(`Criar até 1.500 flashcards a partir das passagens marcadas/filtradas?`))return;
+ let added=0;for(const f of facts.slice(0,1500)){const key=sourceId(f.law,f.article);if(!journal.cards[key]){journal.cards[key]={reps:0,due:dateKey(),last:null};added++;}}
+ if(added)save();render();toast(`${added} flashcards por artigo adicionados; duplicatas ignoradas.`);
+}
+function allBackup(){const payload={app:'lexlab',schema:1,backupType:'complete',createdAt:new Date().toISOString(),journal,lawCache:Object.fromEntries(Object.entries(lawData).filter(([key,info])=>info.status==='loaded'&&!LEGAL[key].blocked).map(([key,info])=>[key,{articles:info.articles,loadedAt:info.loadedAt}]))};
+ downloadBlob(new Blob([JSON.stringify(payload)],{type:'application/json'}),`lexlab-backup-integral-${dateKey()}.json`);toast('Backup de estudos e de leis carregadas exportado. Ele não é criptografado.');}
+function restoreCustomSources(){for(const item of Array.isArray(journal.extraLaws)?journal.extraLaws.slice(0,60):[]){if(!item||!/^repo-[a-f0-9]{8}$/.test(item.id)||!/^[\w\-./]+\.(md|txt)$/.test(item.path)||item.path.includes('..'))continue;
+ LEGAL[item.id]={name:String(item.name||item.path.split('/').pop()).slice(0,75),full:String(item.path).slice(0,250),area:'Acervo público de legislação',path:item.path,official:item.local?'':('https://github.com/diogoribeiro261101-cmyk/leis/blob/main/'+item.path),local:!!item.local,version:'GitHub',icon:'§'};
+ if(!lawData[item.id])lawData[item.id]={articles:[],status:'sample',loadedAt:null,message:'Recarregue pelo acervo para obter os artigos.',source:item.path};
+ retrieveCache(item.id).then(cached=>{if(cached?.articles?.length){lawData[item.id]={...lawData[item.id],articles:cached.articles,status:'loaded',loadedAt:cached.date};if(view==='extractor'||view==='reader'||view==='catalog')render();}});
+ }}
+async function restoreCompleteBackup(file){if(file.size>45_000_000)throw Error('Backup excede 45 MB');const p=JSON.parse(await file.text());if(p.app!=='lexlab'||p.schema!==1||p.backupType!=='complete'||!p.journal)throw Error('Backup integral não reconhecido');
+ const safe=validateJournal(p.journal);const cache=p.lawCache&&typeof p.lawCache==='object'?p.lawCache:{};
+ if(Object.keys(cache).length>70)throw Error('Quantidade excessiva de leis no backup.');
+ if(!confirm('Substituir seus dados atuais pelos dados do backup integral?'))return;
+ journal=safe;restoreCustomSources();let restored=0;
+ for(const [key,doc] of Object.entries(cache)){if(!LEGAL[key]||!Array.isArray(doc.articles)||doc.articles.length>20000)continue;const articles=doc.articles.filter(a=>a&&typeof a.num==='string'&&/^[\dA-Z-]{1,20}$/.test(a.num)&&typeof a.caput==='string'&&typeof a.body==='string'&&a.body.length<150000).slice(0,20000).map(a=>({...a,suspicious:suspicious.test(a.body),body:a.body.slice(0,150000),caput:a.caput.slice(0,3000)}));if(!articles.length)continue;
+ lawData[key]={...lawData[key],articles,status:'loaded',loadedAt:doc.loadedAt||new Date().toISOString()};seedToDB(key,articles);restored++;
+ }
+ save();render();toast(`Backup recuperado, com ${restored} leis carregadas.`);
+}
+$('completeBackupImport').addEventListener('change',async e=>{const file=e.target.files?.[0];e.target.value='';if(!file)return;try{await restoreCompleteBackup(file)}catch(err){toast('Falha ao recuperar backup: '+String(err.message).slice(0,180))}});
+function routeGitHubPath(path){if(!path||path.startsWith('/')||path.includes('..')||!/^[-_A-Za-z0-9À-ÿ./ ]+$/.test(path))throw Error('Caminho inválido');return path.split('/').map(encodeURIComponent).join('/');}
+function renderCatalog(){
+ const folders=catEntries.filter(e=>e.type==='dir'),files=catEntries.filter(e=>e.type==='file'&&/\.(md|txt)$/i.test(e.path));
+ const query=norm(catQuery);let all=[...folders,...files];if(query)all=all.filter(x=>norm(x.name+' '+x.path).includes(query));
+ const up=catPath.split('/').slice(0,-1).join('/');const roots=CAT_ROOTS;
+ return `${topIntro('FONTE LEGISLATIVA','Acervo conectado ao GitHub','Explore os diretórios públicos do repositório de leis, carregue documentos em seu navegador e use-os no extrator de trechos e questões.')}
+ <section class="card catalog-panel"><div class="extract-tooltitle"><div><h2>Explorador de documentos</h2><p>Repositório: diogoribeiro261101-cmyk/leis · branch main</p></div><a class="btn btn-sm" rel="noopener noreferrer" target="_blank" href="https://github.com/diogoribeiro261101-cmyk/leis">Ver repositório ↗</a></div>
+ <div class="catalog-roots">${roots.map(x=>`<button class="pill ${catPath===x?'selected':''}" data-action="catalog-action" data-job="root" data-path="${x}">${esc(x)}</button>`).join('')}</div>
+ <div class="catalog-address"><button class="btn" data-action="catalog-action" data-job="up" ${!up?'disabled':''}>← Voltar</button><code>${esc('/'+catPath)}</code><button class="btn btn-primary" data-action="catalog-action" data-job="refresh">${catBusy?'Carregando…':'↻ Atualizar pasta'}</button></div>
+ <div class="extract-controls catalog-filters"><label class="wide-label">Filtrar itens desta pasta<input id="catalogSearch" class="field" type="search" placeholder="Buscar por número ou nome do arquivo…" value="${esc(catQuery)}"></label><div class="catalog-count">${all.length} itens nesta pasta</div></div>
+ <div class="catalog-list">${all.slice(0,250).map(item=>`<div class="catalog-file"><div class="catalog-icon">${item.type==='dir'?'▣':'§'}</div><div class="catalog-file-name"><strong>${esc(item.name)}</strong><small>${esc(item.path)} ${item.size?' · '+Math.round(item.size/1024)+' KB':''}</small></div><button class="btn btn-sm ${item.type==='file'?'btn-primary':''}" data-action="catalog-action" data-job="${item.type==='dir'?'open-folder':'load-file'}" data-path="${esc(item.path)}">${item.type==='dir'?'Abrir →':'Adicionar lei →'}</button></div>`).join('')||`<div class="empty">${esc(catStatus)}<br>${catBusy?'Buscando arquivos no GitHub…':'Use Atualizar pasta para tentar novamente.'}</div>`}</div>
+ ${all.length>250?`<p class="extract-note">Exibindo os primeiros 250 itens. Use a busca para reduzir os resultados.</p>`:''}
+ <div class="info-banner">O GitHub limita chamadas sem autenticação e diretórios com mais de 1.000 itens podem apresentar resultados incompletos. A importação de uma lei não garante que a redação esteja consolidada e atualizada. O conteúdo é tratado como dado, nunca como comando.</div></section>
+ <section class="card extract-tools" style="margin-top:22px"><div class="extract-tooltitle"><div><h2>Importar texto legislativo do computador</h2><p>Suporta arquivos .txt e .md com artigos identificados por “Art.”. Dados processados localmente.</p></div><button class="btn btn-primary" data-action="catalog-action" data-job="local-import">Selecionar arquivo</button></div><p class="extract-note">PDF e DOCX não são interpretados por esta ferramenta. Converta o texto para .txt ou .md; documentos digitalizados requerem OCR externo e conferência humana.</p></section>`;
+}
+async function awaitLoadCatalog(){if(catBusy)return;catBusy=true;catEntries=[];catStatus='Consultando diretório…';render();try{
+ const url=CAT_URL+routeGitHubPath(catPath)+'?ref=main';const resp=await fetch(url,{headers:{Accept:'application/vnd.github+json'},cache:'no-store'});
+ if(!resp.ok)throw Error(`GitHub HTTP ${resp.status}`);
+ const raw=await resp.json();if(!Array.isArray(raw))throw Error('Caminho não é uma pasta');catEntries=raw.filter(x=>x&&['dir','file'].includes(x.type)&&typeof x.path==='string').map(x=>({name:x.name,path:x.path,type:x.type,size:x.size||0}));catStatus=catEntries.length+' itens carregados.';
+ }catch(err){catStatus='Não foi possível consultar: '+String(err.message).slice(0,130);toast(catStatus)}finally{catBusy=false;render()}}
+function digestPath(path){let hash=2166136261;for(let i=0;i<path.length;i++)hash=Math.imul(hash^path.charCodeAt(i),16777619);return 'repo-'+(hash>>>0).toString(16).padStart(8,'0');}
+function parseFlexible(raw){
+ if(raw.length<50||raw.length>4_500_000)throw Error('Documento fora do limite (até 4,5 MB).');
+ const lines=raw.replace(/\r/g,'').split('\n');const pieces=[];let current=null;let chapter='';
+ const flush=()=>{if(!current)return;const body=current.lines.join('\n').trim();const caput=clean(current.start);if(caput.length>6&&body.length>10)pieces.push({num:current.num,body,caput,topic:chapter,excerpt:false,suspicious:suspicious.test(body),suspended:/^(revogad|vetad)/i.test(caput)});current=null};
+ for(const line of lines){if(/^#{2,5}\s+/.test(line)){chapter=clean(line);continue}
+  const m=line.match(/^\s*(?:\*\*)?Art(?:igo)?\.\s*(\d+(?:-[A-Za-z0-9]+)?)\s*(?:[º°.]\s*)?(?:\*\*)?\s*(.*)$/i);
+  if(m){flush();current={num:m[1].toUpperCase(),start:m[2],lines:[line]}}else if(current)current.lines.push(line);
+ }
+ flush();let seen=new Set();let result=pieces.filter(a=>{if(seen.has(a.num))return false;seen.add(a.num);return true});if(!result.length)throw Error('Não encontrei artigos com o padrão Art. 1º / Art. 10.');return result;
+}
+async function catalogLoadFile(path,localText=null){
+ if(catBusy)return;catBusy=true;catStatus='Extraindo artigos…';render();try{
+ let body=localText;
+ if(body===null){const response=await fetch(ORIGIN+routeGitHubPath(path),{cache:'no-store'});if(!response.ok)throw Error('Texto indisponível: HTTP '+response.status);
+  const len=Number(response.headers.get('content-length'));if(len>4_500_000)throw Error('Arquivo muito grande (acima de 4,5 MB).');body=await response.text();}
+ if(body.length>4_500_000)throw Error('Limite por arquivo: 4,5 MB');
+ const articles=parseFlexible(body);const id=digestPath(path),fileName=path.split('/').pop().replace(/\.(md|txt)$/i,'');
+ LEGAL[id]={name:fileName.slice(0,75),full:path,area:localText===null?'Acervo público de leis':'Texto local importado',path,official:localText===null?REPO+path:'',local:localText!==null,icon:'§',version:'Importação local'};
+ lawData[id]={articles,status:'loaded',loadedAt:new Date().toISOString(),message:localText===null?'Cópia importada do GitHub':'Arquivo importado do computador',source:path};
+ seedToDB(id,articles);
+ journal.extraLaws=(Array.isArray(journal.extraLaws)?journal.extraLaws:[]).filter(x=>x.id!==id);
+ journal.extraLaws.push({id,path,name:fileName.slice(0,75),local:localText!==null});journal.extraLaws=journal.extraLaws.slice(-60);save();
+ selectedLaw=id;exLaw=id;exSelected.clear();toast(`${articles.length} artigos reconhecidos. Fonte deve ser conferida.`);go('reader');
+ }catch(err){toast('Importação não concluída: '+String(err.message).slice(0,180))}finally{catBusy=false;}}
+$('legalTextImport').addEventListener('change',async e=>{const file=e.target.files?.[0];e.target.value='';if(!file)return;
+ if(file.size>4_500_000){toast('Limite de 4,5 MB por documento.');return}
+ const text=await file.text();await catalogLoadFile('local/'+file.name.replace(/[^\w\d.\-]/g,'_'),text);
+});
+async function handleExtractionAction(d){
+ switch(d.job){
+ case 'go-catalog':go('catalog');if(!catEntries.length)await awaitLoadCatalog();break;
+ case 'kind':exKind=exKind===d.kind?'all':d.kind;exSelected.clear();exLimit=80;render();break;
+ case 'select-all':buildExtracts().facts.slice(0,exLimit).forEach(f=>exSelected.add(f.id));render();break;
+ case 'unselect':exSelected.clear();render();break;
+ case 'reload':render();break;
+ case 'more':exLimit+=80;render();break;
+ case 'download':extractExport(d.format);break;
+ case 'full-text':exportFullText();break;
+ case 'add-flashcards':addExtractionCards();break;
+ case 'all-backup':allBackup();break;
+ case 'all-import':$('completeBackupImport').click();break;
+ case 'open':selectedLaw=d.law;readerQuery=d.article;readerTopic='';readerSaved=false;readerLimit=25;go('reader');break;
+ }
+}
+async function handleCatalogAction(d){
+ if(d.job==='local-import'){$('legalTextImport').click();return}
+ if(d.job==='load-file'){await catalogLoadFile(d.path);return}
+ if(d.job==='root'||d.job==='open-folder'||d.job==='up'){catPath=d.job==='up'?catPath.split('/').slice(0,-1).join('/')||'federal':d.path;catQuery='';await awaitLoadCatalog();return}
+ if(d.job==='refresh'){await awaitLoadCatalog();return}
+}
+document.addEventListener('change',e=>{const el=e.target;if(el?.dataset?.exselect){if(el.checked)exSelected.add(el.dataset.exselect);else exSelected.delete(el.dataset.exselect);const note=document.querySelector('.extract-note');if(note)note.textContent=exSelected.size?`${exSelected.size} passagens marcadas. Os downloads usarão a seleção.`:`Nenhuma passagem marcada. Os downloads usarão o filtro atual.`;}});
+
+// Inicializar os módulos somente após autenticação local.
+initializeLocalLogin();
+
+</script>
+</body>
+</html>
