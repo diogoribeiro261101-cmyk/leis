@@ -368,7 +368,7 @@ $('importInput').addEventListener('change',async e=>{const f=e.target.files?.[0]
 const debounce=(fn,ms=250)=>{let timer;return (...args)=>{clearTimeout(timer);timer=setTimeout(()=>fn(...args),ms)}};
 const searchChanged=debounce(value=>{readerQuery=value;readerLimit=25;const cursor=$('readerSearch');let pos=cursor?.selectionStart;render();let r=$('readerSearch');if(r){r.focus();try{r.setSelectionRange(pos,pos)}catch{}}},220);
 document.addEventListener('input',e=>{if(e.target?.id==='readerSearch')searchChanged(e.target.value);else if(e.target?.id==='extractSearch')exSearchChanged(e.target.value);else if(e.target?.id==='catalogSearch')catalogSearchChanged(e.target.value)});
-document.addEventListener('change',e=>{const el=e.target;if(el.id==='extractLaw'){exLaw=el.value;exSelected.clear();exLimit=80;render();return;}else if(el.id==='extractKind'){exKind=el.value;exSelected.clear();exLimit=80;render();return;}else if(el.id==='catalogRoot'){catPath=el.value;catQuery='';awaitLoadCatalog();return;}else if(el.id==='readerLaw'){selectedLaw=el.value;readerQuery='';readerTopic='';readerLimit=25;render()}else if(el.id==='quizLaw'){quizSetup.law=el.value;render()}else if(el.id==='quizCount'){quizSetup.count=Number(el.value);render()}});
+document.addEventListener('change',e=>{const el=e.target;if(el.id==='extractLaw'){exLaw=el.value;exSelected.clear();exLimit=80;render();return;}else if(el.id==='extractKind'){exKind=el.value;exSelected.clear();exLimit=80;render();return;}else if(el.id==='extractSegment'){exSegment=el.value;exSelected.clear();exLimit=80;render();return;}else if(el.id==='catalogRoot'){catPath=el.value;catQuery='';awaitLoadCatalog();return;}else if(el.id==='readerLaw'){selectedLaw=el.value;readerQuery='';readerTopic='';readerLimit=25;render()}else if(el.id==='quizLaw'){quizSetup.law=el.value;render()}else if(el.id==='quizCount'){quizSetup.count=Number(el.value);render()}});
 document.addEventListener('click',async event=>{
  const tgt=event.target.closest('button');if(!tgt)return;
  const d=tgt.dataset;if(d.view){go(d.view);return}if(d.action==='select-law'){selectedLaw=d.law;readerQuery='';readerTopic='';readerSaved=false;readerLimit=25;go('reader');return}
@@ -664,13 +664,14 @@ function renderExtractor(){
  <div class="extract-controls"><label>Legislação<select id="extractLaw" class="field"><option value="all" ${exLaw==='all'?'selected':''}>Todas as leis</option>${opts.slice(1).map(([k,v])=>`<option value="${esc(k)}" ${exLaw===k?'selected':''}>${esc(v)}</option>`).join('')}</select></label>
  <label>Tipo de regra<select id="extractKind" class="field"><option value="all">Todos os tipos</option>${Object.entries(RULES).map(([k,r])=>`<option value="${k}" ${exKind===k?'selected':''}>${esc(r.name)}</option>`).join('')}</select></label>
  <label class="wide-label">Expressão ou artigo<input id="extractSearch" type="search" class="field" placeholder="Ex.: 5 dias, salvo, prescrição, 71" value="${esc(exSearch)}"></label></div>
+ <div class="extract-controls" style="margin-top:12px"><label>Parte do artigo<select id="extractSegment" class="field">${[['all','Todas as partes'],['caput','Caput'],['paragrafo','Parágrafos'],['inciso','Incisos'],['alinea','Alíneas'],['item','Itens']].map(([k,n])=>`<option value="${k}" ${exSegment===k?'selected':''}>${n}</option>`).join('')}</select></label><div class="setup-help">Preserva o texto integral. Inclui disposições sem palavras-chave.</div></div>
  <div class="extract-chips">${types.map(t=>`<button class="pill ${exKind===t.key?'selected':''}" data-action="ex-action" data-job="kind" data-kind="${t.key}">${esc(t.name)} · ${t.count}</button>`).join('')}</div>
- <div class="extract-actions"><button class="btn btn-primary" data-action="ex-action" data-job="download" data-format="csv">Baixar CSV</button><button class="btn" data-action="ex-action" data-job="download" data-format="json">JSON estruturado</button><button class="btn" data-action="ex-action" data-job="download" data-format="md">Markdown</button><button class="btn" data-action="ex-action" data-job="download" data-format="anki">Cartões Anki</button><button class="btn" data-action="ex-action" data-job="download" data-format="txt">Trechos em TXT</button><button class="btn btn-soft" data-action="ex-action" data-job="full-text">Exportar artigos completos (.md)</button></div>
+ <div class="extract-actions"><button class="btn" data-action="ex-action" data-job="download" data-format="jsonl">JSONL</button><button class="btn" data-action="ex-action" data-job="download" data-format="xml">XML</button><button class="btn btn-primary" data-action="ex-action" data-job="download" data-format="csv">Baixar CSV</button><button class="btn" data-action="ex-action" data-job="download" data-format="json">JSON estruturado</button><button class="btn" data-action="ex-action" data-job="download" data-format="md">Markdown</button><button class="btn" data-action="ex-action" data-job="download" data-format="anki">Cartões Anki</button><button class="btn" data-action="ex-action" data-job="download" data-format="txt">Trechos em TXT</button><button class="btn btn-soft" data-action="ex-action" data-job="full-text">Exportar artigos completos (.md)</button></div>
  <div class="extract-actions"><button class="btn btn-soft" data-action="ex-action" data-job="select-all">Marcar os resultados visíveis</button><button class="btn" data-action="ex-action" data-job="unselect">Limpar seleção</button><button class="btn" data-action="ex-action" data-job="add-flashcards">Criar flashcards em lote</button><button class="btn" data-action="ex-action" data-job="all-backup">Backup completo: estudo + leis</button><button class="btn" data-action="ex-action" data-job="all-import">Restaurar backup completo</button></div>
  <p class="extract-note">${chosen.length?`<strong>${chosen.length} passagens marcadas.</strong> Os downloads usarão somente a seleção. Sem seleção, os downloads incluem todos os ${facts.length} resultados do filtro.`:`Nenhuma passagem marcada. Os downloads usam todos os ${facts.length} resultados do filtro.`} ${capReached?'Limite de 30.000 passagens por consulta atingido; restrinja o acervo antes de exportar.':''} Arquivos exportados não são criptografados.</p></section>
  <div class="section-head"><div><h2>Passagens encontradas</h2><p>Texto literal e fonte verificável · ${facts.length} resultados</p></div><button class="btn btn-sm" data-action="ex-action" data-job="reload">Recalcular</button></div>
  <div class="extract-list">${facts.slice(0,exLimit).map(f=>`<article class="card extract-item"><div class="extract-item-head"><label class="extract-check"><input type="checkbox" data-exselect="${esc(f.id)}" ${exSelected.has(f.id)?'checked':''}><strong>${esc(LEGAL[f.law].name)} · ${esc(formatNum(f.article))}</strong></label><span class="extract-muted">${f.partial?'Amostra parcial':'Texto importado'}</span></div>
- <p class="extract-snippet">${esc(f.passage)}</p><div class="extract-item-foot"><div>${f.category.map(k=>exBadge(RULES[k].name)).join(' ')}</div><div class="extract-item-buttons"><button class="btn btn-sm" data-action="ex-action" data-job="open" data-law="${esc(f.law)}" data-article="${esc(f.article)}">Ler artigo →</button>${f.official?`<a href="${esc(f.official)}" rel="noopener noreferrer" target="_blank" class="btn btn-sm">Conferir fonte ↗</a>`:''}</div></div></article>`).join('')||'<div class="card empty"><h3>Sem resultados para este filtro</h3><p>Carregue uma lei inteira ou experimente outra palavra-chave.</p><button class="btn btn-primary" data-view="catalog">Explorar acervo →</button></div>'}</div>
+ <p class="extract-muted">${esc(f.deviceLabel||formatNum(f.article))} · ${esc(f.deviceType||'texto')}${f.revoked?' · Revogado/vetado: conferir':''}</p><p class="extract-snippet">${esc(f.passage)}</p><div class="extract-item-foot"><div>${f.category.map(k=>exBadge(RULES[k].name)).join(' ')}</div><div class="extract-item-buttons"><button class="btn btn-sm" data-action="ex-action" data-job="open" data-law="${esc(f.law)}" data-article="${esc(f.article)}">Ler artigo →</button>${f.official?`<a href="${esc(f.official)}" rel="noopener noreferrer" target="_blank" class="btn btn-sm">Conferir fonte ↗</a>`:''}</div></div></article>`).join('')||'<div class="card empty"><h3>Sem resultados para este filtro</h3><p>Carregue uma lei inteira ou experimente outra palavra-chave.</p><button class="btn btn-primary" data-view="catalog">Explorar acervo →</button></div>'}</div>
  ${facts.length>exLimit?`<button class="btn extract-more" data-action="ex-action" data-job="more">Mostrar mais ${Math.min(80,facts.length-exLimit)} passagens</button>`:''}
  <div class="info-banner" style="margin-top:24px">Amostras iniciais de caputs são incompletas. Antes de usar um resultado em prova, parecer ou petição, confira redação, vigência e alterações na fonte oficial. Padrões suspeitos de prompt injection encontrados nos textos são excluídos das extrações e dos exercícios.</div>`;
 }
@@ -794,6 +795,97 @@ async function handleCatalogAction(d){
  if(d.job==='refresh'){await awaitLoadCatalog();return}
 }
 document.addEventListener('change',e=>{const el=e.target;if(el?.dataset?.exselect){if(el.checked)exSelected.add(el.dataset.exselect);else exSelected.delete(el.dataset.exselect);const note=document.querySelector('.extract-note');if(note)note.textContent=exSelected.size?`${exSelected.size} passagens marcadas. Os downloads usarão a seleção.`:`Nenhuma passagem marcada. Os downloads usarão o filtro atual.`;}});
+
+
+/* LEXLAB_V3_STRUCTURED: extração integral por dispositivo */
+let exSegment='all';
+RULES.others={name:'Outras disposições',test:/a^/};
+function structuralFragments(article){
+ const lines=String(article.body||article.caput||"").replace(/\r/g,"").split("\n"),out=[];
+ let chunk=null;
+ const finish=()=>{if(chunk&&chunk.text.trim())out.push(chunk);chunk=null};
+ for(const line of lines){
+  const s=line.replace(/\*\*/g,"").replace(/^#{1,6}\s*/,"").trim();
+  let type="",label="",m;
+  if(/^Art(?:igo)?\.?\s*\d+/i.test(s)){type="caput";label="Art. "+article.num}
+  else if((m=s.match(/^§\s*(\d+[º°]?|único)/i))){type="paragrafo";label="§ "+m[1]}
+  else if(/^Parágrafo\s+único\b/i.test(s)){type="paragrafo";label="Parágrafo único"}
+  else if((m=s.match(/^([IVXLCDM]+)\s*[-–—)]\s+/i))){type="inciso";label="Inciso "+m[1].toUpperCase()}
+  else if((m=s.match(/^([a-z])\)\s+/i))){type="alinea";label="Alínea "+m[1]}
+  else if((m=s.match(/^(\d+)[.)]\s+/))){type="item";label="Item "+m[1]}
+  if(type){finish();chunk={type,label,text:line}}
+  else if(chunk)chunk.text+="\n"+line;
+  else if(s)chunk={type:"caput",label:"Art. "+article.num,text:line};
+ }
+ finish();
+ return out.length?out:[{type:"caput",label:"Art. "+article.num,text:String(article.body||article.caput||"")}];
+}
+
+function parseFlexible(raw){
+ if(typeof raw!=="string"||raw.length<35||raw.length>4500000)throw Error("Texto fora do limite de 4,5 milhões de caracteres.");
+ const articles=[];let cur=null,topic="";
+ const flush=()=>{if(!cur)return;const body=cur.lines.join("\n").trim();if(body)articles.push({num:cur.num,body,caput:clean(cur.first||body.split("\n")[0]),topic,excerpt:false,suspicious:suspicious.test(body),suspended:/^(revogad[oa]|vetad[oa]|sem eficácia)/i.test(clean(cur.first))});cur=null};
+ for(const line of raw.replace(/\r/g,"").split("\n")){
+  const heading=line.match(/^#{2,6}\s+(.+)/);
+  if(heading&&!cur){topic=clean(heading[1]);continue}
+  const m=line.match(/^\s*(?:#{1,6}\s*)?(?:\*\*|__)?\s*Art(?:igo)?\.?\s*(\d+(?:\s*[-–]\s*[A-Z0-9]+)?)\s*[º°.]?\s*(?:\*\*|__)?\s*(.*)$/i);
+  if(m){flush();cur={num:m[1].replace(/\s+/g,"").replace("–","-").toUpperCase(),first:m[2],lines:[line]}}
+  else if(cur)cur.lines.push(line);
+ }
+ flush();if(!articles.length)throw Error('Nenhum artigo encontrado no padrão "Art. 1º". PDF escaneado pode precisar de OCR.');
+ const seen=new Set();return articles.filter(a=>{if(seen.has(a.num))return false;seen.add(a.num);return true});
+}
+
+function buildExtracts(){
+ const scope=exLaw==="all"?Object.keys(lawData):[exLaw];let facts=[],capReached=false,unsafeExcluded=0,revokedCount=0;
+ for(const law of scope){
+  const info=LEGAL[law],data=lawData[law];if(!info||!data||info.blocked)continue;
+  for(const a of data.articles||[]){
+   const body=String(a.body||a.caput||"");
+   if(a.suspicious||suspicious.test(body)){unsafeExcluded++;continue}
+   if(a.suspended)revokedCount++;
+   let i=0;
+   for(const seg of structuralFragments(a)){
+    const pos=i++;
+    if(exSegment!=="all"&&exSegment!==seg.type)continue;
+    const kinds=Object.keys(RULES).filter(k=>k!=="others"&&RULES[k].test(seg.text));
+    if(!kinds.length)kinds.push("others");
+    const f={id:law+"|"+a.num+"|"+pos,law,article:a.num,deviceType:seg.type,deviceLabel:seg.label,category:kinds,passage:seg.text,partial:!!a.excerpt,revoked:!!a.suspended,source:info.path,official:info.official||"",loadedAt:data.loadedAt||null};
+    if(exKind!=="all"&&!kinds.includes(exKind))continue;
+    if(exSearch&&!norm(f.passage+" "+f.article+" "+f.deviceLabel+" "+info.name+" "+kinds.map(k=>RULES[k].name).join(" ")).includes(norm(exSearch.trim())))continue;
+    facts.push(f);
+    if(facts.length>=150000){capReached=true;break}
+   }
+   if(capReached)break;
+  }
+  if(capReached)break;
+ }
+ return {facts,capReached,unsafeExcluded,revokedCount};
+}
+
+function extractExport(format){
+ const facts=selectedExtracts();if(!facts.length){toast("Nenhum dispositivo disponível para exportação.");return}
+ const date=dateKey(),label=k=>RULES[k]?.name||k;
+ const row=f=>[LEGAL[f.law].name,formatNum(f.article),f.deviceLabel,f.deviceType,f.category.map(label).join(" | "),f.passage,f.revoked?"SIM":"NÃO",f.partial?"SIM":"NÃO",f.official,f.source,f.loadedAt||""];
+ let name,content,type="text/plain;charset=utf-8";
+ if(format==="json"){content=JSON.stringify({app:"lexlab",version:3,kind:"extraction",count:facts.length,exportedAt:new Date().toISOString(),entries:facts},null,2);name=`lexlab-estruturado-${date}.json`;type="application/json"}
+ else if(format==="jsonl"){content=facts.map(f=>JSON.stringify(f)).join("\n");name=`lexlab-dispositivos-${date}.jsonl`}
+ else if(format==="csv"){content=makeCSV([["Lei","Artigo","Dispositivo","Estrutura","Classificação","Texto integral","Revogado","Parcial","Fonte oficial","Arquivo","Importação"],...facts.map(row)]);name=`lexlab-dispositivos-${date}.csv`;type="text/csv;charset=utf-8"}
+ else if(format==="anki"){content=makeCSV([["Frente","Verso","Fonte","Categoria"],...facts.map(f=>[`Qual a redação de ${f.deviceLabel}, ${formatNum(f.article)}, ${LEGAL[f.law].name}?`,f.passage,f.official,f.category.map(label).join(", ")])]);name=`lexlab-anki-${date}.csv`;type="text/csv;charset=utf-8"}
+ else if(format==="md"||format==="txt"){content=facts.map(f=>`## ${LEGAL[f.law].name} — ${formatNum(f.article)} — ${f.deviceLabel}\n${f.passage}\n\nCategoria: ${f.category.map(label).join(", ")}\nSituação: ${f.revoked?"Revogado ou vetado (conferir)":"Texto do acervo"}${f.partial?"\n[PARCIAL]":""}\nFonte: ${f.official||REPO+f.source}`).join("\n\n---\n\n");name=`lexlab-dispositivos-${date}.${format}`}
+ else if(format==="xml"){const x=v=>String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&apos;"}[c])).replace(/[\x00-\x08\x0b\x0c\x0e-\x1f]/g,"");content='<?xml version="1.0" encoding="UTF-8"?>\n<lexlab versao="3">\n'+facts.map(f=>`<dispositivo lei="${x(LEGAL[f.law].name)}" artigo="${x(f.article)}" estrutura="${x(f.deviceType)}" rotulo="${x(f.deviceLabel)}" parcial="${f.partial}" revogado="${f.revoked}"><texto>${x(f.passage)}</texto><fonte>${x(f.official)}</fonte></dispositivo>`).join("\n")+"\n</lexlab>";name=`lexlab-dispositivos-${date}.xml`;type="application/xml;charset=utf-8"}
+ else{toast("Formato desconhecido.");return}
+ downloadBlob(new Blob([content],{type}),name);toast(`${facts.length} dispositivos exportados em ${format.toUpperCase()}.`);
+}
+
+function exportFullText(){
+ const scope=exLaw==="all"?Object.keys(lawData):[exLaw],parts=["# LexLab — exportação dos artigos disponíveis",`Em: ${new Date().toISOString()}`,"Fonte não oficial. Verificar integridade, vigência e redação na publicação oficial.",""];let total=0;
+ for(const law of scope){const src=LEGAL[law],data=lawData[law];if(!src||src.blocked||!data?.articles?.length)continue;parts.push(`# ${src.name}`,`Fonte: ${src.official||"Importação local"}`,`Integridade: ${data.status==="loaded"?"Carregado":"Amostra parcial"}`,"");
+  for(const a of data.articles){total++;parts.push(`## ${formatNum(a.num)}`,a.suspicious?"[ALERTA: possível instrução maliciosa no texto; não utilizado em questões.]":"",String(a.body||a.caput),"")}
+ }
+ if(!total){toast("Não há fontes para exportar.");return}
+ downloadBlob(new Blob([parts.join("\n")],{type:"text/markdown;charset=utf-8"}),`lexlab-artigos-${dateKey()}.md`);toast(`${total} artigos exportados, incluindo texto integral de cada fonte carregada.`);
+}
 
 // Inicializar os módulos somente após autenticação local.
 initializeLocalLogin();
