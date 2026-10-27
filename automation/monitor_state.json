@@ -1,5 +1,5 @@
 {
-  "checked_at_utc": "2026-10-27T13:24:34+00:00",
+  "checked_at_utc": "2026-10-27T23:01:46+00:00",
   "hashes_oficiais": {
     "CLT_1943": "7cf5c96ee2ad0ce0cd205beaea89aec6778da363b46de80d5196935ed05767e4",
     "Codigo_Civil_2002": "412516f40fc038b93e1c8d076adee85b97678372fac376dec42e06e8e3ec4fae",
@@ -14,10 +14,17 @@
   },
   "mudancas_oficiais_pendentes": {},
   "ultimo_resultado": {
-    "avisos": [],
-    "bloqueios": [],
+    "avisos": [
+      "Não foi possível validar a fonte oficial Constituicao_Federal_1988: tamanho anormal da página",
+      "Não foi possível validar a fonte oficial Lei_14133_2021: tamanho anormal da página",
+      "Não foi possível validar a fonte oficial Codigo_Civil_2002: tamanho anormal da página",
+      "Não foi possível validar a fonte oficial CLT_1943: tamanho anormal da página"
+    ],
+    "bloqueios": [
+      "lote acima do limite de auditoria: 300 arquivos listados"
+    ],
     "notas": [
-      "Origem sem commits novos desde a última sincronização."
+      "300 arquivos verificados/listados; integração bloqueada para revisão."
     ]
   },
   "upstream_confirmado": "15eb09b618ff08a38c4dfee06a91bd139d093f5d"
