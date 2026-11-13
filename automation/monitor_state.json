@@ -1,5 +1,5 @@
 {
-  "checked_at_utc": "2026-11-13T00:35:08+00:00",
+  "checked_at_utc": "2026-11-13T15:31:23+00:00",
   "hashes_oficiais": {
     "CLT_1943": "7cf5c96ee2ad0ce0cd205beaea89aec6778da363b46de80d5196935ed05767e4",
     "Codigo_Civil_2002": "412516f40fc038b93e1c8d076adee85b97678372fac376dec42e06e8e3ec4fae",
@@ -16,9 +16,9 @@
   "ultimo_resultado": {
     "avisos": [
       "Não foi possível validar a fonte oficial Constituicao_Federal_1988: redirecionamento não confiável",
-      "Não foi possível validar a fonte oficial Lei_14133_2021: [Errno 104] Connection reset by peer",
+      "Não foi possível validar a fonte oficial Lei_14133_2021: redirecionamento não confiável",
       "Não foi possível validar a fonte oficial Codigo_Civil_2002: redirecionamento não confiável",
-      "Não foi possível validar a fonte oficial CLT_1943: [Errno 104] Connection reset by peer"
+      "Não foi possível validar a fonte oficial CLT_1943: redirecionamento não confiável"
     ],
     "bloqueios": [
       "lote acima do limite de auditoria: 300 arquivos listados"
